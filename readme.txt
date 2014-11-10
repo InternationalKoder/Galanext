@@ -19,7 +19,7 @@
  
  USING GALANEXT:
  
- If you are using a GNU/Linux system, you can directly run the "Galanext" file in the root folder. Make sure that the "resources" folder is next to the "Galanext" file.
+ If you are using a GNU/Linux system, you can directly run the "StartGalanext.sh" file in the root folder. Make sure that the "resources" and "shared-libs" folders are next to the "Galanext" and "StartGalanext.sh" files.
  If this one doesn't work or if you're useing another operating system, you have to compile the program.
  To compile the game, you need a C++ compiler and the SFML 2.1 API for this compiler. Then you just have to compile all the files which are in the "src" folder.
  
@@ -29,5 +29,9 @@
  
  CHANGELOG:
  
- GALANEXT VERSION 0.1:
+ Nov 11, 2014:
+ + Added the shared libraries to the root folder so that you can run Galanext on any GNU/Linux computer.
+ + Added a StartGalanext.sh script which runs the game using the files in the "shared-libs" folder, everyone should run the given executable through this script.
+ 
+ Nov 9, 2014:
  * Initial version with only a moving space background and a spaceship you can move with the keyboard. The spaceship is also able to fire.
