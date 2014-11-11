@@ -33,6 +33,7 @@
  + Added the shared libraries to the root folder so that you can run Galanext on any GNU/Linux computer.
  + Added a StartGalanext.sh script which runs the game using the files in the "shared-libs" folder, everyone should run the given executable through this script.
  * Doxyfile given rather than the whole documentation
+ * Shortened the doxyfile
  
  Nov 9, 2014:
  * Initial version with only a moving space background and a spaceship you can move with the keyboard. The spaceship is also able to fire.
