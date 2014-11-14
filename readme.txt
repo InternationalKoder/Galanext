@@ -29,6 +29,10 @@
  
  CHANGELOG:
  
+ Nov 14, 2014:
+ + Added a script to build the program (requires SFML 2.1)
+ * You can now control the spaceship with a joystick
+ 
  Nov 11, 2014:
  + Added the shared libraries to the root folder so that you can run Galanext on any GNU/Linux computer.
  + Added a StartGalanext.sh script which runs the game using the files in the "shared-libs" folder, everyone should run the given executable through this script.

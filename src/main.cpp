@@ -20,6 +20,7 @@
 #include "Space.hpp"
 #include "Spaceship.hpp"
 #include "KeyboardSpaceshipController.hpp"
+#include "JoystickSpaceshipController.hpp"
 
 /////////////////////////////////////////////////
 /// \brief The main function
@@ -35,7 +36,9 @@ int main(void)
     Space space;
     Spaceship player("resources/player.png", PLAYER_SPACESHIP_SPEED);
     KeyboardSpaceshipController keyboardPlayer(&player);
+    JoystickSpaceshipController joystickPlayer(&player);
     player.addController(&keyboardPlayer);
+    player.addController(&joystickPlayer);
 
     sf::Clock clock;
 
