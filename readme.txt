@@ -29,6 +29,9 @@
  
  CHANGELOG:
  
+ Nov 15, 2014:
+ * Changed the build script so that you can compile Galanext with the provided libraries. You can compile the game without installing the SFML library.
+ 
  Nov 14, 2014:
  + Added a script to build the program (requires SFML 2.1)
  * You can now control the spaceship with a joystick
