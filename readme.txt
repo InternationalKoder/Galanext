@@ -29,6 +29,10 @@
  
  CHANGELOG:
  
+ Nov 17, 2014:
+ + Added a moving enemy you can destroy
+ * Changed the build script to get the most optimized (for speed) program.
+ 
  Nov 15, 2014:
  * Changed the build script so that you can compile Galanext with the provided libraries. You can compile the game without installing the SFML library.
  

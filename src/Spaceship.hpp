@@ -24,7 +24,7 @@
 class SpaceshipController;
 class Shot;
 
-const int DIST_SCREEN_BOTTOM = 5;
+const int DIST_SCREEN_BORDER = 5;
 
 /////////////////////////////////////////////////
 /// \brief Defines a spaceship which may be controlled
@@ -80,7 +80,7 @@ class Spaceship : public sf::Transformable, public sf::Drawable
         /////////////////////////////////////////////////
 		/// \brief A getter for the spaceship's global bounds (coordinates and size)
         ///
-        /// \return sf::FloatRect A rectangle which represents the spaceship
+        /// \return A rectangle which represents the spaceship
         ///
         /////////////////////////////////////////////////
 		sf::FloatRect getGlobalBounds();
@@ -127,17 +127,21 @@ class Spaceship : public sf::Transformable, public sf::Drawable
             states.transform *= getTransform();
             states.texture = &m_texture;
             target.draw(m_sprite, states);
+            if(m_shot != NULL)
+                target.draw((sf::Drawable&) *m_shot, states);
         }
 
 		sf::Texture m_texture; ///< The spaceship's texture
 
 		sf::Sprite m_sprite; ///< The spaceship's sprite
 
-		Shot* m_shot; ///< A pointer to the shot fired by the spaceship
+		Shot *m_shot; ///< A pointer to the shot fired by the spaceship
 
 		std::vector<SpaceshipController*> m_controllers; ///< The controllers for the spaceship
 
 		float m_speed; ///< The spaceship's speed
+
+		bool m_destroyed; ///< True if the spaceship is destroyed
 };
 
 #endif // SPACESHIP_HPP_INCLUDED

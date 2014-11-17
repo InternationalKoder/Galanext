@@ -14,12 +14,20 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#include "SpaceshipController.hpp"
+#include "AISpaceshipController.hpp"
+#include <SFML/Graphics.hpp>
+#include <memory>
 
 /////////////////////////////////////////////////
 
-SpaceshipController::SpaceshipController(std::shared_ptr<Spaceship>& spaceship, std::vector<std::shared_ptr<Spaceship>> *enemies) : m_spaceship(spaceship), m_enemies(enemies) {}
+AISpaceshipController::AISpaceshipController(std::shared_ptr<Spaceship>& spaceship, std::vector<std::shared_ptr<Spaceship>> *enemies) : SpaceshipController(spaceship, enemies), m_direction(1) {}
 
 /////////////////////////////////////////////////
 
-SpaceshipController::~SpaceshipController() {}
+void AISpaceshipController::events()
+{
+    if(!m_spaceship->movePossible(m_direction))
+        m_direction *= -1;
+
+    m_spaceship->move(m_direction);
+}

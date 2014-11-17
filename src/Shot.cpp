@@ -19,7 +19,7 @@
 
 /////////////////////////////////////////////////
 
-Shot::Shot(const std::string& path, const sf::Vector2f& speeds, const sf::Vector2f& initialPos, const std::vector<Spaceship*>& spaceships) : m_speeds(speeds), m_spaceships(spaceships)
+Shot::Shot(const std::string& path, const sf::Vector2f& speeds, const sf::Vector2f& initialPos, std::vector<std::shared_ptr<Spaceship>> *spaceships) : m_speeds(speeds), m_spaceships(spaceships)
 {
 	m_texture.loadFromFile(path.c_str());
     m_sprite.setTexture(m_texture);
@@ -47,14 +47,15 @@ bool Shot::refresh()
 	bool toDelete(false);
 	const sf::FloatRect shotBounds(m_sprite.getGlobalBounds());
 
-	for(std::vector<Spaceship*>::iterator it = m_spaceships.begin() ; it != m_spaceships.end() ; )
+	for(std::vector<std::shared_ptr<Spaceship>>::iterator it = m_spaceships->begin() ; it != m_spaceships->end() ; )
 	{
 		const sf::FloatRect spaceshipBounds((*it)->getGlobalBounds());
 
 		if(shotBounds.intersects(spaceshipBounds))
 		{
-			delete *it;
-			it = m_spaceships.erase(it);
+			delete &(**it);
+            *it = NULL;
+			it = m_spaceships->erase(it);
 			toDelete = true;
 		}
 		else

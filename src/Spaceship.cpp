@@ -19,16 +19,16 @@
 
 /////////////////////////////////////////////////
 
-Spaceship::Spaceship(const std::string& path, const float& speed) : m_shot(0), m_speed(speed)
+Spaceship::Spaceship(const std::string& path, const float& speed) : m_shot(NULL), m_speed(speed)
 {
 	m_texture.loadFromFile(path.c_str());
     m_sprite.setTexture(m_texture);
-    m_sprite.setPosition(WINDOW_WIDTH/2 - m_texture.getSize().x/2, WINDOW_HEIGHT - m_texture.getSize().y - DIST_SCREEN_BOTTOM);
+    m_sprite.setPosition(WINDOW_WIDTH/2 - m_texture.getSize().x/2, WINDOW_HEIGHT - m_texture.getSize().y - DIST_SCREEN_BORDER);
 }
 
 /////////////////////////////////////////////////
 
-Spaceship::Spaceship(const std::string& path, const float& speed, const sf::Vector2f& initialPos) : m_speed(speed)
+Spaceship::Spaceship(const std::string& path, const float& speed, const sf::Vector2f& initialPos) : m_shot(NULL), m_speed(speed)
 {
 	m_texture.loadFromFile(path.c_str());
     m_sprite.setTexture(m_texture);
@@ -92,23 +92,23 @@ void Spaceship::refresh()
 
 	for(unsigned int i = 0 ; i < nbC ; i++)
 	{
-		m_controllers[i]->events();
+        m_controllers[i]->events();
 	}
 
-	if(m_shot != 0)
+	if(m_shot != NULL)
 	{
 		if(m_shot->refresh())
 		{
 			delete m_shot;
-			m_shot = 0;
+			m_shot = NULL;
 		}
 	}
 }
 
-/////////////////////////////////////////////////
-
 Spaceship::~Spaceship()
 {
-    if(m_shot != 0)
-        delete m_shot;
+    for(std::vector<SpaceshipController*>::iterator it = m_controllers.begin() ; it != m_controllers.end() ; )
+	{
+        it = m_controllers.erase(it);
+	}
 }

@@ -16,11 +16,12 @@
 
 #include "KeyboardSpaceshipController.hpp"
 #include <SFML/Graphics.hpp>
+#include <memory>
 #include "constants.hpp"
 
 /////////////////////////////////////////////////
 
-KeyboardSpaceshipController::KeyboardSpaceshipController(Spaceship *spaceship) : SpaceshipController(spaceship) {}
+KeyboardSpaceshipController::KeyboardSpaceshipController(std::shared_ptr<Spaceship>& spaceship, std::vector<std::shared_ptr<Spaceship>> *enemies) : SpaceshipController(spaceship, enemies) {}
 
 /////////////////////////////////////////////////
 
@@ -34,16 +35,14 @@ void KeyboardSpaceshipController::events()
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
 	{
-		if(m_spaceship->getShot() == 0)
+		if(m_spaceship->getShot() == NULL)
 		{
 			sf::Texture shotTexture;
 			shotTexture.loadFromFile("resources/shot.png");
 			const sf::Vector2f shotSpeed(0.0f, SHOOT_SPEED * -1);
 			const sf::Vector2f initPos(m_spaceship->getGlobalBounds().left + (m_spaceship->getGlobalBounds().width / 2) - (shotTexture.getSize().x / 2), m_spaceship->getGlobalBounds().top - shotTexture.getSize().y);
-			std::vector<Spaceship*> spaceships;
-			spaceships.push_back(m_spaceship);
 
-			m_spaceship->setShot(new Shot("resources/shot.png", shotSpeed, initPos, spaceships));
+            m_spaceship->setShot(new Shot("resources/shot.png", shotSpeed, initPos, &(*m_enemies)));
 		}
 	}
 }

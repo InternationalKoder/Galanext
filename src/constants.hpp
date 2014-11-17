@@ -19,3 +19,5 @@ const int WINDOW_HEIGHT = 400;
 
 const float PLAYER_SPACESHIP_SPEED = 8.0f;
 const float SHOOT_SPEED = 12.0f;
+
+const float ENEMY_SPACESHIP_SPEED = 6.0f;

@@ -18,6 +18,7 @@
 #define SHOT_HPP_INCLUDED
 
 #include <SFML/Graphics.hpp>
+#include <memory>
 #include "Spaceship.hpp"
 
 class Spaceship;
@@ -38,7 +39,7 @@ class Shot : public sf::Transformable, public sf::Drawable
         /// \param spaceships The spaceships which may be destroyed by this shot
         ///
         /////////////////////////////////////////////////
-		Shot(const std::string& path, const sf::Vector2f& speeds, const sf::Vector2f& intitialPos, const std::vector<Spaceship*>& spaceships);
+		Shot(const std::string& path, const sf::Vector2f& speeds, const sf::Vector2f& intitialPos, std::vector<std::shared_ptr<Spaceship>> *spaceships);
 
         /////////////////////////////////////////////////
 		/// \brief Moves the shot in function of its speed
@@ -84,7 +85,7 @@ class Shot : public sf::Transformable, public sf::Drawable
 
 		sf::Vector2f m_speeds; ///< The shot's speed on X and Y axis
 
-		std::vector<Spaceship*> m_spaceships; ///< The spaceships which may be destroyed by this shot
+		std::vector<std::shared_ptr<Spaceship>> *m_spaceships; ///< The spaceships which may be destroyed by this shot
 };
 
 #endif // SHOT_HPP_INCLUDED

@@ -16,11 +16,13 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <memory>
 #include "constants.hpp"
 #include "Space.hpp"
 #include "Spaceship.hpp"
 #include "KeyboardSpaceshipController.hpp"
 #include "JoystickSpaceshipController.hpp"
+#include "AISpaceshipController.hpp"
 
 /////////////////////////////////////////////////
 /// \brief The main function
@@ -34,11 +36,26 @@ int main(void)
     window.setVerticalSyncEnabled(true);
 
     Space space;
-    Spaceship player("resources/player.png", PLAYER_SPACESHIP_SPEED);
-    KeyboardSpaceshipController keyboardPlayer(&player);
-    JoystickSpaceshipController joystickPlayer(&player);
-    player.addController(&keyboardPlayer);
-    player.addController(&joystickPlayer);
+
+    std::vector<std::shared_ptr<Spaceship>> allSpaceships;
+
+    // creating the spaceships
+    std::shared_ptr<Spaceship> player(new Spaceship("resources/player.png", PLAYER_SPACESHIP_SPEED));
+    std::shared_ptr<Spaceship> enemy(new Spaceship("resources/enemy1.png", ENEMY_SPACESHIP_SPEED, sf::Vector2f(0.0f, 10.0f)));
+
+    // adding all the spaceships to the vector
+    allSpaceships.push_back(player);
+    allSpaceships.push_back(enemy);
+
+    // adding the controllers
+    KeyboardSpaceshipController keyboardPlayer(player, &allSpaceships);
+    player->addController(&keyboardPlayer);
+
+    JoystickSpaceshipController joystickPlayer(player, &allSpaceships);
+    player->addController(&joystickPlayer);
+
+    AISpaceshipController aiEnemy(enemy, &allSpaceships);
+    enemy->addController(&aiEnemy);
 
     sf::Clock clock;
 
@@ -57,13 +74,16 @@ int main(void)
             }
 
             space.refresh();
-            player.refresh();
+
+            for(unsigned int i = 0 ; i < allSpaceships.size() ; i++)
+                allSpaceships[i]->refresh();
 
             window.clear();
+
             window.draw(space);
-            window.draw(player);
-            if(player.getShot() != 0)
-                window.draw(*player.getShot());
+            for(unsigned int i = 0 ; i < allSpaceships.size() ; i++)
+                window.draw(*allSpaceships[i]);
+
             window.display();
         }
         else

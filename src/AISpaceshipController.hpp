@@ -14,18 +14,15 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#ifndef SPACESHIPCONTROLLER_HPP_INCLUDED
-#define SPACESHIPCONTROLLER_HPP_INCLUDED
+#ifndef AISPACESHIPCONTROLLER_HPP_INCLUDED
+#define AISPACESHIPCONTROLLER_HPP_INCLUDED
 
-#include "Spaceship.hpp"
-#include <memory>
-
-class Spaceship;
+#include "SpaceshipController.hpp"
 
 /////////////////////////////////////////////////
-/// \brief A controller for a spaceship
+/// \brief A controller which automatically controls a spaceship
 /////////////////////////////////////////////////
-class SpaceshipController
+class AISpaceshipController : public SpaceshipController
 {
 	public:
 
@@ -36,25 +33,17 @@ class SpaceshipController
         /// \param enemies The enemies which may be destroyed by the controled spaceship
         ///
         /////////////////////////////////////////////////
-		SpaceshipController(std::shared_ptr<Spaceship>& spaceship, std::vector<std::shared_ptr<Spaceship>> *enemies);
+		AISpaceshipController(std::shared_ptr<Spaceship>& spaceship, std::vector<std::shared_ptr<Spaceship>> *enemies);
 
         /////////////////////////////////////////////////
-		/// \brief Checks the events and updates the spaceship
+		/// \brief Moves the spaceship
         ///
         /////////////////////////////////////////////////
-		virtual void events() = 0;
+		void events();
 
-        /////////////////////////////////////////////////
-		/// \brief The destructor
-        ///
-        /////////////////////////////////////////////////
-		virtual ~SpaceshipController();
+    private:
 
-	protected:
-
-		std::shared_ptr<Spaceship> m_spaceship; ///< The spaceship to control
-
-		std::vector<std::shared_ptr<Spaceship>> *m_enemies; ///< The spaceship's enemies
+        char m_direction; ///< The spaceship's current direction (positive = right, negative = left)
 };
 
-#endif // SPACESHIPCONTROLLER_HPP_INCLUDED
+#endif // AISPACESHIPCONTROLLER_HPP_INCLUDED
