@@ -16,7 +16,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include <memory>
 #include "constants.hpp"
 #include "Space.hpp"
 #include "Spaceship.hpp"
@@ -32,16 +31,16 @@
 /////////////////////////////////////////////////
 int main(void)
 {
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Galanext");
+    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE);
     window.setVerticalSyncEnabled(true);
 
     Space space;
 
-    std::vector<std::shared_ptr<Spaceship>> allSpaceships;
+    std::vector<Spaceship*> allSpaceships;
 
     // creating the spaceships
-    std::shared_ptr<Spaceship> player(new Spaceship("resources/player.png", PLAYER_SPACESHIP_SPEED));
-    std::shared_ptr<Spaceship> enemy(new Spaceship("resources/enemy1.png", ENEMY_SPACESHIP_SPEED, sf::Vector2f(0.0f, 10.0f)));
+    Spaceship* player(new Spaceship(RESOURCES_LOCATION + "player.png", PLAYER_SPACESHIP_SPEED));
+    Spaceship* enemy(new Spaceship(RESOURCES_LOCATION + "enemy1.png", ENEMY_SPACESHIP_SPEED, sf::Vector2f(0.0f, 10.0f)));
 
     // adding all the spaceships to the vector
     allSpaceships.push_back(player);
@@ -89,6 +88,10 @@ int main(void)
         else
             sf::sleep(sf::seconds(0.02f - clock.getElapsedTime().asSeconds()));
     }
+
+    // end of the program
+    for(unsigned int i = 0 ; i < allSpaceships.size() ; i++)
+        delete allSpaceships.at(i);
 
     return EXIT_SUCCESS;
 }

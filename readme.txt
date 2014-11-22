@@ -29,6 +29,9 @@
  
  CHANGELOG:
  
+ Nov 22, 2014:
+ * Fixed a bug which happened when the program was closed
+
  Nov 17, 2014:
  + Added a moving enemy you can destroy
  * Changed the build script to get the most optimized (for speed) program.

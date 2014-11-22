@@ -33,7 +33,7 @@ class AISpaceshipController : public SpaceshipController
         /// \param enemies The enemies which may be destroyed by the controled spaceship
         ///
         /////////////////////////////////////////////////
-		AISpaceshipController(std::shared_ptr<Spaceship>& spaceship, std::vector<std::shared_ptr<Spaceship>> *enemies);
+		AISpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies);
 
         /////////////////////////////////////////////////
 		/// \brief Moves the spaceship

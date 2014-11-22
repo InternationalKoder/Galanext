@@ -26,7 +26,7 @@ Space::Space()
     srand(time(NULL));
     m_vertex.setPrimitiveType(sf::Points);
 
-    for(int i = 0 ; i < WINDOW_HEIGHT ; i++)
+    for(unsigned int i = 0 ; i < WINDOW_HEIGHT ; i++)
     {
         int nbPoints = rand() % 2;
         if(nbPoints == 1)

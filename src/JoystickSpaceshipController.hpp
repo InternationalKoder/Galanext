@@ -33,7 +33,7 @@ class JoystickSpaceshipController : public SpaceshipController
         /// \param enemies The enemies which may be destroyed by the controled spaceship
         ///
         /////////////////////////////////////////////////
-		JoystickSpaceshipController(std::shared_ptr<Spaceship>& spaceship, std::vector<std::shared_ptr<Spaceship>> *enemies);
+		JoystickSpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies);
 
         /////////////////////////////////////////////////
 		/// \brief Checks the events on the joystick and updates the spaceship

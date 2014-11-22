@@ -33,7 +33,7 @@ class KeyboardSpaceshipController : public SpaceshipController
         /// \param enemies The enemies which may be destroyed by the controled spaceship
         ///
         /////////////////////////////////////////////////
-		KeyboardSpaceshipController(std::shared_ptr<Spaceship>& spaceship, std::vector<std::shared_ptr<Spaceship>> *enemies);
+		KeyboardSpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies);
 
         /////////////////////////////////////////////////
 		/// \brief Checks the events on the keyboard and updates the spaceship

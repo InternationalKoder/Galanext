@@ -107,8 +107,5 @@ void Spaceship::refresh()
 
 Spaceship::~Spaceship()
 {
-    for(std::vector<SpaceshipController*>::iterator it = m_controllers.begin() ; it != m_controllers.end() ; )
-	{
-        it = m_controllers.erase(it);
-	}
+    delete m_shot;
 }

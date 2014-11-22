@@ -16,12 +16,11 @@
 
 #include "KeyboardSpaceshipController.hpp"
 #include <SFML/Graphics.hpp>
-#include <memory>
 #include "constants.hpp"
 
 /////////////////////////////////////////////////
 
-KeyboardSpaceshipController::KeyboardSpaceshipController(std::shared_ptr<Spaceship>& spaceship, std::vector<std::shared_ptr<Spaceship>> *enemies) : SpaceshipController(spaceship, enemies) {}
+KeyboardSpaceshipController::KeyboardSpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, enemies) {}
 
 /////////////////////////////////////////////////
 

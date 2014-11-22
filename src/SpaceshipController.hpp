@@ -18,7 +18,6 @@
 #define SPACESHIPCONTROLLER_HPP_INCLUDED
 
 #include "Spaceship.hpp"
-#include <memory>
 
 class Spaceship;
 
@@ -36,7 +35,7 @@ class SpaceshipController
         /// \param enemies The enemies which may be destroyed by the controled spaceship
         ///
         /////////////////////////////////////////////////
-		SpaceshipController(std::shared_ptr<Spaceship>& spaceship, std::vector<std::shared_ptr<Spaceship>> *enemies);
+		SpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies);
 
         /////////////////////////////////////////////////
 		/// \brief Checks the events and updates the spaceship
@@ -52,9 +51,9 @@ class SpaceshipController
 
 	protected:
 
-		std::shared_ptr<Spaceship> m_spaceship; ///< The spaceship to control
+		Spaceship *m_spaceship; ///< The spaceship to control
 
-		std::vector<std::shared_ptr<Spaceship>> *m_enemies; ///< The spaceship's enemies
+		std::vector<Spaceship*> *m_enemies; ///< The spaceship's enemies
 };
 
 #endif // SPACESHIPCONTROLLER_HPP_INCLUDED

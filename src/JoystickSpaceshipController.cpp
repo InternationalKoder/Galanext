@@ -16,12 +16,11 @@
 
 #include "JoystickSpaceshipController.hpp"
 #include <SFML/Graphics.hpp>
-#include <memory>
 #include "constants.hpp"
 
 /////////////////////////////////////////////////
 
-JoystickSpaceshipController::JoystickSpaceshipController(std::shared_ptr<Spaceship>& spaceship, std::vector<std::shared_ptr<Spaceship>> *enemies) : SpaceshipController(spaceship, enemies) {}
+JoystickSpaceshipController::JoystickSpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, enemies) {}
 
 /////////////////////////////////////////////////
 

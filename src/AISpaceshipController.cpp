@@ -16,11 +16,10 @@
 
 #include "AISpaceshipController.hpp"
 #include <SFML/Graphics.hpp>
-#include <memory>
 
 /////////////////////////////////////////////////
 
-AISpaceshipController::AISpaceshipController(std::shared_ptr<Spaceship>& spaceship, std::vector<std::shared_ptr<Spaceship>> *enemies) : SpaceshipController(spaceship, enemies), m_direction(1) {}
+AISpaceshipController::AISpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, enemies), m_direction(1) {}
 
 /////////////////////////////////////////////////
 

@@ -18,7 +18,7 @@
 
 /////////////////////////////////////////////////
 
-SpaceshipController::SpaceshipController(std::shared_ptr<Spaceship>& spaceship, std::vector<std::shared_ptr<Spaceship>> *enemies) : m_spaceship(spaceship), m_enemies(enemies) {}
+SpaceshipController::SpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : m_spaceship(spaceship), m_enemies(enemies) {}
 
 /////////////////////////////////////////////////
 

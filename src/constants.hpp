@@ -14,10 +14,20 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-const int WINDOW_WIDTH = 500;
-const int WINDOW_HEIGHT = 400;
+#ifndef CONSTANTS_HPP_INCLUDED
+#define CONSTANTS_HPP_INCLUDED
+
+#include <string>
+
+const unsigned int WINDOW_WIDTH = 500;
+const unsigned int WINDOW_HEIGHT = 400;
+const std::string WINDOW_TITLE = "Galanext";
+
+const std::string RESOURCES_LOCATION = "resources/";
 
 const float PLAYER_SPACESHIP_SPEED = 8.0f;
 const float SHOOT_SPEED = 12.0f;
 
 const float ENEMY_SPACESHIP_SPEED = 6.0f;
+
+#endif // CONSTANTS_HPP_INCLUDED
