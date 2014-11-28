@@ -47,10 +47,10 @@ int main(void)
     allSpaceships.push_back(enemy);
 
     // adding the controllers
-    KeyboardSpaceshipController keyboardPlayer(player, &allSpaceships);
+    KeyboardSpaceshipController keyboardPlayer(window, player, &allSpaceships);
     player->addController(&keyboardPlayer);
 
-    JoystickSpaceshipController joystickPlayer(player, &allSpaceships);
+    JoystickSpaceshipController joystickPlayer(window, player, &allSpaceships);
     player->addController(&joystickPlayer);
 
     AISpaceshipController aiEnemy(enemy, &allSpaceships);

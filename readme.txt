@@ -21,13 +21,16 @@
  
  If you are using a GNU/Linux system, you can directly run the "StartGalanext.sh" file in the root folder. Make sure that the "resources" and "shared-libs" folders are next to the "Galanext" and "StartGalanext.sh" files.
  If this one doesn't work or if you're useing another operating system, you have to compile the program.
- To compile the game, you need a C++ compiler and the SFML 2.1 API for this compiler. Then you just have to compile all the files which are in the "src" folder.
+ To compile the game, you need a C++ compiler and the SFML 2.1 API for this compiler. You can also use the given shared libraries to compile the game. Then you just have to compile all the files which are in the "src" folder.
  
  LICENSE:
  
  All the project is under the GNU GPLv3 license, the source files are included with the game.
  
  CHANGELOG:
+ 
+ Nov 28, 2014:
+ + Added a pause menu you can trigger with a keyboard or with a joystick
  
  Nov 22, 2014:
  * Fixed a bug which happened when the program was closed

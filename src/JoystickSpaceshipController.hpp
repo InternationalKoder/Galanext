@@ -33,13 +33,23 @@ class JoystickSpaceshipController : public SpaceshipController
         /// \param enemies The enemies which may be destroyed by the controled spaceship
         ///
         /////////////////////////////////////////////////
-		JoystickSpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies);
+		JoystickSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, std::vector<Spaceship*> *enemies);
 
         /////////////////////////////////////////////////
 		/// \brief Checks the events on the joystick and updates the spaceship
         ///
         /////////////////////////////////////////////////
 		void events();
+
+		/////////////////////////////////////////////////
+		/// \brief Pauses the game
+        ///
+        /////////////////////////////////////////////////
+		void pause();
+
+    private:
+
+        sf::RenderWindow& m_window; ///< The window which will be paused
 };
 
 #endif // JOYSTICKSPACESHIPCONTROLLER_HPP_INCLUDED

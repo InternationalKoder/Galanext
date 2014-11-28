@@ -29,17 +29,28 @@ class KeyboardSpaceshipController : public SpaceshipController
         /////////////////////////////////////////////////
 		/// \brief Constructor
         ///
+        /// \param window The window where the game is displayed
         /// \param spaceship The spaceship to control
         /// \param enemies The enemies which may be destroyed by the controled spaceship
         ///
         /////////////////////////////////////////////////
-		KeyboardSpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies);
+		KeyboardSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, std::vector<Spaceship*> *enemies);
 
         /////////////////////////////////////////////////
 		/// \brief Checks the events on the keyboard and updates the spaceship
         ///
         /////////////////////////////////////////////////
 		void events();
+
+		/////////////////////////////////////////////////
+		/// \brief Pauses the game
+        ///
+        /////////////////////////////////////////////////
+		void pause();
+
+    private:
+
+        sf::RenderWindow& m_window; ///< The window which will be paused
 };
 
 #endif // KEYBOARDSPACESHIPCONTROLLER_HPP_INCLUDED

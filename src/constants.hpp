@@ -24,9 +24,10 @@ const unsigned int WINDOW_HEIGHT = 400;
 const std::string WINDOW_TITLE = "Galanext";
 
 const std::string RESOURCES_LOCATION = "resources/";
+const std::string FONT_LOCATION = "xolonium/Xolonium-Regular.otf";
 
 const float PLAYER_SPACESHIP_SPEED = 8.0f;
-const float SHOOT_SPEED = 12.0f;
+const float SHOT_SPEED = 12.0f;
 
 const float ENEMY_SPACESHIP_SPEED = 6.0f;
 

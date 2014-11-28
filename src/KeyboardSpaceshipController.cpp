@@ -20,7 +20,7 @@
 
 /////////////////////////////////////////////////
 
-KeyboardSpaceshipController::KeyboardSpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, enemies) {}
+KeyboardSpaceshipController::KeyboardSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, enemies), m_window(window) {}
 
 /////////////////////////////////////////////////
 
@@ -33,15 +33,45 @@ void KeyboardSpaceshipController::events()
 		m_spaceship->move(1);
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
-	{
-		if(m_spaceship->getShot() == NULL)
-		{
-			sf::Texture shotTexture;
-			shotTexture.loadFromFile("resources/shot.png");
-			const sf::Vector2f shotSpeed(0.0f, SHOOT_SPEED * -1);
-			const sf::Vector2f initPos(m_spaceship->getGlobalBounds().left + (m_spaceship->getGlobalBounds().width / 2) - (shotTexture.getSize().x / 2), m_spaceship->getGlobalBounds().top - shotTexture.getSize().y);
+		fire();
 
-            m_spaceship->setShot(new Shot("resources/shot.png", shotSpeed, initPos, &(*m_enemies)));
-		}
-	}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        pause();
+}
+
+/////////////////////////////////////////////////
+
+void KeyboardSpaceshipController::pause()
+{
+    sf::Event event;
+    bool resume(false);
+
+    sf::sleep(sf::milliseconds(200));
+
+    sf::Font xolonium;
+    xolonium.loadFromFile(RESOURCES_LOCATION + FONT_LOCATION);
+    sf::Text text("Press escape to resume the game", xolonium, 16);
+    text.setPosition(WINDOW_WIDTH/2 - text.getGlobalBounds().width/2, WINDOW_HEIGHT/2 - text.getGlobalBounds().height/2);
+
+    m_window.draw(text);
+    m_window.display();
+
+    while(m_window.pollEvent(event) || !resume)
+    {
+        if(!resume)
+        {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            {
+                resume = true;
+                sf::sleep(sf::milliseconds(200));
+            }
+            else if(event.type == sf::Event::Closed)
+            {
+                resume = true;
+                m_window.close();
+            }
+
+            sf::sleep(sf::milliseconds(20));
+        }
+    }
 }

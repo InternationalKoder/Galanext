@@ -15,10 +15,26 @@
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
 #include "SpaceshipController.hpp"
+#include "constants.hpp"
 
 /////////////////////////////////////////////////
 
 SpaceshipController::SpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : m_spaceship(spaceship), m_enemies(enemies) {}
+
+/////////////////////////////////////////////////
+
+void SpaceshipController::fire()
+{
+    if(m_spaceship->getShot() == NULL)
+    {
+        sf::Texture shotTexture;
+        shotTexture.loadFromFile("resources/shot.png");
+        const sf::Vector2f shotSpeed(0.0f, SHOT_SPEED * -1);
+        const sf::Vector2f initPos(m_spaceship->getGlobalBounds().left + (m_spaceship->getGlobalBounds().width / 2) - (shotTexture.getSize().x / 2), m_spaceship->getGlobalBounds().top - shotTexture.getSize().y);
+
+        m_spaceship->setShot(new Shot("resources/shot.png", shotSpeed, initPos, &(*m_enemies)));
+    }
+}
 
 /////////////////////////////////////////////////
 

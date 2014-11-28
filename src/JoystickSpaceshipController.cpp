@@ -20,7 +20,7 @@
 
 /////////////////////////////////////////////////
 
-JoystickSpaceshipController::JoystickSpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, enemies) {}
+JoystickSpaceshipController::JoystickSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, enemies), m_window(window) {}
 
 /////////////////////////////////////////////////
 
@@ -38,16 +38,46 @@ void JoystickSpaceshipController::events()
         }
 
         if(sf::Joystick::isButtonPressed(0, 0))
-        {
-            if(m_spaceship->getShot() == NULL)
-            {
-                sf::Texture shotTexture;
-                shotTexture.loadFromFile("resources/shot.png");
-                const sf::Vector2f shotSpeed(0.0f, SHOOT_SPEED * -1);
-                const sf::Vector2f initPos(m_spaceship->getGlobalBounds().left + (m_spaceship->getGlobalBounds().width / 2) - (shotTexture.getSize().x / 2), m_spaceship->getGlobalBounds().top - shotTexture.getSize().y);
+            fire();
 
-                m_spaceship->setShot(new Shot("resources/shot.png", shotSpeed, initPos, &(*m_enemies)));
+        if(sf::Joystick::isButtonPressed(0, 7))
+            pause();
+	}
+}
+
+/////////////////////////////////////////////////
+
+void JoystickSpaceshipController::pause()
+{
+    sf::Event event;
+    bool resume(false);
+
+    sf::sleep(sf::milliseconds(200));
+
+    sf::Font xolonium;
+    xolonium.loadFromFile(RESOURCES_LOCATION + FONT_LOCATION);
+    sf::Text text("Press the start button to resume the game", xolonium, 16);
+    text.setPosition(WINDOW_WIDTH/2 - text.getGlobalBounds().width/2, WINDOW_HEIGHT/2 - text.getGlobalBounds().height/2);
+
+    m_window.draw(text);
+    m_window.display();
+
+    while(m_window.pollEvent(event) || !resume)
+    {
+        if(!resume)
+        {
+            if(sf::Joystick::isButtonPressed(0, 7))
+            {
+                resume = true;
+                sf::sleep(sf::milliseconds(200));
+            }
+            else if(event.type == sf::Event::Closed)
+            {
+                resume = true;
+                m_window.close();
             }
         }
-	}
+
+        sf::sleep(sf::milliseconds(20));
+    }
 }
