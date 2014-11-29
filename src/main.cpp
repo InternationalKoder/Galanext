@@ -60,7 +60,7 @@ int main(void)
 
     while(window.isOpen())
     {
-        if(clock.getElapsedTime().asSeconds() > 0.02f)
+        if(clock.getElapsedTime().asMilliseconds() > 20)
         {
             sf::Event event;
 
@@ -70,6 +70,19 @@ int main(void)
             {
                 if(event.type == sf::Event::Closed)
                     window.close();
+                else if(event.type == sf::Event::LostFocus)
+                {
+                    // pauses the game when focus is lost
+                    bool resume(false);
+                    while(!resume)
+                    {
+                        window.pollEvent(event);
+                        if(event.type == sf::Event::GainedFocus)
+                            resume = true;
+
+                        sf::sleep(sf::milliseconds(100));
+                    }
+                }
             }
 
             space.refresh();

@@ -28,6 +28,9 @@
  All the project is under the GNU GPLv3 license, the source files are included with the game.
  
  CHANGELOG:
+
+ Nov 29, 2014:
+ + The game is paused when the window is not active
  
  Nov 28, 2014:
  + Added a pause menu you can trigger with a keyboard or with a joystick
