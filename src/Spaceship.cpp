@@ -19,19 +19,21 @@
 
 /////////////////////////////////////////////////
 
-Spaceship::Spaceship(const std::string& path, const float& speed) : m_shot(NULL), m_speed(speed)
+Spaceship::Spaceship(const std::string& path, const float& speed) : m_shot(NULL), m_speed(speed), m_spriteCounter(0), m_framesCounter(0)
 {
 	m_texture.loadFromFile(path.c_str());
     m_sprite.setTexture(m_texture);
+    m_sprite.setTextureRect(sf::IntRect(0, 0, m_texture.getSize().x/NUMBER_SPACESHIP_TILES, m_texture.getSize().y));
     m_sprite.setPosition(WINDOW_WIDTH/2 - m_texture.getSize().x/2, WINDOW_HEIGHT - m_texture.getSize().y - DIST_SCREEN_BORDER);
 }
 
 /////////////////////////////////////////////////
 
-Spaceship::Spaceship(const std::string& path, const float& speed, const sf::Vector2f& initialPos) : m_shot(NULL), m_speed(speed)
+Spaceship::Spaceship(const std::string& path, const float& speed, const sf::Vector2f& initialPos) : m_shot(NULL), m_speed(speed), m_spriteCounter(0), m_framesCounter(0)
 {
 	m_texture.loadFromFile(path.c_str());
     m_sprite.setTexture(m_texture);
+    m_sprite.setTextureRect(sf::IntRect(0, 0, m_texture.getSize().x/NUMBER_SPACESHIP_TILES, m_texture.getSize().y));
     m_sprite.setPosition(initialPos);
 }
 
@@ -103,6 +105,18 @@ void Spaceship::refresh()
 			m_shot = NULL;
 		}
 	}
+
+    if(m_framesCounter == 5)
+    {
+        m_framesCounter = 0;
+        m_sprite.setTextureRect(sf::IntRect(32*m_spriteCounter, 0, m_texture.getSize().x/NUMBER_SPACESHIP_TILES, m_texture.getSize().y));
+        if(m_spriteCounter == NUMBER_SPACESHIP_TILES-1)
+            m_spriteCounter = 0;
+        else
+            m_spriteCounter++;
+    }
+    else
+        m_framesCounter++;
 }
 
 Spaceship::~Spaceship()

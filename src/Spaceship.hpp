@@ -142,6 +142,10 @@ class Spaceship : public sf::Transformable, public sf::Drawable
 		float m_speed; ///< The spaceship's speed
 
 		bool m_destroyed; ///< True if the spaceship is destroyed
+
+		unsigned char m_spriteCounter; ///< A counter to animate the sprite
+
+		unsigned char m_framesCounter; ///< A counter for the frames so that events can happen every n frames
 };
 
 #endif // SPACESHIP_HPP_INCLUDED
