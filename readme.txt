@@ -29,6 +29,9 @@
  
  CHANGELOG:
 
+ Dec 2, 2014:
+ + Added a group of enemies
+
  Nov 29, 2014:
  + Added animation to the spaceships
  + The game is paused when the window is not active

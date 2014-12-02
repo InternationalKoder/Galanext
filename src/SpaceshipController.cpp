@@ -19,21 +19,42 @@
 
 /////////////////////////////////////////////////
 
-SpaceshipController::SpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : m_spaceship(spaceship), m_enemies(enemies) {}
+SpaceshipController::SpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : m_spaceship(spaceship), m_enemies(enemies), m_direction(1) {}
 
 /////////////////////////////////////////////////
 
-void SpaceshipController::fire()
+void SpaceshipController::fire(char direction)
 {
     if(m_spaceship->getShot() == NULL)
     {
         sf::Texture shotTexture;
         shotTexture.loadFromFile("resources/shot.png");
-        const sf::Vector2f shotSpeed(0.0f, SHOT_SPEED * -1);
-        const sf::Vector2f initPos(m_spaceship->getGlobalBounds().left + (m_spaceship->getGlobalBounds().width / 2) - (shotTexture.getSize().x / 2), m_spaceship->getGlobalBounds().top - shotTexture.getSize().y);
+        const sf::Vector2f shotSpeed(0.0f, SHOT_SPEED * direction);
+        const sf::Vector2f initPos(m_spaceship->getGlobalBounds().left + (TILES_WIDTH / 2) - (shotTexture.getSize().x / 2), m_spaceship->getGlobalBounds().top - TILES_HEIGHT);
 
         m_spaceship->setShot(new Shot("resources/shot.png", shotSpeed, initPos, &(*m_enemies)));
     }
+}
+
+/////////////////////////////////////////////////
+
+Spaceship* SpaceshipController::getSpaceship()
+{
+    return m_spaceship;
+}
+
+/////////////////////////////////////////////////
+
+char SpaceshipController::getDirection()
+{
+    return m_direction;
+}
+
+/////////////////////////////////////////////////
+
+void SpaceshipController::setDirection(char direction)
+{
+    m_direction = direction;
 }
 
 /////////////////////////////////////////////////

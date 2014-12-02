@@ -41,9 +41,6 @@ class AISpaceshipController : public SpaceshipController
         /////////////////////////////////////////////////
 		void events();
 
-    private:
-
-        char m_direction; ///< The spaceship's current direction (positive = right, negative = left)
 };
 
 #endif // AISPACESHIPCONTROLLER_HPP_INCLUDED

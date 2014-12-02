@@ -45,9 +45,35 @@ class SpaceshipController
 
         /////////////////////////////////////////////////
 		/// \brief Fires a new shot
+		///
+		/// \param direction The shot's direction
         ///
         /////////////////////////////////////////////////
-        void fire();
+        void fire(char direction);
+
+        /////////////////////////////////////////////////
+		/// \brief A getter for the controlled spaceship
+		///
+		/// \return A pointer to the controlled spaceship
+        ///
+        /////////////////////////////////////////////////
+        Spaceship* getSpaceship();
+
+        /////////////////////////////////////////////////
+		/// \brief A getter for the direction
+        ///
+        /// \return The current spaceship's direction
+        ///
+        /////////////////////////////////////////////////
+		char getDirection();
+
+        /////////////////////////////////////////////////
+		/// \brief A setter for the direction
+        ///
+        /// \param shot The new spaceship's direction
+        ///
+        /////////////////////////////////////////////////
+		void setDirection(char direction);
 
         /////////////////////////////////////////////////
 		/// \brief The destructor
@@ -60,6 +86,8 @@ class SpaceshipController
 		Spaceship *m_spaceship; ///< The spaceship to control
 
 		std::vector<Spaceship*> *m_enemies; ///< The spaceship's enemies
+
+        char m_direction; ///< The spaceship's current direction (positive = right, negative = left)
 };
 
 #endif // SPACESHIPCONTROLLER_HPP_INCLUDED

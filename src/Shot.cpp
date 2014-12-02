@@ -60,10 +60,10 @@ bool Shot::refresh()
 		}
 		else
 			it++;
-
-		if(shotBounds.left < 0.0f || (shotBounds.left + shotBounds.width) > WINDOW_WIDTH || shotBounds.top < 0.0f || (shotBounds.top + shotBounds.height) > WINDOW_HEIGHT)
-			toDelete = true;
 	}
+
+    if(shotBounds.left < 0.0f || (shotBounds.left + shotBounds.width) > WINDOW_WIDTH || shotBounds.top < 0.0f || (shotBounds.top + shotBounds.height) > WINDOW_HEIGHT)
+        toDelete = true;
 
 	move();
 

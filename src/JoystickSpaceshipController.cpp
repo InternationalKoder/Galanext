@@ -31,14 +31,21 @@ void JoystickSpaceshipController::events()
         if(sf::Joystick::hasAxis(0, sf::Joystick::X))
         {
             if(sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -50.0f)
+            {
                 m_spaceship->move(-1);
+                m_direction = -1;
+            }
 
             if(sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 50.0f)
+            {
                 m_spaceship->move(1);
+                m_direction = 1;
+            }
+
         }
 
         if(sf::Joystick::isButtonPressed(0, 0))
-            fire();
+            fire(-1);
 
         if(sf::Joystick::isButtonPressed(0, 7))
             pause();

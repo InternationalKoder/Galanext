@@ -19,7 +19,7 @@
 
 /////////////////////////////////////////////////
 
-AISpaceshipController::AISpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, enemies), m_direction(1) {}
+AISpaceshipController::AISpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, enemies) {}
 
 /////////////////////////////////////////////////
 

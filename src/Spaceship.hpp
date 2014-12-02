@@ -85,6 +85,14 @@ class Spaceship : public sf::Transformable, public sf::Drawable
         /////////////////////////////////////////////////
 		sf::FloatRect getGlobalBounds();
 
+		/////////////////////////////////////////////////
+		/// \brief A getter for the controllers
+        ///
+        /// \return A pointer to the controllers' vector
+        ///
+        /////////////////////////////////////////////////
+		std::vector<SpaceshipController*>* getControllers();
+
         /////////////////////////////////////////////////
 		/// \brief A getter for the shot
         ///

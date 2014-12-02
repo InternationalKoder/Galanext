@@ -25,11 +25,15 @@ const std::string WINDOW_TITLE = "Galanext";
 
 const std::string RESOURCES_LOCATION = "resources/";
 const std::string FONT_LOCATION = "xolonium/Xolonium-Regular.otf";
+const unsigned int TILES_WIDTH = 32;
+const unsigned int TILES_HEIGHT = 32;
 
 const float PLAYER_SPACESHIP_SPEED = 8.0f;
 const unsigned char NUMBER_SPACESHIP_TILES = 3;
 const float SHOT_SPEED = 12.0f;
 
 const float ENEMY_SPACESHIP_SPEED = 6.0f;
+const unsigned char NUMBER_ENEMIES_PER_ROW = 8;
+const float PIXELS_BETWEEN_ENEMIES = 16.0f;
 
 #endif // CONSTANTS_HPP_INCLUDED

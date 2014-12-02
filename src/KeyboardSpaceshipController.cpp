@@ -27,13 +27,19 @@ KeyboardSpaceshipController::KeyboardSpaceshipController(sf::RenderWindow& windo
 void KeyboardSpaceshipController::events()
 {
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
 		m_spaceship->move(-1);
+        m_direction = -1;
+    }
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
 		m_spaceship->move(1);
+        m_direction = 1;
+    }
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
-		fire();
+		fire(-1);
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         pause();

@@ -22,6 +22,7 @@
 #include "KeyboardSpaceshipController.hpp"
 #include "JoystickSpaceshipController.hpp"
 #include "AISpaceshipController.hpp"
+#include "EnemiesGroup.hpp"
 
 /////////////////////////////////////////////////
 /// \brief The main function
@@ -39,22 +40,19 @@ int main(void)
     std::vector<Spaceship*> allSpaceships;
 
     // creating the spaceships
-    Spaceship* player(new Spaceship(RESOURCES_LOCATION + "player.png", PLAYER_SPACESHIP_SPEED));
-    Spaceship* enemy(new Spaceship(RESOURCES_LOCATION + "enemy1.png", ENEMY_SPACESHIP_SPEED, sf::Vector2f(0.0f, 10.0f)));
+    Spaceship *player(new Spaceship(RESOURCES_LOCATION + "player.png", PLAYER_SPACESHIP_SPEED));
+    EnemiesGroup enemies(player);
 
     // adding all the spaceships to the vector
     allSpaceships.push_back(player);
-    allSpaceships.push_back(enemy);
+    allSpaceships.insert(allSpaceships.end(), enemies.getSpaceships()->begin(), enemies.getSpaceships()->end());
 
     // adding the controllers
-    KeyboardSpaceshipController keyboardPlayer(window, player, &allSpaceships);
-    player->addController(&keyboardPlayer);
+    KeyboardSpaceshipController *keyboardPlayer = new KeyboardSpaceshipController(window, player, enemies.getSpaceships());
+    player->addController(keyboardPlayer);
 
-    JoystickSpaceshipController joystickPlayer(window, player, &allSpaceships);
-    player->addController(&joystickPlayer);
-
-    AISpaceshipController aiEnemy(enemy, &allSpaceships);
-    enemy->addController(&aiEnemy);
+    JoystickSpaceshipController *joystickPlayer = new JoystickSpaceshipController(window, player, enemies.getSpaceships());
+    player->addController(joystickPlayer);
 
     sf::Clock clock;
 
@@ -86,15 +84,14 @@ int main(void)
             }
 
             space.refresh();
-
-            for(unsigned int i = 0 ; i < allSpaceships.size() ; i++)
-                allSpaceships[i]->refresh();
+            player->refresh();
+            enemies.refresh();
 
             window.clear();
 
             window.draw(space);
-            for(unsigned int i = 0 ; i < allSpaceships.size() ; i++)
-                window.draw(*allSpaceships[i]);
+            window.draw(*player);
+            window.draw(enemies);
 
             window.display();
         }
@@ -103,8 +100,7 @@ int main(void)
     }
 
     // end of the program
-    for(unsigned int i = 0 ; i < allSpaceships.size() ; i++)
-        delete allSpaceships.at(i);
+    delete player;
 
     return EXIT_SUCCESS;
 }

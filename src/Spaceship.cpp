@@ -23,8 +23,8 @@ Spaceship::Spaceship(const std::string& path, const float& speed) : m_shot(NULL)
 {
 	m_texture.loadFromFile(path.c_str());
     m_sprite.setTexture(m_texture);
-    m_sprite.setTextureRect(sf::IntRect(0, 0, m_texture.getSize().x/NUMBER_SPACESHIP_TILES, m_texture.getSize().y));
-    m_sprite.setPosition(WINDOW_WIDTH/2 - m_texture.getSize().x/2, WINDOW_HEIGHT - m_texture.getSize().y - DIST_SCREEN_BORDER);
+    m_sprite.setTextureRect(sf::IntRect(0, 0, TILES_WIDTH, TILES_HEIGHT));
+    m_sprite.setPosition(WINDOW_WIDTH/2 - TILES_WIDTH, WINDOW_HEIGHT - TILES_HEIGHT - DIST_SCREEN_BORDER);
 }
 
 /////////////////////////////////////////////////
@@ -33,7 +33,7 @@ Spaceship::Spaceship(const std::string& path, const float& speed, const sf::Vect
 {
 	m_texture.loadFromFile(path.c_str());
     m_sprite.setTexture(m_texture);
-    m_sprite.setTextureRect(sf::IntRect(0, 0, m_texture.getSize().x/NUMBER_SPACESHIP_TILES, m_texture.getSize().y));
+    m_sprite.setTextureRect(sf::IntRect(0, 0, TILES_WIDTH, TILES_HEIGHT));
     m_sprite.setPosition(initialPos);
 }
 
@@ -51,7 +51,7 @@ bool Spaceship::movePossible(const char& direction)
 	const float newPos(m_sprite.getPosition().x + (m_speed * direction));
 	bool possible(false);
 
-	if(newPos >= 0.0f && newPos + m_sprite.getGlobalBounds().width <= WINDOW_WIDTH)
+	if(newPos >= 0.0f && newPos + TILES_WIDTH <= WINDOW_WIDTH)
 		possible = true;
 
 	return possible;
@@ -70,6 +70,13 @@ void Spaceship::move(const char& direction)
 sf::FloatRect Spaceship::getGlobalBounds()
 {
 	return m_sprite.getGlobalBounds();
+}
+
+/////////////////////////////////////////////////
+
+std::vector<SpaceshipController*>* Spaceship::getControllers()
+{
+    return &m_controllers;
 }
 
 /////////////////////////////////////////////////
@@ -109,7 +116,7 @@ void Spaceship::refresh()
     if(m_framesCounter == 5)
     {
         m_framesCounter = 0;
-        m_sprite.setTextureRect(sf::IntRect(32*m_spriteCounter, 0, m_texture.getSize().x/NUMBER_SPACESHIP_TILES, m_texture.getSize().y));
+        m_sprite.setTextureRect(sf::IntRect(32 * m_spriteCounter, 0, TILES_WIDTH, TILES_HEIGHT));
         if(m_spriteCounter == NUMBER_SPACESHIP_TILES-1)
             m_spriteCounter = 0;
         else
@@ -122,4 +129,11 @@ void Spaceship::refresh()
 Spaceship::~Spaceship()
 {
     delete m_shot;
+
+    // deleting the controllers
+    for(std::vector<SpaceshipController*>::iterator it = m_controllers.begin() ; it != m_controllers.end() ; )
+    {
+        delete *it;
+        it = m_controllers.erase(it);
+    }
 }
