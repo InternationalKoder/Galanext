@@ -48,11 +48,8 @@ int main(void)
     allSpaceships.insert(allSpaceships.end(), enemies.getSpaceships()->begin(), enemies.getSpaceships()->end());
 
     // adding the controllers
-    KeyboardSpaceshipController *keyboardPlayer = new KeyboardSpaceshipController(window, player, enemies.getSpaceships());
-    player->addController(keyboardPlayer);
-
-    JoystickSpaceshipController *joystickPlayer = new JoystickSpaceshipController(window, player, enemies.getSpaceships());
-    player->addController(joystickPlayer);
+    player->addController(new KeyboardSpaceshipController(window, player, enemies.getSpaceships()));
+    player->addController(new JoystickSpaceshipController(window, player, enemies.getSpaceships()));
 
     sf::Clock clock;
 

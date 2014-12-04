@@ -17,15 +17,21 @@
 #include "EnemiesGroup.hpp"
 #include "constants.hpp"
 #include "AISpaceshipController.hpp"
+#include <sstream>
 
 EnemiesGroup::EnemiesGroup(Spaceship *playerSpaceship) : m_playerSpaceship(playerSpaceship)
 {
-    float currentPos(0.0f);
-
-    for(unsigned char i = 0 ; i < NUMBER_ENEMIES_PER_ROW ; i++)
+    for(unsigned short row = 0 ; row < NUMBER_ROWS ; row++)
     {
-        m_spaceships.push_back(new Spaceship(RESOURCES_LOCATION + "enemy1.png", ENEMY_SPACESHIP_SPEED, sf::Vector2f(currentPos, 10.0f)));
-        currentPos += TILES_WIDTH + PIXELS_BETWEEN_ENEMIES;
+        float currentPos(0.0f);
+
+        for(unsigned short i = 0 ; i < NUMBER_ENEMIES_PER_ROW ; i++)
+        {
+            std::ostringstream oss;
+            oss << RESOURCES_LOCATION << "enemy" << row << ".png";
+            m_spaceships.push_back(new Spaceship(oss.str(), ENEMY_SPACESHIP_SPEED, sf::Vector2f(currentPos, PIXELS_BETWEEN_ROWS * row + TILES_HEIGHT * row + 10.0f)));
+            currentPos += TILES_WIDTH + PIXELS_BETWEEN_ENEMIES;
+        }
     }
 
 

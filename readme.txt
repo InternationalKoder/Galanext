@@ -29,6 +29,9 @@
  
  CHANGELOG:
 
+ Dec 4, 2014:
+ + Added the support of different rows of enemies (2 rows for the moment)
+
  Dec 2, 2014:
  + Added a group of enemies
 
