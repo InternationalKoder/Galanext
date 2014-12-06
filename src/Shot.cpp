@@ -53,7 +53,7 @@ bool Shot::refresh()
 
 		if(shotBounds.intersects(spaceshipBounds))
 		{
-			delete &(**it);
+			delete (*it);
             *it = NULL;
 			it = m_spaceships->erase(it);
 			toDelete = true;

@@ -37,15 +37,9 @@ int main(void)
 
     Space space;
 
-    std::vector<Spaceship*> allSpaceships;
-
     // creating the spaceships
     Spaceship *player(new Spaceship(RESOURCES_LOCATION + "player.png", PLAYER_SPACESHIP_SPEED));
     EnemiesGroup enemies(player);
-
-    // adding all the spaceships to the vector
-    allSpaceships.push_back(player);
-    allSpaceships.insert(allSpaceships.end(), enemies.getSpaceships()->begin(), enemies.getSpaceships()->end());
 
     // adding the controllers
     player->addController(new KeyboardSpaceshipController(window, player, enemies.getSpaceships()));
@@ -81,14 +75,21 @@ int main(void)
             }
 
             space.refresh();
-            player->refresh();
-            enemies.refresh();
+            if(player != NULL)
+                player->refresh();
+            if(enemies.getSpaceships()->size() != 0)
+                enemies.refresh();
+
+            if(enemies.isPlayerDestroyed())
+                player = NULL;
 
             window.clear();
 
             window.draw(space);
-            window.draw(*player);
-            window.draw(enemies);
+            if(player != NULL)
+                window.draw(*player);
+            if(enemies.getSpaceships()->size() != 0)
+                window.draw(enemies);
 
             window.display();
         }

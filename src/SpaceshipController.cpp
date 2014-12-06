@@ -16,7 +16,7 @@
 
 #include "SpaceshipController.hpp"
 #include "constants.hpp"
-
+#include <iostream>
 /////////////////////////////////////////////////
 
 SpaceshipController::SpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : m_spaceship(spaceship), m_enemies(enemies), m_direction(1) {}
@@ -28,11 +28,10 @@ void SpaceshipController::fire(char direction)
     if(m_spaceship->getShot() == NULL)
     {
         sf::Texture shotTexture;
-        shotTexture.loadFromFile("resources/shot.png");
+        shotTexture.loadFromFile(RESOURCES_LOCATION + "shot.png");
         const sf::Vector2f shotSpeed(0.0f, SHOT_SPEED * direction);
-        const sf::Vector2f initPos(m_spaceship->getGlobalBounds().left + (TILES_WIDTH / 2) - (shotTexture.getSize().x / 2), m_spaceship->getGlobalBounds().top - TILES_HEIGHT);
-
-        m_spaceship->setShot(new Shot("resources/shot.png", shotSpeed, initPos, &(*m_enemies)));
+        const sf::Vector2f initPos(m_spaceship->getGlobalBounds().left + (TILES_WIDTH / 2) - (shotTexture.getSize().x / 2), m_spaceship->getGlobalBounds().top + TILES_HEIGHT * (direction > 0));
+        m_spaceship->setShot(new Shot(RESOURCES_LOCATION + "shot.png", shotSpeed, initPos, m_enemies));
     }
 }
 

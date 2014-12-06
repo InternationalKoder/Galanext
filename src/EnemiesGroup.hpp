@@ -20,6 +20,7 @@
 #include <vector>
 #include "Spaceship.hpp"
 #include "AISpaceshipController.hpp"
+#include "AIEnemiesGroupController.hpp"
 
 /////////////////////////////////////////////////
 /// \brief A group of enemies
@@ -30,6 +31,7 @@ class EnemiesGroup : public sf::Drawable, public sf::Transformable
 
         /////////////////////////////////////////////////
 		/// \brief Constructor
+		///
 		/// \param playerSpaceship The player's spaceship
         ///
         /////////////////////////////////////////////////
@@ -48,6 +50,14 @@ class EnemiesGroup : public sf::Drawable, public sf::Transformable
         ///
         /////////////////////////////////////////////////
         std::vector<Spaceship*>* getSpaceships();
+
+        /////////////////////////////////////////////////
+		/// \brief Tells whether the player has been destroyed
+		///
+		/// \return True if the player has been destroyed
+        ///
+        /////////////////////////////////////////////////
+        bool isPlayerDestroyed();
 
         /////////////////////////////////////////////////
 		/// \brief Destructor
@@ -75,9 +85,11 @@ class EnemiesGroup : public sf::Drawable, public sf::Transformable
 
         std::vector<Spaceship*> m_spaceships; ///< The group's spaceships
 
-        //std::vector<AISpaceshipController*> m_controllers; ///< The controllers for all the spaceships
+        AIEnemiesGroupController m_controller; ///< The controller for the whole group
 
         Spaceship *m_playerSpaceship; ///< A pointer to the player's spaceship
+
+        std::vector<Spaceship*> m_player; ///< The player's spaceship in a vector
 };
 
 #endif // ENEMIESGROUP_HPP_INCLUDED

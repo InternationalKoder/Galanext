@@ -29,6 +29,9 @@
  
  CHANGELOG:
 
+ Dec 6, 2014:
+ + The enemies randomly fire
+
  Dec 4, 2014:
  + Added the support of different rows of enemies (2 rows for the moment)
 
