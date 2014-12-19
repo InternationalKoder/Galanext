@@ -15,25 +15,23 @@
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
 #include "Spaceship.hpp"
-#include "constants.hpp"
+#include "Game.hpp"
 
 /////////////////////////////////////////////////
 
-Spaceship::Spaceship(const std::string& path, const float& speed) : m_shot(NULL), m_speed(speed), m_spriteCounter(0), m_framesCounter(0)
+Spaceship::Spaceship(const sf::Texture& texture, const float& speed) : m_texture(texture), m_shot(NULL), m_speed(speed), m_spriteCounter(0), m_framesCounter(0)
 {
-	m_texture.loadFromFile(path.c_str());
     m_sprite.setTexture(m_texture);
-    m_sprite.setTextureRect(sf::IntRect(0, 0, TILES_WIDTH, TILES_HEIGHT));
-    m_sprite.setPosition(WINDOW_WIDTH/2 - TILES_WIDTH, WINDOW_HEIGHT - TILES_HEIGHT - DIST_SCREEN_BORDER);
+    m_sprite.setTextureRect(sf::IntRect(0, 0, Game::TILES_WIDTH, Game::TILES_HEIGHT));
+    m_sprite.setPosition(Game::WINDOW_WIDTH/2 - Game::TILES_WIDTH, Game::WINDOW_HEIGHT - Game::TILES_HEIGHT - DIST_SCREEN_BORDER);
 }
 
 /////////////////////////////////////////////////
 
-Spaceship::Spaceship(const std::string& path, const float& speed, const sf::Vector2f& initialPos) : m_shot(NULL), m_speed(speed), m_spriteCounter(0), m_framesCounter(0)
+Spaceship::Spaceship(const sf::Texture& texture, const float& speed, const sf::Vector2f& initialPos) : m_texture(texture), m_shot(NULL), m_speed(speed), m_spriteCounter(0), m_framesCounter(0)
 {
-	m_texture.loadFromFile(path.c_str());
     m_sprite.setTexture(m_texture);
-    m_sprite.setTextureRect(sf::IntRect(0, 0, TILES_WIDTH, TILES_HEIGHT));
+    m_sprite.setTextureRect(sf::IntRect(0, 0, Game::TILES_WIDTH, Game::TILES_HEIGHT));
     m_sprite.setPosition(initialPos);
 }
 
@@ -51,7 +49,7 @@ bool Spaceship::movePossible(const char& direction)
 	const float newPos(m_sprite.getPosition().x + (m_speed * direction));
 	bool possible(false);
 
-	if(newPos >= 0.0f && newPos + TILES_WIDTH <= WINDOW_WIDTH)
+	if(newPos >= 0.0f && newPos + Game::TILES_WIDTH <= Game::WINDOW_WIDTH)
 		possible = true;
 
 	return possible;
@@ -116,8 +114,8 @@ void Spaceship::refresh()
     if(m_framesCounter == 5)
     {
         m_framesCounter = 0;
-        m_sprite.setTextureRect(sf::IntRect(32 * m_spriteCounter, 0, TILES_WIDTH, TILES_HEIGHT));
-        if(m_spriteCounter == NUMBER_SPACESHIP_TILES-1)
+        m_sprite.setTextureRect(sf::IntRect(32 * m_spriteCounter, 0, Game::TILES_WIDTH, Game::TILES_HEIGHT));
+        if(m_spriteCounter == Game::NUMBER_SPACESHIP_TILES-1)
             m_spriteCounter = 0;
         else
             m_spriteCounter++;

@@ -33,9 +33,11 @@ class EnemiesGroup : public sf::Drawable, public sf::Transformable
 		/// \brief Constructor
 		///
 		/// \param playerSpaceship The player's spaceship
+        /// \param shotTexture The texture for the shots that will be fired
+		/// \param textures The textures for the enemies' spaceships
         ///
         /////////////////////////////////////////////////
-        EnemiesGroup(Spaceship *playerSpaceship);
+        EnemiesGroup(Spaceship *playerSpaceship, const std::vector<sf::Texture>& textures, const sf::Texture& shotTexture);
 
         /////////////////////////////////////////////////
 		/// \brief Refreshes all the spaceships in the group
@@ -90,6 +92,10 @@ class EnemiesGroup : public sf::Drawable, public sf::Transformable
         Spaceship *m_playerSpaceship; ///< A pointer to the player's spaceship
 
         std::vector<Spaceship*> m_player; ///< The player's spaceship in a vector
+
+        std::vector<sf::Texture> m_textures; ///< The textures for the spaceships
+
+        sf::Texture m_shotTexture; ///< The fired shots' texture
 };
 
 #endif // ENEMIESGROUP_HPP_INCLUDED

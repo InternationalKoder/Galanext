@@ -19,7 +19,7 @@
 
 /////////////////////////////////////////////////
 
-AISpaceshipController::AISpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, enemies) {}
+AISpaceshipController::AISpaceshipController(Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, shotTexture, enemies) {}
 
 /////////////////////////////////////////////////
 

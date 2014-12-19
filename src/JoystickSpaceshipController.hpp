@@ -30,10 +30,11 @@ class JoystickSpaceshipController : public SpaceshipController
 		/// \brief Constructor
         ///
         /// \param spaceship The spaceship to control
+        /// \param shotTexture The texture for the shots that will be fired
         /// \param enemies The enemies which may be destroyed by the controled spaceship
         ///
         /////////////////////////////////////////////////
-		JoystickSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, std::vector<Spaceship*> *enemies);
+		JoystickSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies);
 
         /////////////////////////////////////////////////
 		/// \brief Checks the events on the joystick and updates the spaceship

@@ -15,11 +15,11 @@
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
 #include "SpaceshipController.hpp"
-#include "constants.hpp"
-#include <iostream>
+#include "Game.hpp"
+
 /////////////////////////////////////////////////
 
-SpaceshipController::SpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies) : m_spaceship(spaceship), m_enemies(enemies), m_direction(1) {}
+SpaceshipController::SpaceshipController(Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies) : m_spaceship(spaceship), m_shotTexture(shotTexture), m_enemies(enemies), m_direction(1) {}
 
 /////////////////////////////////////////////////
 
@@ -27,11 +27,9 @@ void SpaceshipController::fire(char direction)
 {
     if(m_spaceship->getShot() == NULL)
     {
-        sf::Texture shotTexture;
-        shotTexture.loadFromFile(RESOURCES_LOCATION + "shot.png");
-        const sf::Vector2f shotSpeed(0.0f, SHOT_SPEED * direction);
-        const sf::Vector2f initPos(m_spaceship->getGlobalBounds().left + (TILES_WIDTH / 2) - (shotTexture.getSize().x / 2), m_spaceship->getGlobalBounds().top + TILES_HEIGHT * (direction > 0));
-        m_spaceship->setShot(new Shot(RESOURCES_LOCATION + "shot.png", shotSpeed, initPos, m_enemies));
+        const sf::Vector2f shotSpeed(0.0f, Game::SHOT_SPEED * direction);
+        const sf::Vector2f initPos(m_spaceship->getGlobalBounds().left + (Game::TILES_WIDTH / 2) - (m_shotTexture.getSize().x / 2), m_spaceship->getGlobalBounds().top + Game::TILES_HEIGHT * (direction > 0));
+        m_spaceship->setShot(new Shot(m_shotTexture, shotSpeed, initPos, m_enemies));
     }
 }
 

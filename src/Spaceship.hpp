@@ -24,8 +24,6 @@
 class SpaceshipController;
 class Shot;
 
-const int DIST_SCREEN_BORDER = 5;
-
 /////////////////////////////////////////////////
 /// \brief Defines a spaceship which may be controlled
 /////////////////////////////////////////////////
@@ -36,21 +34,21 @@ class Spaceship : public sf::Transformable, public sf::Drawable
         /////////////////////////////////////////////////
 		/// \brief Constructor
         ///
-        /// \param path The path to the spaceship's picture
+        /// \param texture The texture that will be used to display the spaceship
         /// \param speed The spaceship's speed
         ///
         /////////////////////////////////////////////////
-		Spaceship(const std::string& path, const float& speed);
+		Spaceship(const sf::Texture& texture, const float& speed);
 
         /////////////////////////////////////////////////
 		/// \brief Constructor
         ///
-        /// \param path The path to the spaceship's picture
+        /// \param texture The texture that will be used to display the spaceship
         /// \param speed The spaceship's speed
         /// \param initialPos The initial spaceship's position
         ///
         /////////////////////////////////////////////////
-		Spaceship(const std::string& path, const float& speed, const sf::Vector2f& initialPos);
+		Spaceship(const sf::Texture& texture, const float& speed, const sf::Vector2f& initialPos);
 
         /////////////////////////////////////////////////
 		/// \brief Adds a controller for the spaceship
@@ -154,6 +152,8 @@ class Spaceship : public sf::Transformable, public sf::Drawable
 		unsigned char m_spriteCounter; ///< A counter to animate the sprite
 
 		unsigned char m_framesCounter; ///< A counter for the frames so that events can happen every n frames
+
+        const static int DIST_SCREEN_BORDER = 5; ///< The distance between the screen's border and the spaceship
 };
 
 #endif // SPACESHIP_HPP_INCLUDED

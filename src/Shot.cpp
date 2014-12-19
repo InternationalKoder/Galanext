@@ -15,13 +15,12 @@
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
 #include "Shot.hpp"
-#include "constants.hpp"
+#include "Game.hpp"
 
 /////////////////////////////////////////////////
 
-Shot::Shot(const std::string& path, const sf::Vector2f& speeds, const sf::Vector2f& initialPos, std::vector<Spaceship*> *spaceships) : m_speeds(speeds), m_spaceships(spaceships)
+Shot::Shot(const sf::Texture& texture, const sf::Vector2f& speeds, const sf::Vector2f& initialPos, std::vector<Spaceship*> *spaceships) : m_texture(texture), m_speeds(speeds), m_spaceships(spaceships)
 {
-	m_texture.loadFromFile(path.c_str());
     m_sprite.setTexture(m_texture);
     m_sprite.setPosition(initialPos);
 }
@@ -62,7 +61,7 @@ bool Shot::refresh()
 			it++;
 	}
 
-    if(shotBounds.left < 0.0f || (shotBounds.left + shotBounds.width) > WINDOW_WIDTH || shotBounds.top < 0.0f || (shotBounds.top + shotBounds.height) > WINDOW_HEIGHT)
+    if(shotBounds.left < 0.0f || (shotBounds.left + shotBounds.width) > Game::WINDOW_WIDTH || shotBounds.top < 0.0f || (shotBounds.top + shotBounds.height) > Game::WINDOW_HEIGHT)
         toDelete = true;
 
 	move();

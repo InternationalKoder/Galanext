@@ -14,15 +14,7 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#include <SFML/Graphics.hpp>
-#include <vector>
-#include "constants.hpp"
-#include "Space.hpp"
-#include "Spaceship.hpp"
-#include "KeyboardSpaceshipController.hpp"
-#include "JoystickSpaceshipController.hpp"
-#include "AISpaceshipController.hpp"
-#include "EnemiesGroup.hpp"
+#include "Game.hpp"
 
 /////////////////////////////////////////////////
 /// \brief The main function
@@ -32,73 +24,9 @@
 /////////////////////////////////////////////////
 int main(void)
 {
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE);
-    window.setVerticalSyncEnabled(true);
+    Game game;
 
-    Space space;
-
-    // creating the spaceships
-    Spaceship *player(new Spaceship(RESOURCES_LOCATION + "player.png", PLAYER_SPACESHIP_SPEED));
-    EnemiesGroup enemies(player);
-
-    // adding the controllers
-    player->addController(new KeyboardSpaceshipController(window, player, enemies.getSpaceships()));
-    player->addController(new JoystickSpaceshipController(window, player, enemies.getSpaceships()));
-
-    sf::Clock clock;
-
-    while(window.isOpen())
-    {
-        if(clock.getElapsedTime().asMilliseconds() > 20)
-        {
-            sf::Event event;
-
-            clock.restart();
-
-            while(window.pollEvent(event))
-            {
-                if(event.type == sf::Event::Closed)
-                    window.close();
-                else if(event.type == sf::Event::LostFocus)
-                {
-                    // pauses the game when focus is lost
-                    bool resume(false);
-                    while(!resume)
-                    {
-                        window.pollEvent(event);
-                        if(event.type == sf::Event::GainedFocus)
-                            resume = true;
-
-                        sf::sleep(sf::milliseconds(100));
-                    }
-                }
-            }
-
-            space.refresh();
-            if(player != NULL)
-                player->refresh();
-            if(enemies.getSpaceships()->size() != 0)
-                enemies.refresh();
-
-            if(enemies.isPlayerDestroyed())
-                player = NULL;
-
-            window.clear();
-
-            window.draw(space);
-            if(player != NULL)
-                window.draw(*player);
-            if(enemies.getSpaceships()->size() != 0)
-                window.draw(enemies);
-
-            window.display();
-        }
-        else
-            sf::sleep(sf::seconds(0.02f - clock.getElapsedTime().asSeconds()));
-    }
-
-    // end of the program
-    delete player;
+    game.start();
 
     return EXIT_SUCCESS;
 }

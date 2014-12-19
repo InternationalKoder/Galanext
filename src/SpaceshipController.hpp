@@ -32,10 +32,11 @@ class SpaceshipController
 		/// \brief Constructor
         ///
         /// \param spaceship The spaceship to control
+        /// \param shotTexture The texture for the shots that will be fired
         /// \param enemies The enemies which may be destroyed by the controled spaceship
         ///
         /////////////////////////////////////////////////
-		SpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies);
+		SpaceshipController(Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies);
 
         /////////////////////////////////////////////////
 		/// \brief Checks the events and updates the spaceship
@@ -84,6 +85,8 @@ class SpaceshipController
 	protected:
 
 		Spaceship *m_spaceship; ///< The spaceship to control
+
+		const sf::Texture m_shotTexture; ///< The fired shots' texture
 
 		std::vector<Spaceship*> *m_enemies; ///< The spaceship's enemies
 

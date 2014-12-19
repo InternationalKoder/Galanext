@@ -31,10 +31,11 @@ class KeyboardSpaceshipController : public SpaceshipController
         ///
         /// \param window The window where the game is displayed
         /// \param spaceship The spaceship to control
+        /// \param shotTexture The texture for the shots that will be fired
         /// \param enemies The enemies which may be destroyed by the controled spaceship
         ///
         /////////////////////////////////////////////////
-		KeyboardSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, std::vector<Spaceship*> *enemies);
+		KeyboardSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies);
 
         /////////////////////////////////////////////////
 		/// \brief Checks the events on the keyboard and updates the spaceship

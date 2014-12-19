@@ -32,13 +32,13 @@ class Shot : public sf::Transformable, public sf::Drawable
         /////////////////////////////////////////////////
         /// \brief Constructor
         ///
-        /// \param path The path to the shot's picture
+        /// \param texture The shot's texture
         /// \param speeds The shot's speed on X and Y axis
         /// \param intitialPos The shot's initial position
         /// \param spaceships The spaceships which may be destroyed by this shot
         ///
         /////////////////////////////////////////////////
-		Shot(const std::string& path, const sf::Vector2f& speeds, const sf::Vector2f& intitialPos, std::vector<Spaceship*> *spaceships);
+		Shot(const sf::Texture& texture, const sf::Vector2f& speeds, const sf::Vector2f& intitialPos, std::vector<Spaceship*> *spaceships);
 
         /////////////////////////////////////////////////
 		/// \brief Moves the shot in function of its speed

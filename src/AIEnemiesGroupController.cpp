@@ -15,7 +15,7 @@
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
 #include "AIEnemiesGroupController.hpp"
-#include "constants.hpp"
+#include "Game.hpp"
 
 AIEnemiesGroupController::AIEnemiesGroupController(std::vector<Spaceship*> *spaceships) : m_spaceships(spaceships) {}
 
@@ -112,7 +112,7 @@ bool AIEnemiesGroupController::isFirstOfColumn(const int& spaceship)
 {
     bool first(true);
 
-    for(unsigned int i = spaceship + NUMBER_ENEMIES_PER_ROW ; i < m_spaceships->size() && first ; i += NUMBER_ENEMIES_PER_ROW)
+    for(unsigned int i = spaceship + Game::NUMBER_ENEMIES_PER_ROW ; i < m_spaceships->size() && first ; i += Game::NUMBER_ENEMIES_PER_ROW)
     {
         if(m_spaceships->at(i) != NULL)
             first = false;

@@ -30,10 +30,11 @@ class AISpaceshipController : public SpaceshipController
 		/// \brief Constructor
         ///
         /// \param spaceship The spaceship to control
+        /// \param shotTexture The texture for the shots that will be fired
         /// \param enemies The enemies which may be destroyed by the controled spaceship
         ///
         /////////////////////////////////////////////////
-		AISpaceshipController(Spaceship *spaceship, std::vector<Spaceship*> *enemies);
+		AISpaceshipController(Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies);
 
         /////////////////////////////////////////////////
 		/// \brief Moves the spaceship

@@ -16,11 +16,11 @@
 
 #include "JoystickSpaceshipController.hpp"
 #include <SFML/Graphics.hpp>
-#include "constants.hpp"
+#include "Game.hpp"
 
 /////////////////////////////////////////////////
 
-JoystickSpaceshipController::JoystickSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, enemies), m_window(window) {}
+JoystickSpaceshipController::JoystickSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, shotTexture, enemies), m_window(window) {}
 
 /////////////////////////////////////////////////
 
@@ -62,9 +62,9 @@ void JoystickSpaceshipController::pause()
     sf::sleep(sf::milliseconds(200));
 
     sf::Font xolonium;
-    xolonium.loadFromFile(RESOURCES_LOCATION + FONT_LOCATION);
+    xolonium.loadFromFile(Game::RESOURCES_LOCATION + Game::FONT_LOCATION);
     sf::Text text("Press the start button to resume the game", xolonium, 16);
-    text.setPosition(WINDOW_WIDTH/2 - text.getGlobalBounds().width/2, WINDOW_HEIGHT/2 - text.getGlobalBounds().height/2);
+    text.setPosition(Game::WINDOW_WIDTH/2 - text.getGlobalBounds().width/2, Game::WINDOW_HEIGHT/2 - text.getGlobalBounds().height/2);
 
     m_window.draw(text);
     m_window.display();
