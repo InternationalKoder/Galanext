@@ -34,7 +34,7 @@ class JoystickSpaceshipController : public SpaceshipController
         /// \param enemies The enemies which may be destroyed by the controled spaceship
         ///
         /////////////////////////////////////////////////
-		JoystickSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies);
+		JoystickSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies, const sf::Font& font);
 
         /////////////////////////////////////////////////
 		/// \brief Checks the events on the joystick and updates the spaceship
@@ -51,6 +51,8 @@ class JoystickSpaceshipController : public SpaceshipController
     private:
 
         sf::RenderWindow& m_window; ///< The window which will be paused
+
+        sf::Font m_font; ///< The font used to display messages from the controller
 };
 
 #endif // JOYSTICKSPACESHIPCONTROLLER_HPP_INCLUDED

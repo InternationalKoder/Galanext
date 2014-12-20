@@ -41,7 +41,10 @@ class Game
 
         static const unsigned int WINDOW_WIDTH;
         static const unsigned int WINDOW_HEIGHT;
+        static const unsigned int TOP_BAR_HEIGHT;
         static const std::string WINDOW_TITLE;
+
+        static const sf::Vector2f SCORE_POSITION;
 
         static const std::string RESOURCES_LOCATION;
         static const std::string FONT_LOCATION;
@@ -83,6 +86,10 @@ class Game
         EnemiesGroup *m_enemies; ///< The group of enemies
 
         sf::Texture m_shotTexture; ///< The texture for the shots
+
+        sf::Font m_font; ///< The font for all the game's texts
+
+        sf::Text m_score; ///< The text which will display the score
 };
 
 #endif // GAME_HPP_INCLUDED

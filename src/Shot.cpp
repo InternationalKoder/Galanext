@@ -41,8 +41,9 @@ sf::Vector2f Shot::getPosition()
 
 /////////////////////////////////////////////////
 
-bool Shot::refresh()
+bool Shot::refresh(int& scoreToAdd)
 {
+    scoreToAdd = 0;
 	bool toDelete(false);
 	const sf::FloatRect shotBounds(m_sprite.getGlobalBounds());
 
@@ -56,6 +57,7 @@ bool Shot::refresh()
             *it = NULL;
 			it = m_spaceships->erase(it);
 			toDelete = true;
+			scoreToAdd += 100;
 		}
 		else
 			it++;

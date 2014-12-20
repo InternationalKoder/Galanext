@@ -19,6 +19,8 @@
 #include "AISpaceshipController.hpp"
 #include <sstream>
 
+/////////////////////////////////////////////////
+
 EnemiesGroup::EnemiesGroup(Spaceship *playerSpaceship, const std::vector<sf::Texture>& textures, const sf::Texture& shotTexture) : m_controller(&m_spaceships), m_playerSpaceship(playerSpaceship), m_textures(textures), m_shotTexture(shotTexture)
 {
     for(unsigned short row = 0 ; row < Game::NUMBER_ROWS ; row++)
@@ -27,7 +29,7 @@ EnemiesGroup::EnemiesGroup(Spaceship *playerSpaceship, const std::vector<sf::Tex
 
         for(unsigned short i = 0 ; i < Game::NUMBER_ENEMIES_PER_ROW ; i++)
         {
-            m_spaceships.push_back(new Spaceship(m_textures.at(row), Game::ENEMY_SPACESHIP_SPEED, sf::Vector2f(currentPos, Game::PIXELS_BETWEEN_ROWS * row + Game::TILES_HEIGHT * row + 10.0f)));
+            m_spaceships.push_back(new Spaceship(m_textures.at(row), Game::ENEMY_SPACESHIP_SPEED, sf::Vector2f(currentPos, Game::PIXELS_BETWEEN_ROWS * row + Game::TILES_HEIGHT * row + Spaceship::DIST_SCREEN_BORDER + Game::TOP_BAR_HEIGHT)));
             currentPos += Game::TILES_WIDTH + Game::PIXELS_BETWEEN_ENEMIES;
         }
     }

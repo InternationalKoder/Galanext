@@ -76,6 +76,14 @@ class Spaceship : public sf::Transformable, public sf::Drawable
 		void move(const char& direction);
 
         /////////////////////////////////////////////////
+		/// \brief A getter for the spaceship's score
+        ///
+        /// \return The spaceship's score
+        ///
+        /////////////////////////////////////////////////
+		int getScore();
+
+        /////////////////////////////////////////////////
 		/// \brief A getter for the spaceship's global bounds (coordinates and size)
         ///
         /// \return A rectangle which represents the spaceship
@@ -119,6 +127,8 @@ class Spaceship : public sf::Transformable, public sf::Drawable
         /////////////////////////////////////////////////
 		~Spaceship();
 
+        const static float DIST_SCREEN_BORDER; ///< The distance between the screen's border and the spaceship
+
 	private:
 
         /////////////////////////////////////////////////
@@ -153,7 +163,7 @@ class Spaceship : public sf::Transformable, public sf::Drawable
 
 		unsigned char m_framesCounter; ///< A counter for the frames so that events can happen every n frames
 
-        const static int DIST_SCREEN_BORDER = 5; ///< The distance between the screen's border and the spaceship
+		unsigned int m_score; ///< The score for this spaceship
 };
 
 #endif // SPACESHIP_HPP_INCLUDED

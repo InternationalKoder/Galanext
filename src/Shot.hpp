@@ -56,11 +56,13 @@ class Shot : public sf::Transformable, public sf::Drawable
 
         /////////////////////////////////////////////////
 		/// \brief Refreshes the shot's status and position
+		///
+		/// \param scoreToAdd The score earned by the spaceship during this turn
         ///
         /// \return True if the shot must be deleted
         ///
         /////////////////////////////////////////////////
-		bool refresh();
+		bool refresh(int& scoreToAdd);
 
 	private:
 

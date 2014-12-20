@@ -20,7 +20,7 @@
 
 /////////////////////////////////////////////////
 
-JoystickSpaceshipController::JoystickSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, shotTexture, enemies), m_window(window) {}
+JoystickSpaceshipController::JoystickSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies, const sf::Font& font) : SpaceshipController(spaceship, shotTexture, enemies), m_window(window), m_font(font) {}
 
 /////////////////////////////////////////////////
 
@@ -61,9 +61,7 @@ void JoystickSpaceshipController::pause()
 
     sf::sleep(sf::milliseconds(200));
 
-    sf::Font xolonium;
-    xolonium.loadFromFile(Game::RESOURCES_LOCATION + Game::FONT_LOCATION);
-    sf::Text text("Press the start button to resume the game", xolonium, 16);
+    sf::Text text("Press the start button to resume the game", m_font, 16);
     text.setPosition(Game::WINDOW_WIDTH/2 - text.getGlobalBounds().width/2, Game::WINDOW_HEIGHT/2 - text.getGlobalBounds().height/2);
 
     m_window.draw(text);

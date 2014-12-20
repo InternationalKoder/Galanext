@@ -19,16 +19,24 @@
 #include "KeyboardSpaceshipController.hpp"
 #include "JoystickSpaceshipController.hpp"
 
+/////////////////////////////////////////////////
+
 const unsigned int Game::WINDOW_WIDTH = 500;
-const unsigned int Game::WINDOW_HEIGHT = 400;
+const unsigned int Game::WINDOW_HEIGHT = 450;
+const unsigned int Game::TOP_BAR_HEIGHT = 30;
 const std::string Game::WINDOW_TITLE = "Galanext";
+
+const sf::Vector2f Game::SCORE_POSITION(300.0f, 5.0f);
+
 const std::string Game::RESOURCES_LOCATION = "resources/";
 const std::string Game::FONT_LOCATION = "xolonium/Xolonium-Regular.otf";
 const unsigned int Game::TILES_WIDTH = 32;
 const unsigned int Game::TILES_HEIGHT = 32;
+
 const float Game::PLAYER_SPACESHIP_SPEED = 8.0f;
 const unsigned short Game::NUMBER_SPACESHIP_TILES = 3;
 const float Game::SHOT_SPEED = 12.0f;
+
 const float Game::ENEMY_SPACESHIP_SPEED = 6.0f;
 const unsigned short Game::NUMBER_ENEMIES_PER_ROW = 8;
 const unsigned short Game::NUMBER_ROWS = 2;
@@ -42,6 +50,7 @@ Game::Game()
     // loading the textures
     m_playerTexture.loadFromFile(RESOURCES_LOCATION + "player.png");
     m_shotTexture.loadFromFile(RESOURCES_LOCATION + "shot.png");
+    m_font.loadFromFile(Game::RESOURCES_LOCATION + Game::FONT_LOCATION);
 
     // creating the window and the player
     m_window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE);
@@ -60,8 +69,14 @@ Game::Game()
     m_enemies = new EnemiesGroup(m_player, m_enemiesTextures, m_shotTexture);
 
     // setting the controllers
-    m_player->addController(new KeyboardSpaceshipController(m_window, m_player, m_shotTexture, m_enemies->getSpaceships()));
-    m_player->addController(new JoystickSpaceshipController(m_window, m_player, m_shotTexture, m_enemies->getSpaceships()));
+    m_player->addController(new KeyboardSpaceshipController(m_window, m_player, m_shotTexture, m_enemies->getSpaceships(), m_font));
+    m_player->addController(new JoystickSpaceshipController(m_window, m_player, m_shotTexture, m_enemies->getSpaceships(), m_font));
+
+    // setting the score
+    m_score.setFont(m_font);
+    m_score.setString("Score : 0");
+    m_score.setPosition(Game::SCORE_POSITION);
+    m_score.setCharacterSize(16);
 
     // setting the window
     m_window.setVerticalSyncEnabled(true);
@@ -124,7 +139,13 @@ void Game::refresh()
 {
     m_space.refresh();
     if(m_player != NULL)
+    {
         m_player->refresh();
+
+        std::ostringstream oss;
+        oss << "Score : " << m_player->getScore();
+        m_score.setString(oss.str());
+    }
     if(m_enemies->getSpaceships()->size() != 0)
         m_enemies->refresh();
 
@@ -138,6 +159,7 @@ void Game::draw()
 {
     m_window.clear();
 
+    m_window.draw(m_score);
     m_window.draw(m_space);
     if(m_player != NULL)
         m_window.draw(*m_player);

@@ -29,6 +29,10 @@
  
  CHANGELOG:
 
+ Dec 20, 2014:
+ + Added score
+ * Optimized the loading of the font
+
  Dec 19, 2014:
  * Changed the organization of the source code
  * Optimized the resources loading

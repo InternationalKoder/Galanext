@@ -19,16 +19,20 @@
 
 /////////////////////////////////////////////////
 
-Spaceship::Spaceship(const sf::Texture& texture, const float& speed) : m_texture(texture), m_shot(NULL), m_speed(speed), m_spriteCounter(0), m_framesCounter(0)
+const float Spaceship::DIST_SCREEN_BORDER = 10.0f;
+
+/////////////////////////////////////////////////
+
+Spaceship::Spaceship(const sf::Texture& texture, const float& speed) : m_texture(texture), m_shot(NULL), m_speed(speed), m_spriteCounter(0), m_framesCounter(0), m_score(0)
 {
     m_sprite.setTexture(m_texture);
     m_sprite.setTextureRect(sf::IntRect(0, 0, Game::TILES_WIDTH, Game::TILES_HEIGHT));
-    m_sprite.setPosition(Game::WINDOW_WIDTH/2 - Game::TILES_WIDTH, Game::WINDOW_HEIGHT - Game::TILES_HEIGHT - DIST_SCREEN_BORDER);
+    m_sprite.setPosition(Game::WINDOW_WIDTH/2 - Game::TILES_WIDTH, Game::WINDOW_HEIGHT - Game::TILES_HEIGHT - Spaceship::DIST_SCREEN_BORDER);
 }
 
 /////////////////////////////////////////////////
 
-Spaceship::Spaceship(const sf::Texture& texture, const float& speed, const sf::Vector2f& initialPos) : m_texture(texture), m_shot(NULL), m_speed(speed), m_spriteCounter(0), m_framesCounter(0)
+Spaceship::Spaceship(const sf::Texture& texture, const float& speed, const sf::Vector2f& initialPos) : m_texture(texture), m_shot(NULL), m_speed(speed), m_spriteCounter(0), m_framesCounter(0), m_score(0)
 {
     m_sprite.setTexture(m_texture);
     m_sprite.setTextureRect(sf::IntRect(0, 0, Game::TILES_WIDTH, Game::TILES_HEIGHT));
@@ -61,6 +65,13 @@ void Spaceship::move(const char& direction)
 {
 	if(movePossible(direction))
 		m_sprite.move((m_speed * direction), 0.0f);
+}
+
+/////////////////////////////////////////////////
+
+int Spaceship::getScore()
+{
+	return m_score;
 }
 
 /////////////////////////////////////////////////
@@ -104,11 +115,15 @@ void Spaceship::refresh()
 
 	if(m_shot != NULL)
 	{
-		if(m_shot->refresh())
+        int scoreToAdd(0);
+
+		if(m_shot->refresh(scoreToAdd))
 		{
 			delete m_shot;
 			m_shot = NULL;
 		}
+
+		m_score += scoreToAdd;
 	}
 
     if(m_framesCounter == 5)

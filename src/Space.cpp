@@ -26,7 +26,7 @@ Space::Space()
     srand(time(NULL));
     m_vertex.setPrimitiveType(sf::Points);
 
-    for(unsigned int i = 0 ; i < Game::WINDOW_HEIGHT ; i++)
+    for(unsigned int i = Game::TOP_BAR_HEIGHT ; i < Game::WINDOW_HEIGHT ; i++)
     {
         int nbPoints = rand() % 2;
         if(nbPoints == 1)
@@ -48,14 +48,14 @@ void Space::refresh()
     {
         sf::Vector2f newPos(m_vertex[i].position.x, m_vertex[i].position.y + 1);
 
-        if(newPos.y <= Game::WINDOW_HEIGHT)
+        if(newPos.y <= Game::WINDOW_HEIGHT && newPos.y >= Game::TOP_BAR_HEIGHT)
             buffer.append(sf::Vertex(newPos, sf::Color::White));
     }
 
     // Adding the new line
     if(rand() % 2 == 1)
     {
-        sf::Vertex v(sf::Vector2f(rand() % (Game::WINDOW_WIDTH+1), 0), sf::Color::White);
+        sf::Vertex v(sf::Vector2f(rand() % (Game::WINDOW_WIDTH+1), Game::TOP_BAR_HEIGHT), sf::Color::White);
         buffer.append(v);
     }
 

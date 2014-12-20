@@ -35,7 +35,7 @@ class KeyboardSpaceshipController : public SpaceshipController
         /// \param enemies The enemies which may be destroyed by the controled spaceship
         ///
         /////////////////////////////////////////////////
-		KeyboardSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies);
+		KeyboardSpaceshipController(sf::RenderWindow& window, Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies, const sf::Font& font);
 
         /////////////////////////////////////////////////
 		/// \brief Checks the events on the keyboard and updates the spaceship
@@ -52,6 +52,8 @@ class KeyboardSpaceshipController : public SpaceshipController
     private:
 
         sf::RenderWindow& m_window; ///< The window which will be paused
+
+        sf::Font m_font; ///< The font used to display messages from the controller
 };
 
 #endif // KEYBOARDSPACESHIPCONTROLLER_HPP_INCLUDED
