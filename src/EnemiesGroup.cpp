@@ -14,9 +14,9 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#include "EnemiesGroup.hpp"
-#include "Game.hpp"
-#include "AISpaceshipController.hpp"
+#include "../include/EnemiesGroup.hpp"
+#include "../include/Game.hpp"
+#include "../include/AISpaceshipController.hpp"
 #include <sstream>
 
 /////////////////////////////////////////////////

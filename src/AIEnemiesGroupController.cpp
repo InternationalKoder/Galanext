@@ -14,8 +14,8 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#include "AIEnemiesGroupController.hpp"
-#include "Game.hpp"
+#include "../include/AIEnemiesGroupController.hpp"
+#include "../include/Game.hpp"
 
 AIEnemiesGroupController::AIEnemiesGroupController(std::vector<Spaceship*> *spaceships) : m_spaceships(spaceships) {}
 

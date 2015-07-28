@@ -1,0 +1,2 @@
+#define Galanext_VERSION_MAJOR @Galanext_VERSION_MAJOR@
+#define Galanext_VERSION_MINOR @Galanext_VERSION_MINOR@

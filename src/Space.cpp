@@ -14,10 +14,10 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#include "Space.hpp"
+#include "../include/Space.hpp"
 #include <cstdlib>
 #include <ctime>
-#include "Game.hpp"
+#include "../include/Game.hpp"
 
 /////////////////////////////////////////////////
 
