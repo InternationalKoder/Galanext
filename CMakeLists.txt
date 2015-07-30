@@ -8,11 +8,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "")
 endif()
 
 # Set version information in a config.h file
-set(Galanext_VERSION_MAJOR 0)
+set(Galanext_VERSION_MAJOR "\"0\"")
 set(Galanext_VERSION_MINOR "\"1-SNAPSHOT\"")
 configure_file(
-    "include/config.hpp.in"
-    "include/config.hpp"
+    "include/version.hpp.in"
+    "include/version.hpp"
     )
 include_directories("${PROJECT_BINARY_DIR}")
 

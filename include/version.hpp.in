@@ -1,5 +1,5 @@
 //    Galanext is a Galaxian-like game
-//    Copyright (C) 2014  InternationalKoder
+//    Copyright (C) 2014-2015  InternationalKoder
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
@@ -14,19 +14,5 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#include "../include/AISpaceshipController.hpp"
-#include <SFML/Graphics.hpp>
-
-/////////////////////////////////////////////////
-
-AISpaceshipController::AISpaceshipController(Spaceship *spaceship, const sf::Texture& shotTexture, std::vector<Spaceship*> *enemies) : SpaceshipController(spaceship, shotTexture, enemies) {}
-
-/////////////////////////////////////////////////
-
-void AISpaceshipController::events()
-{
-    if(!m_spaceship->movePossible(m_direction))
-        m_direction *= -1;
-
-    m_spaceship->move(m_direction);
-}
+#define Galanext_VERSION_MAJOR @Galanext_VERSION_MAJOR@
+#define Galanext_VERSION_MINOR @Galanext_VERSION_MINOR@

@@ -21,7 +21,7 @@ If you are using a GNU/Linux system, you can directly run the "Galanext" file in
 
 If this one doesn't work or if you're using another operating system, you have to compile the program.
 
-To compile the game, you need a C++ compiler and the SFML 2.2 API for this compiler. You can also use CMake (http://www.cmake.org/).
+To compile the game, you need a C++ compiler and the SFML 2.3 API for this compiler. You can also use CMake (http://www.cmake.org/).
 
 License
 -------
