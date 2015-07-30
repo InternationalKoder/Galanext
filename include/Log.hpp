@@ -59,7 +59,7 @@ class Log
         /// \param message The message to display
         ///
         /////////////////////////////////////////////////
-        static void info(std::string& message);
+        static void info(const std::string& message);
 
         /////////////////////////////////////////////////
         ///
@@ -68,7 +68,7 @@ class Log
         /// \param message The message to display
         ///
         /////////////////////////////////////////////////
-        static void debug(std::string& message);
+        static void debug(const std::string& message);
 
         /////////////////////////////////////////////////
         ///
@@ -77,7 +77,7 @@ class Log
         /// \param message The message to display
         ///
         /////////////////////////////////////////////////
-        static void warn(std::string& message);
+        static void warn(const std::string& message);
 
         /////////////////////////////////////////////////
         ///
@@ -86,7 +86,7 @@ class Log
         /// \param message The message to display
         ///
         /////////////////////////////////////////////////
-        static void error(std::string& message);
+        static void error(const std::string& message);
 
     private:
 

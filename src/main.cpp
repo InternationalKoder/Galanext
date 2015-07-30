@@ -17,7 +17,8 @@
 #include "../include/version.hpp"
 #include "../include/Config.hpp"
 #include "../include/Log.hpp"
-#include <SFML/System.hpp>
+#include "../include/Space.hpp"
+#include <SFML/Graphics.hpp>
 
 void readOptions(int argc, char* argv[])
 {
@@ -78,9 +79,46 @@ int main(int argc, char*  argv[])
 
     // starting the game
 
-    std::string startingMessage = "Starting Galanext version " + std::string(Galanext_VERSION_MAJOR) + "."
-            + std::string(Galanext_VERSION_MINOR);
-    Log::info(startingMessage);
+    Log::info("Starting Galanext version " + std::string(Galanext_VERSION_MAJOR) + "."
+              + std::string(Galanext_VERSION_MINOR));
+
+    Log::debug("Opening window with resolution " + std::to_string(Config::WINDOW_WIDTH) + "x"
+               + std::to_string(Config::WINDOW_HEIGHT));
+    sf::RenderWindow window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), Config::WINDOW_TITLE);
+    window.setVerticalSyncEnabled(true);
+    Log::debug("Done opening window");
+
+    Space space;
+
+
+
+    // Game loop
+
+    sf::Clock clock;
+
+    while(window.isOpen())
+    {
+        if(clock.getElapsedTime().asMilliseconds() > 20)
+        {
+            sf::Event event;
+
+            clock.restart();
+
+            while(window.pollEvent(event))
+            {
+                if(event.type == sf::Event::Closed)
+                    window.close();
+            }
+
+            space.refresh();
+
+            window.clear();
+            space.display(window);
+            window.display();
+        }
+        else
+            sf::sleep(sf::seconds(0.02f - clock.getElapsedTime().asSeconds()));
+    }
 
     return EXIT_SUCCESS;
 }

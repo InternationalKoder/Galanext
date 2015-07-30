@@ -16,6 +16,6 @@
 
 #include "../include/Config.hpp"
 
-const unsigned int Config::WINDOW_WIDTH = 600;
+const unsigned int Config::WINDOW_WIDTH = 700;
 const unsigned int Config::WINDOW_HEIGHT = 550;
 const std::string Config::WINDOW_TITLE = "Galanext";

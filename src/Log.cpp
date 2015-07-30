@@ -16,6 +16,8 @@
 
 #include "../include/Log.hpp"
 
+/////////////////////////////////////////////////
+
 Log::LOG_LEVEL Log::m_level = Log::NONE;
 
 /////////////////////////////////////////////////
@@ -27,7 +29,7 @@ void Log::setLevel(Log::LOG_LEVEL level)
 
 /////////////////////////////////////////////////
 
-void Log::info(std::string& message)
+void Log::info(const std::string& message)
 {
     if(m_level >= Log::INFO)
     {
@@ -37,9 +39,9 @@ void Log::info(std::string& message)
 
 //////////////////////////////////////////////
 
-void Log::debug(std::string& message)
+void Log::debug(const std::string& message)
 {
-    if(m_level >= Log::INFO)
+    if(m_level >= Log::DEBUG)
     {
         std::cout << "[DEBUG " << currentDateTime() << "] " << message << std::endl;
     }
@@ -47,9 +49,9 @@ void Log::debug(std::string& message)
 
 ///////////////////////////////////////////////
 
-void Log::warn(std::string& message)
+void Log::warn(const std::string& message)
 {
-    if(m_level >= Log::INFO)
+    if(m_level >= Log::WARN)
     {
         std::cout << "[WARNING " << currentDateTime() << "] " << message << std::endl;
     }
@@ -57,9 +59,9 @@ void Log::warn(std::string& message)
 
 /////////////////////////////////////////////////
 
-void Log::error(std::string& message)
+void Log::error(const std::string& message)
 {
-    if(m_level >= Log::INFO)
+    if(m_level >= Log::ERROR)
     {
         std::cout << "[ERROR " << currentDateTime() << "] " << message << std::endl;
     }
