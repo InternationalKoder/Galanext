@@ -18,7 +18,9 @@
 #include "../include/Config.hpp"
 #include "../include/Log.hpp"
 #include "../include/Space.hpp"
+#include "../include/Spaceship.hpp"
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 void readOptions(int argc, char* argv[])
 {
@@ -75,20 +77,43 @@ void readOptions(int argc, char* argv[])
 /////////////////////////////////////////////////
 int main(int argc, char*  argv[])
 {
-    readOptions(argc, argv);
+    sf::err().rdbuf(NULL);
 
-    // starting the game
+    readOptions(argc, argv);
 
     Log::info("Starting Galanext version " + std::string(Galanext_VERSION_MAJOR) + "."
               + std::string(Galanext_VERSION_MINOR));
+
+
+    // Loading the resources
+
+    sf::Texture playerSpaceshipT;
+    if(playerSpaceshipT.loadFromFile(Config::RESOURCES_PATH + "player.png"))
+    {
+        Log::debug("Texture '" + Config::RESOURCES_PATH + "player.png' successfully loaded");
+    }
+    else
+    {
+        Log::error("Can not load texture '" + Config::RESOURCES_PATH + "player.png'");
+    }
+
+    Space space;
+
+    unsigned int playerSpaceshipSW = playerSpaceshipT.getSize().x / Spaceship::NUMBER_ANIMATION;
+    unsigned int playerSpaceshipSH = playerSpaceshipT.getSize().y;
+
+    sf::Vector2f playerSpaceshipStartingPos(Config::WINDOW_WIDTH / 2 - playerSpaceshipSW / 2,
+                                            Config::WINDOW_HEIGHT - playerSpaceshipSH - Config::BOTTOM_MARGIN);
+    Spaceship playerSpaceship(playerSpaceshipT, playerSpaceshipStartingPos);
+
+
+    // Opening the window
 
     Log::debug("Opening window with resolution " + std::to_string(Config::WINDOW_WIDTH) + "x"
                + std::to_string(Config::WINDOW_HEIGHT));
     sf::RenderWindow window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), Config::WINDOW_TITLE);
     window.setVerticalSyncEnabled(true);
     Log::debug("Done opening window");
-
-    Space space;
 
 
 
@@ -111,9 +136,11 @@ int main(int argc, char*  argv[])
             }
 
             space.refresh();
+            playerSpaceship.refresh();
 
             window.clear();
             space.display(window);
+            playerSpaceship.display(window);
             window.display();
         }
         else

@@ -15,6 +15,7 @@
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
 #include "../include/Log.hpp"
+#include <ctime>
 
 /////////////////////////////////////////////////
 
@@ -22,7 +23,7 @@ Log::LOG_LEVEL Log::m_level = Log::NONE;
 
 /////////////////////////////////////////////////
 
-void Log::setLevel(Log::LOG_LEVEL level)
+void Log::setLevel(const Log::LOG_LEVEL level)
 {
     m_level = level;
 }

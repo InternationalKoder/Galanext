@@ -14,46 +14,55 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#ifndef SPACE_HPP_INCLUDED
-#define SPACE_HPP_INCLUDED
+#ifndef SPACESHIP_HPP
+#define SPACESHIP_HPP
 
 #include <SFML/Graphics.hpp>
 
 /////////////////////////////////////////////////
 ///
-/// \brief The moving space background
+/// \brief A spaceship
 ///
 /////////////////////////////////////////////////
-class Space
+class Spaceship
 {
     public:
 
-        /////////////////////////////////////////////////
-        ///
-        /// \brief Constructor
-        ///
-        /////////////////////////////////////////////////
-        Space();
+        static const unsigned char NUMBER_ANIMATION; ///< The number of sprites that can be used for the animation
 
         /////////////////////////////////////////////////
         ///
-        /// \brief Moves the background with stars appearing randomly
+        /// \brief The constructor
+        ///
+        /// \param texture The image to use to display the spaceship
+        /// \param startingPos The position where the spaceship will begin
+        ///
+        /////////////////////////////////////////////////
+        Spaceship(const sf::Texture& texture, const sf::Vector2f& startingPos);
+
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Refreshes the spaceship animation
         ///
         /////////////////////////////////////////////////
         void refresh();
 
         /////////////////////////////////////////////////
         ///
-        /// \brief Displays the space background
+        /// \brief Displays the spaceship
         ///
-        /// \param window The window where the space background will be displayed
+        /// \param window The window where the spaceship will be displayed
         ///
         /////////////////////////////////////////////////
         void display(sf::RenderWindow& window);
 
     private:
 
-        sf::VertexArray m_vertex; ///< The vertex which contains the stars
+        static const unsigned char TICKS_ANIMATION; ///< The number of ticks between 2 elements of animation
+
+        unsigned char m_ticksCounter; ///< A ticks counter for the animation
+
+        sf::Sprite m_sprite; ///< The sprite that represents the spaceship
 };
 
-#endif // SPACE_HPP_INCLUDED
+#endif // SPACESHIP_HPP

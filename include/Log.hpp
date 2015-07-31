@@ -18,7 +18,6 @@
 #define LOG_HPP_INCLUDED
 
 #include <iostream>
-#include <ctime>
 
 /////////////////////////////////////////////////
 ///
@@ -50,7 +49,7 @@ class Log
         /// \param level The level to use
         ///
         /////////////////////////////////////////////////
-        static void setLevel(LOG_LEVEL level);
+        static void setLevel(const LOG_LEVEL level);
 
         /////////////////////////////////////////////////
         ///

@@ -15,6 +15,9 @@
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
 #include "../include/Space.hpp"
+#include "../include/Config.hpp"
+#include <cstdlib>
+#include <ctime>
 
 /////////////////////////////////////////////////
 
@@ -67,7 +70,7 @@ void Space::refresh()
 
 /////////////////////////////////////////////////
 
-void Space::display(sf::RenderWindow &window)
+void Space::display(sf::RenderWindow& window)
 {
     window.draw(m_vertex);
 }

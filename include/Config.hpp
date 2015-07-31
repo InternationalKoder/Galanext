@@ -18,8 +18,12 @@
 #define CONFIG_HPP_INCLUDED
 
 #include <string>
-#include <SFML/System/Vector2.hpp>
 
+/////////////////////////////////////////////////
+///
+/// \brief The values relative to the configuration
+///
+/////////////////////////////////////////////////
 class Config
 {
     public:
@@ -27,6 +31,10 @@ class Config
         static const unsigned int WINDOW_WIDTH;
         static const unsigned int WINDOW_HEIGHT;
         static const std::string WINDOW_TITLE;
+
+        static const std::string RESOURCES_PATH;
+
+        static const unsigned int BOTTOM_MARGIN;
 };
 
 #endif // CONFIG_HPP_INCLUDED

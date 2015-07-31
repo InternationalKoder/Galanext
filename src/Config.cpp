@@ -19,3 +19,7 @@
 const unsigned int Config::WINDOW_WIDTH = 700;
 const unsigned int Config::WINDOW_HEIGHT = 550;
 const std::string Config::WINDOW_TITLE = "Galanext";
+
+const std::string Config::RESOURCES_PATH = "resources/";
+
+const unsigned int Config::BOTTOM_MARGIN = 32;
