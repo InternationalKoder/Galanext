@@ -42,6 +42,7 @@ class Log
             DEBUG = 4
         } LOG_LEVEL;
 
+
         /////////////////////////////////////////////////
         ///
         /// \brief Sets the level to use for the log
@@ -50,6 +51,7 @@ class Log
         ///
         /////////////////////////////////////////////////
         static void setLevel(const LOG_LEVEL level);
+
 
         /////////////////////////////////////////////////
         ///
@@ -60,6 +62,7 @@ class Log
         /////////////////////////////////////////////////
         static void info(const std::string& message);
 
+
         /////////////////////////////////////////////////
         ///
         /// \brief Displays a debug message
@@ -68,6 +71,7 @@ class Log
         ///
         /////////////////////////////////////////////////
         static void debug(const std::string& message);
+
 
         /////////////////////////////////////////////////
         ///
@@ -78,6 +82,7 @@ class Log
         /////////////////////////////////////////////////
         static void warn(const std::string& message);
 
+
         /////////////////////////////////////////////////
         ///
         /// \brief Displays an error message
@@ -86,6 +91,7 @@ class Log
         ///
         /////////////////////////////////////////////////
         static void error(const std::string& message);
+
 
     private:
 

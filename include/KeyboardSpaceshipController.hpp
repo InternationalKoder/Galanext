@@ -14,49 +14,26 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#ifndef SPACE_HPP_INCLUDED
-#define SPACE_HPP_INCLUDED
+#ifndef KEYBOARDSPACESHIPCONTROLLER_HPP
+#define KEYBOARDSPACESHIPCONTROLLER_HPP
 
-#include <SFML/Graphics.hpp>
+#include "SpaceshipController.hpp"
 
 /////////////////////////////////////////////////
 ///
-/// \brief The moving space background
+/// \brief Allows to control a spaceship with a keyboard
 ///
 /////////////////////////////////////////////////
-class Space
+class KeyboardSpaceshipController : public SpaceshipController
 {
     public:
 
         /////////////////////////////////////////////////
         ///
-        /// \brief Constructor
+        /// \brief The events' handler
         ///
         /////////////////////////////////////////////////
-        Space();
-
-
-        /////////////////////////////////////////////////
-        ///
-        /// \brief Moves the background with stars appearing randomly
-        ///
-        /////////////////////////////////////////////////
-        void refresh();
-
-
-        /////////////////////////////////////////////////
-        ///
-        /// \brief Displays the space background
-        ///
-        /// \param window The window where the space background will be displayed
-        ///
-        /////////////////////////////////////////////////
-        void display(sf::RenderWindow& window);
-
-
-    private:
-
-        sf::VertexArray m_vertex; ///< The vertex which contains the stars
+        virtual void handleEvents();
 };
 
-#endif // SPACE_HPP_INCLUDED
+#endif // KEYBOARDSPACESHIPCONTROLLER_HPP

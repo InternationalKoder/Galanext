@@ -14,49 +14,41 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#ifndef SPACE_HPP_INCLUDED
-#define SPACE_HPP_INCLUDED
+#ifndef SPACESHIPCONTROLLER_HPP
+#define SPACESHIPCONTROLLER_HPP
 
-#include <SFML/Graphics.hpp>
+#include "Spaceship.hpp"
 
 /////////////////////////////////////////////////
 ///
-/// \brief The moving space background
+/// \brief Abstract class for the spaceships' controllers
 ///
 /////////////////////////////////////////////////
-class Space
+class SpaceshipController
 {
     public:
 
         /////////////////////////////////////////////////
         ///
-        /// \brief Constructor
+        /// \brief Adds a spaceship to handle
+        ///
+        /// \param spaceship The new spaceship to control
         ///
         /////////////////////////////////////////////////
-        Space();
-
-
-        /////////////////////////////////////////////////
-        ///
-        /// \brief Moves the background with stars appearing randomly
-        ///
-        /////////////////////////////////////////////////
-        void refresh();
+        void addSpaceship(Spaceship* spaceship);
 
 
         /////////////////////////////////////////////////
         ///
-        /// \brief Displays the space background
-        ///
-        /// \param window The window where the space background will be displayed
+        /// \brief The events' handler
         ///
         /////////////////////////////////////////////////
-        void display(sf::RenderWindow& window);
+        virtual void handleEvents() = 0;
 
 
-    private:
+    protected:
 
-        sf::VertexArray m_vertex; ///< The vertex which contains the stars
+        std::vector<Spaceship*> m_spaceships; ///< The spaceships to control
 };
 
-#endif // SPACE_HPP_INCLUDED
+#endif // SPACESHIPCONTROLLER_HPP

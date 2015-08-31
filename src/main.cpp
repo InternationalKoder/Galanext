@@ -19,6 +19,7 @@
 #include "../include/Log.hpp"
 #include "../include/Space.hpp"
 #include "../include/Spaceship.hpp"
+#include "../include/KeyboardSpaceshipController.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -106,6 +107,10 @@ int main(int argc, char*  argv[])
                                             Config::WINDOW_HEIGHT - playerSpaceshipSH - Config::BOTTOM_MARGIN);
     Spaceship playerSpaceship(playerSpaceshipT, playerSpaceshipStartingPos);
 
+    KeyboardSpaceshipController keyboardController;
+    keyboardController.addSpaceship(&playerSpaceship);
+    Log::info("Using keyboard controller for player's spaceship");
+
 
     // Opening the window
 
@@ -125,6 +130,7 @@ int main(int argc, char*  argv[])
     {
         if(clock.getElapsedTime().asMilliseconds() > 20)
         {
+            Log::debug(std::to_string(1.0f / clock.getElapsedTime().asSeconds()) + " FPS");
             sf::Event event;
 
             clock.restart();
@@ -136,6 +142,7 @@ int main(int argc, char*  argv[])
             }
 
             space.refresh();
+            keyboardController.handleEvents();
             playerSpaceship.refresh();
 
             window.clear();

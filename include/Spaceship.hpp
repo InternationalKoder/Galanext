@@ -30,6 +30,8 @@ class Spaceship
 
         static const unsigned char NUMBER_ANIMATION; ///< The number of sprites that can be used for the animation
 
+        static const float SPEED; ///< The moving speed for the spaceships
+
         /////////////////////////////////////////////////
         ///
         /// \brief The constructor
@@ -40,12 +42,24 @@ class Spaceship
         /////////////////////////////////////////////////
         Spaceship(const sf::Texture& texture, const sf::Vector2f& startingPos);
 
+
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Moves the spaceship
+        ///
+        /// \param movement The requested movement for the spaceship
+        ///
+        /////////////////////////////////////////////////
+        void move(const sf::Vector2f& movement);
+
+
         /////////////////////////////////////////////////
         ///
         /// \brief Refreshes the spaceship animation
         ///
         /////////////////////////////////////////////////
         void refresh();
+
 
         /////////////////////////////////////////////////
         ///
@@ -55,6 +69,7 @@ class Spaceship
         ///
         /////////////////////////////////////////////////
         void display(sf::RenderWindow& window);
+
 
     private:
 

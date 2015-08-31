@@ -15,10 +15,13 @@
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
 #include "../include/Spaceship.hpp"
+#include "../include/Config.hpp"
 
 /////////////////////////////////////////////////
 
 const unsigned char Spaceship::NUMBER_ANIMATION = 3;
+
+const float Spaceship::SPEED = 8.0f;
 
 /////////////////////////////////////////////////
 
@@ -30,6 +33,18 @@ Spaceship::Spaceship(const sf::Texture& texture, const sf::Vector2f& startingPos
     m_sprite.setPosition(startingPos);
 
     m_ticksCounter = 0;
+}
+
+/////////////////////////////////////////////////
+
+void Spaceship::move(const sf::Vector2f& movement)
+{
+    sf::Vector2f newPosition = m_sprite.getPosition() + movement;
+
+    if(newPosition.x > 0.0f && newPosition.x + m_sprite.getGlobalBounds().width < Config::WINDOW_WIDTH)
+    {
+        m_sprite.move(movement);
+    }
 }
 
 /////////////////////////////////////////////////
