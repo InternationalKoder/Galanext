@@ -14,25 +14,45 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#include "../include/SpaceshipController.hpp"
+#include "../include/Shot.hpp"
+#include "../include/Spaceship.hpp"
 
 /////////////////////////////////////////////////
 
-const unsigned int SpaceshipController::TICKS_SHOTS = 50;
+const float Shot::SPEED = 10.0f;
 
 /////////////////////////////////////////////////
 
-void SpaceshipController::addSpaceship(Spaceship* spaceship)
+Shot::Shot(const sf::Texture& texture, const sf::Vector2f& startingPos, bool goesUp) :
+    m_sprite(texture), m_goesUp(goesUp)
 {
-    m_spaceships.push_back(spaceship);
+    m_sprite.setPosition(startingPos);
 }
 
 /////////////////////////////////////////////////
 
-SpaceshipController::~SpaceshipController()
+sf::Vector2f Shot::getPosition()
 {
-    for(std::list<Shot*>::iterator it = m_shots.begin() ; it != m_shots.end() ; ++it)
+    return m_sprite.getPosition();
+}
+
+/////////////////////////////////////////////////
+
+void Shot::refresh()
+{
+    sf::Vector2f movement(0.0f, Shot::SPEED);
+
+    if(m_goesUp)
     {
-        delete (*it);
+        movement.y = Shot::SPEED * -1;
     }
+
+    m_sprite.move(movement);
+}
+
+/////////////////////////////////////////////////
+
+void Shot::display(sf::RenderWindow& window)
+{
+    window.draw(m_sprite);
 }

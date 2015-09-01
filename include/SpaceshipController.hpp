@@ -18,6 +18,8 @@
 #define SPACESHIPCONTROLLER_HPP
 
 #include "Spaceship.hpp"
+#include "Shot.hpp"
+#include <list>
 
 /////////////////////////////////////////////////
 ///
@@ -46,9 +48,23 @@ class SpaceshipController
         virtual void handleEvents() = 0;
 
 
+        /////////////////////////////////////////////////
+        ///
+        /// \brief The destructor
+        ///
+        /////////////////////////////////////////////////
+        virtual ~SpaceshipController();
+
+
     protected:
 
         std::vector<Spaceship*> m_spaceships; ///< The spaceships to control
+
+        std::list<Shot*> m_shots; ///< The shots from the spaceships to control
+
+        int m_shotsTicksCounter; ///< A ticks counter for the shots
+
+        static const unsigned int TICKS_SHOTS; ///< The minimum number of ticks between 2 shots
 };
 
 #endif // SPACESHIPCONTROLLER_HPP

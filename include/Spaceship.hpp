@@ -18,6 +18,7 @@
 #define SPACESHIP_HPP
 
 #include <SFML/Graphics.hpp>
+#include "Shot.hpp"
 
 /////////////////////////////////////////////////
 ///
@@ -51,6 +52,17 @@ class Spaceship
         ///
         /////////////////////////////////////////////////
         void move(const sf::Vector2f& movement);
+
+
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Makes the spaceship fire
+        ///
+        /// \param texture The texture to use for the shot
+        /// \param goesUp Set to true to make the shot go from the bottom to the top of the screen
+        ///
+        /////////////////////////////////////////////////
+        Shot* fire(const sf::Texture& texture, bool goesUp);
 
 
         /////////////////////////////////////////////////

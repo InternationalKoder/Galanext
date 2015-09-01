@@ -19,6 +19,7 @@
 #include "../include/Log.hpp"
 #include "../include/Space.hpp"
 #include "../include/Spaceship.hpp"
+#include "../include/Shot.hpp"
 #include "../include/KeyboardSpaceshipController.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -98,6 +99,19 @@ int main(int argc, char*  argv[])
         Log::error("Can not load texture '" + Config::RESOURCES_PATH + "player.png'");
     }
 
+    sf::Texture shotT;
+    if(shotT.loadFromFile(Config::RESOURCES_PATH + "shot.png"))
+    {
+        Log::debug("Texture '" + Config::RESOURCES_PATH + "shot.png' successfully loaded");
+    }
+    else
+    {
+        Log::error("Can not load texture '" + Config::RESOURCES_PATH + "shot.png'");
+    }
+
+
+    // Creating the objects
+
     Space space;
 
     unsigned int playerSpaceshipSW = playerSpaceshipT.getSize().x / Spaceship::NUMBER_ANIMATION;
@@ -107,7 +121,7 @@ int main(int argc, char*  argv[])
                                             Config::WINDOW_HEIGHT - playerSpaceshipSH - Config::BOTTOM_MARGIN);
     Spaceship playerSpaceship(playerSpaceshipT, playerSpaceshipStartingPos);
 
-    KeyboardSpaceshipController keyboardController;
+    KeyboardSpaceshipController keyboardController(shotT);
     keyboardController.addSpaceship(&playerSpaceship);
     Log::info("Using keyboard controller for player's spaceship");
 
@@ -130,7 +144,7 @@ int main(int argc, char*  argv[])
     {
         if(clock.getElapsedTime().asMilliseconds() > 20)
         {
-            Log::debug(std::to_string(1.0f / clock.getElapsedTime().asSeconds()) + " FPS");
+            Log::debug(std::to_string(1.0f / clock.getElapsedTime().asSeconds()) + " ticks/s");
             sf::Event event;
 
             clock.restart();
@@ -147,6 +161,7 @@ int main(int argc, char*  argv[])
 
             window.clear();
             space.display(window);
+            keyboardController.displayShots(window);
             playerSpaceship.display(window);
             window.display();
         }

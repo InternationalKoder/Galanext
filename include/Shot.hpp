@@ -14,51 +14,65 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#ifndef KEYBOARDSPACESHIPCONTROLLER_HPP
-#define KEYBOARDSPACESHIPCONTROLLER_HPP
+#ifndef SHOT_HPP
+#define SHOT_HPP
 
-#include "SpaceshipController.hpp"
+#include <SFML/Graphics.hpp>
 
 /////////////////////////////////////////////////
 ///
-/// \brief Allows to control a spaceship with a keyboard
+/// \brief A spaceship's shot
 ///
 /////////////////////////////////////////////////
-class KeyboardSpaceshipController : public SpaceshipController
+class Shot
 {
     public:
+
+        static const float SPEED; ///< The moving speed for the shots
 
         /////////////////////////////////////////////////
         ///
         /// \brief The constructor
         ///
-        /// \param shotTexture The texture to use for the shots
+        /// \param texture The image to use to display the shot
+        /// \param startingPos The position where the shot will begin
+        /// \param goesUp Set to true to make the shot go from the bottom to the top of the screen
         ///
         /////////////////////////////////////////////////
-        KeyboardSpaceshipController(const sf::Texture& shotTexture);
+        Shot(const sf::Texture& texture, const sf::Vector2f& startingPos, bool goesUp);
 
 
         /////////////////////////////////////////////////
         ///
-        /// \brief The events' handler
+        /// \brief Gives the shot's position
         ///
         /////////////////////////////////////////////////
-        virtual void handleEvents();
+        sf::Vector2f getPosition();
 
 
         /////////////////////////////////////////////////
         ///
-        /// \brief Displays the shots
-        ///
-        /// \param window The window where the shots will be displayed
+        /// \brief Refreshes the shot's position
         ///
         /////////////////////////////////////////////////
-        void displayShots(sf::RenderWindow& window);
+        void refresh();
+
+
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Displays the shot
+        ///
+        /// \param window The window where the shot will be displayed
+        ///
+        /////////////////////////////////////////////////
+        void display(sf::RenderWindow& window);
 
 
     private:
 
-        sf::Texture m_shotTexture; ///< The texture to use for the shots
+        sf::Sprite m_sprite; ///< The sprite that represents the shot
+
+        bool m_goesUp; ///< Set to true to make the shot go from the bottom to the top of the screen
 };
 
-#endif // KEYBOARDSPACESHIPCONTROLLER_HPP
+#endif // SHOT_HPP

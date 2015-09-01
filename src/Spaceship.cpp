@@ -49,6 +49,29 @@ void Spaceship::move(const sf::Vector2f& movement)
 
 /////////////////////////////////////////////////
 
+Shot* Spaceship::fire(const sf::Texture& texture, bool goesUp)
+{
+    float xStart = m_sprite.getPosition().x + (m_sprite.getGlobalBounds().width / 2 - texture.getSize().x / 2);
+    float yStart = m_sprite.getPosition().y;
+
+    if(goesUp)
+    {
+        yStart -= texture.getSize().y;
+    }
+    else
+    {
+        yStart += texture.getSize().y;
+    }
+
+    sf::Vector2f startingPos(xStart, yStart);
+
+    Shot* newShot = new Shot(texture, startingPos, goesUp);
+
+    return newShot;
+}
+
+/////////////////////////////////////////////////
+
 void Spaceship::refresh()
 {
     if(m_ticksCounter < 5)
