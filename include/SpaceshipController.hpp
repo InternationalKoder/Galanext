@@ -45,22 +45,12 @@ class SpaceshipController
         /// \brief The events' handler
         ///
         /////////////////////////////////////////////////
-        virtual void handleEvents() = 0;
-
-
-        /////////////////////////////////////////////////
-        ///
-        /// \brief The destructor
-        ///
-        /////////////////////////////////////////////////
-        virtual ~SpaceshipController();
+        virtual void handleEvents(std::list<Shot*>* allShots) = 0;
 
 
     protected:
 
         std::vector<Spaceship*> m_spaceships; ///< The spaceships to control
-
-        std::list<Shot*> m_shots; ///< The shots from the spaceships to control
 
         int m_shotsTicksCounter; ///< A ticks counter for the shots
 

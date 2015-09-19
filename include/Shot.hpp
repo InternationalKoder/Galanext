@@ -18,6 +18,10 @@
 #define SHOT_HPP
 
 #include <SFML/Graphics.hpp>
+#include <list>
+
+
+class Spaceship;
 
 /////////////////////////////////////////////////
 ///
@@ -52,10 +56,32 @@ class Shot
 
         /////////////////////////////////////////////////
         ///
-        /// \brief Refreshes the shot's position
+        /// \brief Allows to kill or awake the shot
+        ///
+        /// \param active The shot's new state
         ///
         /////////////////////////////////////////////////
-        void refresh();
+        void setActive(bool active);
+
+
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Tells whether the shot is alive
+        ///
+        /// \return True if the shot is still alive
+        ///
+        /////////////////////////////////////////////////
+        bool isActive();
+
+
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Refreshes the shot's position
+        ///
+        /// \param allSpaceships The list of all the spaceships
+        ///
+        /////////////////////////////////////////////////
+        void refresh(std::list<Spaceship*>* allSpaceships);
 
 
         /////////////////////////////////////////////////
@@ -73,6 +99,8 @@ class Shot
         sf::Sprite m_sprite; ///< The sprite that represents the shot
 
         bool m_goesUp; ///< Set to true to make the shot go from the bottom to the top of the screen
+
+        bool m_active; ///< Whether the shot is still alive or not
 };
 
 #endif // SHOT_HPP

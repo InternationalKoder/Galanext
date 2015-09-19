@@ -26,13 +26,3 @@ void SpaceshipController::addSpaceship(Spaceship* spaceship)
 {
     m_spaceships.push_back(spaceship);
 }
-
-/////////////////////////////////////////////////
-
-SpaceshipController::~SpaceshipController()
-{
-    for(std::list<Shot*>::iterator it = m_shots.begin() ; it != m_shots.end() ; ++it)
-    {
-        delete (*it);
-    }
-}

@@ -18,11 +18,12 @@
 #include "../include/Config.hpp"
 #include "../include/Log.hpp"
 #include "../include/Space.hpp"
-#include "../include/Spaceship.hpp"
 #include "../include/Shot.hpp"
+#include "../include/Spaceship.hpp"
 #include "../include/KeyboardSpaceshipController.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <vector>
 
 void readOptions(int argc, char* argv[])
 {
@@ -80,6 +81,7 @@ void readOptions(int argc, char* argv[])
 int main(int argc, char*  argv[])
 {
     sf::err().rdbuf(NULL);
+    int ticksCounter = 0;
 
     readOptions(argc, argv);
 
@@ -99,6 +101,16 @@ int main(int argc, char*  argv[])
         Log::error("Can not load texture '" + Config::RESOURCES_PATH + "player.png'");
     }
 
+    sf::Texture enemy0SpaceshipT;
+    if(enemy0SpaceshipT.loadFromFile(Config::RESOURCES_PATH + "enemy0.png"))
+    {
+        Log::debug("Texture '" + Config::RESOURCES_PATH + "enemy0.png' successfully loaded");
+    }
+    else
+    {
+        Log::error("Can not load texture '" + Config::RESOURCES_PATH + "enemy0.png'");
+    }
+
     sf::Texture shotT;
     if(shotT.loadFromFile(Config::RESOURCES_PATH + "shot.png"))
     {
@@ -112,6 +124,9 @@ int main(int argc, char*  argv[])
 
     // Creating the objects
 
+    std::list<Spaceship*> allSpaceships;
+    std::list<Shot*> allShots;
+
     Space space;
 
     unsigned int playerSpaceshipSW = playerSpaceshipT.getSize().x / Spaceship::NUMBER_ANIMATION;
@@ -120,10 +135,14 @@ int main(int argc, char*  argv[])
     sf::Vector2f playerSpaceshipStartingPos(Config::WINDOW_WIDTH / 2 - playerSpaceshipSW / 2,
                                             Config::WINDOW_HEIGHT - playerSpaceshipSH - Config::BOTTOM_MARGIN);
     Spaceship playerSpaceship(playerSpaceshipT, playerSpaceshipStartingPos);
+    allSpaceships.push_back(&playerSpaceship);
 
     KeyboardSpaceshipController keyboardController(shotT);
     keyboardController.addSpaceship(&playerSpaceship);
     Log::info("Using keyboard controller for player's spaceship");
+
+    Spaceship enemySpaceship(enemy0SpaceshipT, sf::Vector2f(100, Config::BOTTOM_MARGIN));
+    allSpaceships.push_back(&enemySpaceship);
 
 
     // Opening the window
@@ -144,7 +163,13 @@ int main(int argc, char*  argv[])
     {
         if(clock.getElapsedTime().asMilliseconds() > 20)
         {
-            Log::debug(std::to_string(1.0f / clock.getElapsedTime().asSeconds()) + " ticks/s");
+            ticksCounter++;
+            if(ticksCounter >= 100)
+            {
+                Log::debug(std::to_string(1.0f / clock.getElapsedTime().asSeconds()) + " ticks/s");
+                ticksCounter = 0;
+            }
+
             sf::Event event;
 
             clock.restart();
@@ -156,17 +181,35 @@ int main(int argc, char*  argv[])
             }
 
             space.refresh();
-            keyboardController.handleEvents();
-            playerSpaceship.refresh();
+            keyboardController.handleEvents(&allShots);
+            for(std::list<Spaceship*>::iterator it = allSpaceships.begin() ; it != allSpaceships.end() ; ++it)
+            {
+                (*it)->refresh();
+            }
+            for(std::list<Shot*>::iterator it = allShots.begin() ; it != allShots.end() ; ++it)
+            {
+                (*it)->refresh(&allSpaceships);
+            }
 
             window.clear();
             space.display(window);
-            keyboardController.displayShots(window);
-            playerSpaceship.display(window);
+            for(std::list<Spaceship*>::iterator it = allSpaceships.begin() ; it != allSpaceships.end() ; ++it)
+            {
+                (*it)->display(window);
+            }
+            for(std::list<Shot*>::iterator it = allShots.begin() ; it != allShots.end() ; ++it)
+            {
+                (*it)->display(window);
+            }
             window.display();
         }
         else
             sf::sleep(sf::seconds(0.02f - clock.getElapsedTime().asSeconds()));
+    }
+
+    for(std::list<Shot*>::iterator it = allShots.begin() ; it != allShots.end() ; ++it)
+    {
+        delete (*it);
     }
 
     return EXIT_SUCCESS;

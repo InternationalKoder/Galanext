@@ -72,6 +72,27 @@ Shot* Spaceship::fire(const sf::Texture& texture, bool goesUp)
 
 /////////////////////////////////////////////////
 
+sf::FloatRect Spaceship::getGlobalBounds()
+{
+    return m_sprite.getGlobalBounds();
+}
+
+/////////////////////////////////////////////////
+
+void Spaceship::setActive(bool active)
+{
+    m_active = active;
+}
+
+/////////////////////////////////////////////////
+
+bool Spaceship::isActive()
+{
+    return m_active;
+}
+
+/////////////////////////////////////////////////
+
 void Spaceship::refresh()
 {
     if(m_ticksCounter < 5)
@@ -100,5 +121,8 @@ void Spaceship::refresh()
 
 void Spaceship::display(sf::RenderWindow& window)
 {
-    window.draw(m_sprite);
+    if(m_active)
+    {
+        window.draw(m_sprite);
+    }
 }

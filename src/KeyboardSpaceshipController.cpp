@@ -28,23 +28,19 @@ KeyboardSpaceshipController::KeyboardSpaceshipController(const sf::Texture& shot
 
 /////////////////////////////////////////////////
 
-void KeyboardSpaceshipController::handleEvents()
+void KeyboardSpaceshipController::handleEvents(std::list<Shot*>* allShots)
 {
     // Refreshing the shots
-    std::list<Shot*>::iterator it = m_shots.begin();
+    std::list<Shot*>::iterator it = allShots->begin();
 
-    while(it != m_shots.end())
+    while(it != allShots->end())
     {
-        if((*it)->getPosition().y < 0 || (*it)->getPosition().y > Config::WINDOW_HEIGHT)
+        if((*it)->isActive() && ((*it)->getPosition().y < 0 || (*it)->getPosition().y > Config::WINDOW_HEIGHT))
         {
-            delete (*it);
-            it = m_shots.erase(it);
+            (*it)->setActive(false);
         }
-        else
-        {
-            (*it)->refresh();
-            ++it;
-        }
+
+        ++it;
     }
 
     // Reading keayboard inputs and executing the matching action
@@ -66,7 +62,7 @@ void KeyboardSpaceshipController::handleEvents()
         for(int i = 0 ; i < m_spaceships.size() ; i++)
         {
             Shot* shot = m_spaceships[i]->fire(m_shotTexture, true);
-            m_shots.push_back(shot);
+            allShots->push_back(shot);
         }
 
         m_shotsTicksCounter = 0;
@@ -82,14 +78,4 @@ void KeyboardSpaceshipController::handleEvents()
     }
 
     m_shotsTicksCounter++;
-}
-
-/////////////////////////////////////////////////
-
-void KeyboardSpaceshipController::displayShots(sf::RenderWindow& window)
-{
-    for(std::list<Shot*>::iterator it = m_shots.begin() ; it != m_shots.end() ; ++it)
-    {
-        (*it)->display(window);
-    }
 }

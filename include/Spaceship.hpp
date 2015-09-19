@@ -67,6 +67,36 @@ class Spaceship
 
         /////////////////////////////////////////////////
         ///
+        /// \brief Gives the spaceship's global position and size
+        ///
+        /// \return The spaceship's global bounds
+        ///
+        /////////////////////////////////////////////////
+        sf::FloatRect getGlobalBounds();
+
+
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Allows to kill or awake the spaceship
+        ///
+        /// \param active The spaceship's new state
+        ///
+        /////////////////////////////////////////////////
+        void setActive(bool active);
+
+
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Tells whether the spaceship is alive
+        ///
+        /// \return True if the spaceship is still alive
+        ///
+        /////////////////////////////////////////////////
+        bool isActive();
+
+
+        /////////////////////////////////////////////////
+        ///
         /// \brief Refreshes the spaceship animation
         ///
         /////////////////////////////////////////////////
@@ -90,6 +120,8 @@ class Spaceship
         unsigned char m_ticksCounter; ///< A ticks counter for the animation
 
         sf::Sprite m_sprite; ///< The sprite that represents the spaceship
+
+        bool m_active; ///< Whether the spaceship is still alive or not
 };
 
 #endif // SPACESHIP_HPP

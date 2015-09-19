@@ -43,17 +43,7 @@ class KeyboardSpaceshipController : public SpaceshipController
         /// \brief The events' handler
         ///
         /////////////////////////////////////////////////
-        virtual void handleEvents();
-
-
-        /////////////////////////////////////////////////
-        ///
-        /// \brief Displays the shots
-        ///
-        /// \param window The window where the shots will be displayed
-        ///
-        /////////////////////////////////////////////////
-        void displayShots(sf::RenderWindow& window);
+        virtual void handleEvents(std::list<Shot*>* allShots);
 
 
     private:
