@@ -14,30 +14,28 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#ifndef SPACESHIPCONTROLLER_HPP
-#define SPACESHIPCONTROLLER_HPP
+#ifndef CPUSPACESHIPCONTROLLER_HPP
+#define CPUSPACESHIPCONTROLLER_HPP
 
-#include "Spaceship.hpp"
-#include "Shot.hpp"
-#include <list>
+#include "SpaceshipController.hpp"
 
 /////////////////////////////////////////////////
 ///
-/// \brief Abstract class for the spaceships' controllers
+/// \brief Make the computer control spaceships
 ///
 /////////////////////////////////////////////////
-class SpaceshipController
+class CpuSpaceshipController : public SpaceshipController
 {
     public:
 
         /////////////////////////////////////////////////
         ///
-        /// \brief Adds a spaceship to handle
+        /// \brief The constructor
         ///
-        /// \param spaceship The new spaceship to control
+        /// \param shotTexture The texture to use for the shots
         ///
         /////////////////////////////////////////////////
-        void addSpaceship(Spaceship* spaceship);
+        CpuSpaceshipController(const sf::Texture& shotTexture);
 
 
         /////////////////////////////////////////////////
@@ -45,16 +43,14 @@ class SpaceshipController
         /// \brief The events' handler
         ///
         /////////////////////////////////////////////////
-        virtual void handleEvents(std::list<Shot*>* allShots) = 0;
+        virtual void handleEvents(std::list<Shot*>* allShots);
 
 
-    protected:
+    private:
 
-        std::list<Spaceship*> m_spaceships; ///< The spaceships to control
+        sf::Texture m_shotTexture; ///< The texture to use for the shots
 
-        int m_shotsTicksCounter; ///< A ticks counter for the shots
-
-        static const unsigned int TICKS_SHOTS; ///< The minimum number of ticks between 2 shots
+        bool m_goesRight; ///< Equals true if the group goes to the right ; false if it goes to the left
 };
 
-#endif // SPACESHIPCONTROLLER_HPP
+#endif // CPUSPACESHIPCONTROLLER_HPP

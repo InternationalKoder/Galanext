@@ -41,9 +41,11 @@ class Shot
         /// \param texture The image to use to display the shot
         /// \param startingPos The position where the shot will begin
         /// \param goesUp Set to true to make the shot go from the bottom to the top of the screen
+        /// \param targetSpaceships The list of the spaceships which can be killed by the shot
         ///
         /////////////////////////////////////////////////
-        Shot(const sf::Texture& texture, const sf::Vector2f& startingPos, bool goesUp);
+        Shot(const sf::Texture& texture, const sf::Vector2f& startingPos, bool goesUp,
+             std::list<Spaceship*>* targetSpaceships);
 
 
         /////////////////////////////////////////////////
@@ -78,10 +80,8 @@ class Shot
         ///
         /// \brief Refreshes the shot's position
         ///
-        /// \param allSpaceships The list of all the spaceships
-        ///
         /////////////////////////////////////////////////
-        void refresh(std::list<Spaceship*>* allSpaceships);
+        void refresh();
 
 
         /////////////////////////////////////////////////
@@ -97,6 +97,8 @@ class Shot
     private:
 
         sf::Sprite m_sprite; ///< The sprite that represents the shot
+
+        std::list<Spaceship*>* m_targetSpaceships; ///< The spaceships which can be destroyed by the shot
 
         bool m_goesUp; ///< Set to true to make the shot go from the bottom to the top of the screen
 

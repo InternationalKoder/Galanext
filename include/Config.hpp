@@ -35,6 +35,9 @@ class Config
         static const std::string RESOURCES_PATH;
 
         static const unsigned int BOTTOM_MARGIN;
+
+        static const unsigned int ENEMIES_LINES_COUNT;
+        static const unsigned int ENEMIES_COLS_COUNT;
 };
 
 #endif // CONFIG_HPP_INCLUDED

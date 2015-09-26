@@ -14,16 +14,15 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#include "../include/Space.hpp"
-#include "../include/Config.hpp"
 #include <cstdlib>
 #include <ctime>
+#include "../include/Space.hpp"
+#include "../include/Config.hpp"
 
 /////////////////////////////////////////////////
 
 Space::Space()
 {
-    srand(time(NULL));
     m_vertex.setPrimitiveType(sf::Points);
 
     for(unsigned int i = 0 ; i < Config::WINDOW_HEIGHT ; i++)

@@ -21,6 +21,7 @@
 #include "../include/Shot.hpp"
 #include "../include/Spaceship.hpp"
 #include "../include/KeyboardSpaceshipController.hpp"
+#include "../include/CpuSpaceshipController.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
@@ -80,6 +81,7 @@ void readOptions(int argc, char* argv[])
 /////////////////////////////////////////////////
 int main(int argc, char*  argv[])
 {
+    srand(time(NULL));
     sf::err().rdbuf(NULL);
     int ticksCounter = 0;
 
@@ -111,6 +113,16 @@ int main(int argc, char*  argv[])
         Log::error("Can not load texture '" + Config::RESOURCES_PATH + "enemy0.png'");
     }
 
+    sf::Texture enemy1SpaceshipT;
+    if(enemy1SpaceshipT.loadFromFile(Config::RESOURCES_PATH + "enemy1.png"))
+    {
+        Log::debug("Texture '" + Config::RESOURCES_PATH + "enemy1.png' successfully loaded");
+    }
+    else
+    {
+        Log::error("Can not load texture '" + Config::RESOURCES_PATH + "enemy1.png'");
+    }
+
     sf::Texture shotT;
     if(shotT.loadFromFile(Config::RESOURCES_PATH + "shot.png"))
     {
@@ -124,7 +136,8 @@ int main(int argc, char*  argv[])
 
     // Creating the objects
 
-    std::list<Spaceship*> allSpaceships;
+    std::list<Spaceship*> playerSpaceships;
+    std::list<Spaceship*> enemiesSpaceships;
     std::list<Shot*> allShots;
 
     Space space;
@@ -134,15 +147,35 @@ int main(int argc, char*  argv[])
 
     sf::Vector2f playerSpaceshipStartingPos(Config::WINDOW_WIDTH / 2 - playerSpaceshipSW / 2,
                                             Config::WINDOW_HEIGHT - playerSpaceshipSH - Config::BOTTOM_MARGIN);
-    Spaceship playerSpaceship(playerSpaceshipT, playerSpaceshipStartingPos);
-    allSpaceships.push_back(&playerSpaceship);
+    Spaceship playerSpaceship(playerSpaceshipT, playerSpaceshipStartingPos, &enemiesSpaceships);
+    playerSpaceships.push_back(&playerSpaceship);
 
     KeyboardSpaceshipController keyboardController(shotT);
     keyboardController.addSpaceship(&playerSpaceship);
     Log::info("Using keyboard controller for player's spaceship");
 
-    Spaceship enemySpaceship(enemy0SpaceshipT, sf::Vector2f(100, Config::BOTTOM_MARGIN));
-    allSpaceships.push_back(&enemySpaceship);
+    Spaceship enemies[Config::ENEMIES_LINES_COUNT][Config::ENEMIES_COLS_COUNT];
+    CpuSpaceshipController cpuController(shotT);
+
+    for(int i = 0 ; i < Config::ENEMIES_LINES_COUNT ; i++)
+    {
+        for(int j = 0 ; j < Config::ENEMIES_COLS_COUNT ; j++)
+        {
+            if(i == 0)
+            {
+                sf::Vector2f startingPos(50 * j, Config::BOTTOM_MARGIN);
+                enemies[0][j] = Spaceship(enemy0SpaceshipT, startingPos, &playerSpaceships);
+            }
+            else
+            {
+                sf::Vector2f startingPos(50 * j, Config::BOTTOM_MARGIN + 50 * i);
+                enemies[i][j] = Spaceship(enemy1SpaceshipT, startingPos, &playerSpaceships);
+            }
+
+            enemiesSpaceships.push_back(&enemies[i][j]);
+            cpuController.addSpaceship(&enemies[i][j]);
+        }
+    }
 
 
     // Opening the window
@@ -180,20 +213,31 @@ int main(int argc, char*  argv[])
                     window.close();
             }
 
+            // Refresh
             space.refresh();
             keyboardController.handleEvents(&allShots);
-            for(std::list<Spaceship*>::iterator it = allSpaceships.begin() ; it != allSpaceships.end() ; ++it)
+            cpuController.handleEvents(&allShots);
+            for(std::list<Spaceship*>::iterator it = playerSpaceships.begin() ; it != playerSpaceships.end() ; ++it)
+            {
+                (*it)->refresh();
+            }
+            for(std::list<Spaceship*>::iterator it = enemiesSpaceships.begin() ; it != enemiesSpaceships.end() ; ++it)
             {
                 (*it)->refresh();
             }
             for(std::list<Shot*>::iterator it = allShots.begin() ; it != allShots.end() ; ++it)
             {
-                (*it)->refresh(&allSpaceships);
+                (*it)->refresh();
             }
 
+            // Display
             window.clear();
             space.display(window);
-            for(std::list<Spaceship*>::iterator it = allSpaceships.begin() ; it != allSpaceships.end() ; ++it)
+            for(std::list<Spaceship*>::iterator it = playerSpaceships.begin() ; it != playerSpaceships.end() ; ++it)
+            {
+                (*it)->display(window);
+            }
+            for(std::list<Spaceship*>::iterator it = enemiesSpaceships.begin() ; it != enemiesSpaceships.end() ; ++it)
             {
                 (*it)->display(window);
             }

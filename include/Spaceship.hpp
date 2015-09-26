@@ -35,13 +35,22 @@ class Spaceship
 
         /////////////////////////////////////////////////
         ///
+        /// \brief The default constructor
+        ///
+        /////////////////////////////////////////////////
+        Spaceship();
+
+
+        /////////////////////////////////////////////////
+        ///
         /// \brief The constructor
         ///
         /// \param texture The image to use to display the spaceship
         /// \param startingPos The position where the spaceship will begin
+        /// \param targets This spaceship's enemies
         ///
         /////////////////////////////////////////////////
-        Spaceship(const sf::Texture& texture, const sf::Vector2f& startingPos);
+        Spaceship(const sf::Texture& texture, const sf::Vector2f& startingPos, std::list<Spaceship*>* targets);
 
 
         /////////////////////////////////////////////////
@@ -122,6 +131,8 @@ class Spaceship
         sf::Sprite m_sprite; ///< The sprite that represents the spaceship
 
         bool m_active; ///< Whether the spaceship is still alive or not
+
+        std::list<Spaceship*>* m_targets; ///< This spaceship's enemies
 };
 
 #endif // SPACESHIP_HPP

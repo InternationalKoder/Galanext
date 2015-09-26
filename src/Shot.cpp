@@ -17,6 +17,7 @@
 #include "../include/Shot.hpp"
 #include "../include/Spaceship.hpp"
 #include "../include/Log.hpp"
+#include "../include/Config.hpp"
 
 /////////////////////////////////////////////////
 
@@ -24,8 +25,9 @@ const float Shot::SPEED = 10.0f;
 
 /////////////////////////////////////////////////
 
-Shot::Shot(const sf::Texture& texture, const sf::Vector2f& startingPos, bool goesUp) :
-    m_sprite(texture), m_goesUp(goesUp), m_active(true)
+Shot::Shot(const sf::Texture& texture, const sf::Vector2f& startingPos, bool goesUp,
+           std::list<Spaceship*>* targetSpaceships) :
+    m_sprite(texture), m_goesUp(goesUp), m_active(true), m_targetSpaceships(targetSpaceships)
 {
     m_sprite.setPosition(startingPos);
 }
@@ -53,28 +55,35 @@ bool Shot::isActive()
 
 /////////////////////////////////////////////////
 
-void Shot::refresh(std::list<Spaceship*>* allSpaceships)
+void Shot::refresh()
 {
     if(m_active)
     {
-        sf::Vector2f movement(0.0f, Shot::SPEED);
-
-        if(m_goesUp)
+        if(m_sprite.getPosition().y >= 0 && m_sprite.getPosition().y <= Config::WINDOW_HEIGHT)
         {
-            movement.y = Shot::SPEED * -1;
-        }
+            sf::Vector2f movement(0.0f, Shot::SPEED);
 
-        m_sprite.move(movement);
-
-        for(std::list<Spaceship*>::iterator it = allSpaceships->begin() ; it != allSpaceships->end() ; ++it)
-        {
-            if((*it)->isActive() && m_sprite.getGlobalBounds().intersects((*it)->getGlobalBounds()))
+            if(m_goesUp)
             {
-                Log::debug("Spaceship destroyed");
-                m_active = false;
-                (*it)->setActive(false);
-                it = allSpaceships->end();
+                movement.y = Shot::SPEED * -1;
             }
+
+            m_sprite.move(movement);
+
+            for(std::list<Spaceship*>::iterator it = m_targetSpaceships->begin() ; it != m_targetSpaceships->end();++it)
+            {
+                if((*it)->isActive() && m_sprite.getGlobalBounds().intersects((*it)->getGlobalBounds()))
+                {
+                    Log::debug("Spaceship destroyed");
+                    m_active = false;
+                    (*it)->setActive(false);
+                    it = m_targetSpaceships->end();
+                }
+            }
+        }
+        else
+        {
+            m_active = false;
         }
     }
 }

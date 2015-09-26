@@ -25,7 +25,16 @@ const float Spaceship::SPEED = 8.0f;
 
 /////////////////////////////////////////////////
 
-Spaceship::Spaceship(const sf::Texture& texture, const sf::Vector2f& startingPos) : m_sprite(texture)
+Spaceship::Spaceship()
+{
+    m_ticksCounter = 0;
+    m_active = true;
+}
+
+/////////////////////////////////////////////////
+
+Spaceship::Spaceship(const sf::Texture& texture, const sf::Vector2f& startingPos, std::list<Spaceship*>* targets) :
+    m_sprite(texture)
 {
     unsigned int spriteWidth = texture.getSize().x / NUMBER_ANIMATION;
 
@@ -33,17 +42,22 @@ Spaceship::Spaceship(const sf::Texture& texture, const sf::Vector2f& startingPos
     m_sprite.setPosition(startingPos);
 
     m_ticksCounter = 0;
+    m_active = true;
+    m_targets = targets;
 }
 
 /////////////////////////////////////////////////
 
 void Spaceship::move(const sf::Vector2f& movement)
 {
-    sf::Vector2f newPosition = m_sprite.getPosition() + movement;
-
-    if(newPosition.x > 0.0f && newPosition.x + m_sprite.getGlobalBounds().width < Config::WINDOW_WIDTH)
+    if(m_active)
     {
-        m_sprite.move(movement);
+        sf::Vector2f newPosition = m_sprite.getPosition() + movement;
+
+        if(newPosition.x > 0.0f && newPosition.x + m_sprite.getGlobalBounds().width < Config::WINDOW_WIDTH)
+        {
+            m_sprite.move(movement);
+        }
     }
 }
 
@@ -51,21 +65,26 @@ void Spaceship::move(const sf::Vector2f& movement)
 
 Shot* Spaceship::fire(const sf::Texture& texture, bool goesUp)
 {
-    float xStart = m_sprite.getPosition().x + (m_sprite.getGlobalBounds().width / 2 - texture.getSize().x / 2);
-    float yStart = m_sprite.getPosition().y;
+    Shot* newShot = 0;
 
-    if(goesUp)
+    if(m_active)
     {
-        yStart -= texture.getSize().y;
-    }
-    else
-    {
-        yStart += texture.getSize().y;
-    }
+        float xStart = m_sprite.getPosition().x + (m_sprite.getGlobalBounds().width / 2 - texture.getSize().x / 2);
+        float yStart = m_sprite.getPosition().y;
 
-    sf::Vector2f startingPos(xStart, yStart);
+        if(goesUp)
+        {
+            yStart -= texture.getSize().y;
+        }
+        else
+        {
+            yStart += texture.getSize().y;
+        }
 
-    Shot* newShot = new Shot(texture, startingPos, goesUp);
+        sf::Vector2f startingPos(xStart, yStart);
+
+        newShot = new Shot(texture, startingPos, goesUp, m_targets);
+    }
 
     return newShot;
 }
