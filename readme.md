@@ -17,9 +17,9 @@ You can find the latest release on the git repository (https://github.com/Intern
 Using Galanext
 --------------
 
-If you are using a GNU/Linux system, you can directly run the "Galanext" file in the root folder. Make sure that the "resources" folder is next to the "Galanext" file.
+If you are using a GNU/Linux system, you can directly run the *Galanext* file in the root folder. Make sure that the *resources* folder is next to the *Galanext* file. If it does not work, you can try running the *start_galanext.sh* script.
 
-If this one doesn't work or if you're using another operating system, you have to compile the program.
+If it still does not work or if you are using another operating system, you have to compile the program.
 
 To compile the game, you need a C++ compiler and the SFML 2.3 API for this compiler. You can also use CMake (http://www.cmake.org/).
 
