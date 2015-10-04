@@ -93,6 +93,16 @@ int main(int argc, char*  argv[])
 
     // Loading the resources
 
+    sf::Font font;
+    if(font.loadFromFile(Config::RESOURCES_PATH + "xen3.ttf"))
+    {
+        Log::debug("Font '" + Config::RESOURCES_PATH + "xen3.ttf' successfully loaded");
+    }
+    else
+    {
+        Log::error("Can not load font '" + Config::RESOURCES_PATH + "xen3.ttf'");
+    }
+
     sf::Texture playerSpaceshipT;
     if(playerSpaceshipT.loadFromFile(Config::RESOURCES_PATH + "player.png"))
     {
@@ -163,12 +173,12 @@ int main(int argc, char*  argv[])
         {
             if(i == 0)
             {
-                sf::Vector2f startingPos(50 * j, Config::BOTTOM_MARGIN);
+                sf::Vector2f startingPos(50 * j, Config::TOP_MARGIN);
                 enemies[0][j] = Spaceship(enemy0SpaceshipT, startingPos, &playerSpaceships);
             }
             else
             {
-                sf::Vector2f startingPos(50 * j, Config::BOTTOM_MARGIN + 50 * i);
+                sf::Vector2f startingPos(50 * j, Config::TOP_MARGIN + 50 * i);
                 enemies[i][j] = Spaceship(enemy1SpaceshipT, startingPos, &playerSpaceships);
             }
 
@@ -176,6 +186,22 @@ int main(int argc, char*  argv[])
             cpuController.addSpaceship(&enemies[i][j]);
         }
     }
+
+    unsigned int score = 0;
+
+    sf::Text scoreText("SCORE", font);
+    scoreText.setColor(sf::Color::White);
+    scoreText.setCharacterSize(18);
+
+    unsigned int textPosY = Config::TOP_MARGIN / 2 - scoreText.getGlobalBounds().height;
+
+    scoreText.setPosition(Config::SCORE_TEXT_POS_X, textPosY);
+
+    sf::Text scoreValueText(std::to_string(score), font);
+    scoreValueText.setColor(sf::Color::White);
+    scoreValueText.setCharacterSize(18);
+    unsigned int scoreValuePosX = Config::SCORE_TEXT_POS_X + scoreText.getGlobalBounds().width + Config::SCORE_MARGIN;
+    scoreValueText.setPosition(scoreValuePosX, textPosY);
 
 
     // Opening the window
@@ -217,6 +243,17 @@ int main(int argc, char*  argv[])
             space.refresh();
             keyboardController.handleEvents(&allShots);
             cpuController.handleEvents(&allShots);
+
+            std::list<Spaceship*> destroyedSpaceships;
+
+            for(std::list<Shot*>::iterator it = allShots.begin() ; it != allShots.end() ; ++it)
+            {
+                Spaceship* destroyed = (*it)->refresh();
+                if(destroyed != 0)
+                {
+                    destroyedSpaceships.push_back(destroyed);
+                }
+            }
             for(std::list<Spaceship*>::iterator it = playerSpaceships.begin() ; it != playerSpaceships.end() ; ++it)
             {
                 (*it)->refresh();
@@ -224,11 +261,23 @@ int main(int argc, char*  argv[])
             for(std::list<Spaceship*>::iterator it = enemiesSpaceships.begin() ; it != enemiesSpaceships.end() ; ++it)
             {
                 (*it)->refresh();
+
+                for(std::list<Spaceship*>::iterator it2 = destroyedSpaceships.begin() ;
+                    it2 != destroyedSpaceships.end() ; )
+                {
+                    if(*it == *it2)
+                    {
+                        score += 100;
+                        Log::debug("Enemy spaceship destroyed: score +100");
+                        it2 = destroyedSpaceships.erase(it2);
+                    }
+                    else
+                    {
+                        ++it2;
+                    }
+                }
             }
-            for(std::list<Shot*>::iterator it = allShots.begin() ; it != allShots.end() ; ++it)
-            {
-                (*it)->refresh();
-            }
+            scoreValueText.setString(std::to_string(score));
 
             // Display
             window.clear();
@@ -245,6 +294,8 @@ int main(int argc, char*  argv[])
             {
                 (*it)->display(window);
             }
+            window.draw(scoreText);
+            window.draw(scoreValueText);
             window.display();
         }
         else

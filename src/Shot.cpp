@@ -55,8 +55,10 @@ bool Shot::isActive()
 
 /////////////////////////////////////////////////
 
-void Shot::refresh()
+Spaceship* Shot::refresh()
 {
+    Spaceship* spaceship = 0;
+
     if(m_active)
     {
         if(m_sprite.getPosition().y >= 0 && m_sprite.getPosition().y <= Config::WINDOW_HEIGHT)
@@ -74,9 +76,9 @@ void Shot::refresh()
             {
                 if((*it)->isActive() && m_sprite.getGlobalBounds().intersects((*it)->getGlobalBounds()))
                 {
-                    Log::debug("Spaceship destroyed");
                     m_active = false;
                     (*it)->setActive(false);
+                    spaceship = (*it);
                     it = m_targetSpaceships->end();
                 }
             }
@@ -86,6 +88,8 @@ void Shot::refresh()
             m_active = false;
         }
     }
+
+    return spaceship;
 }
 
 /////////////////////////////////////////////////

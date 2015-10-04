@@ -80,8 +80,10 @@ class Shot
         ///
         /// \brief Refreshes the shot's position
         ///
+        /// \return A pointer to the destroyed spaceship, or 0 if no spaceship was destroyed
+        ///
         /////////////////////////////////////////////////
-        void refresh();
+        Spaceship* refresh();
 
 
         /////////////////////////////////////////////////

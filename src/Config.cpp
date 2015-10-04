@@ -22,7 +22,11 @@ const std::string Config::WINDOW_TITLE = "Galanext";
 
 const std::string Config::RESOURCES_PATH = "resources/";
 
+const unsigned int Config::TOP_MARGIN = 32;
 const unsigned int Config::BOTTOM_MARGIN = 32;
 
 const unsigned int Config::ENEMIES_LINES_COUNT = 2;
 const unsigned int Config::ENEMIES_COLS_COUNT = 8;
+
+const unsigned int Config::SCORE_TEXT_POS_X = 450;
+const unsigned int Config::SCORE_MARGIN = 32;
