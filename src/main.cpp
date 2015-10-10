@@ -23,8 +23,10 @@
 #include "../include/KeyboardSpaceshipController.hpp"
 #include "../include/CpuSpaceshipController.hpp"
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <vector>
+
+#define ENEMIES_LINES_COUNT 3
+#define ENEMIES_COLS_COUNT 10
 
 
 /////////////////////////////////////////////////
@@ -86,6 +88,7 @@ void readOptions(int argc, char* argv[])
 /////////////////////////////////////////////////
 void pause(sf::RenderWindow& window)
 {
+    Log::debug("Game paused");
     bool end = false;
     sf::Clock clock;
 
@@ -108,6 +111,7 @@ void pause(sf::RenderWindow& window)
                     if(event.key.code == sf::Keyboard::Escape)
                     {
                         end = true;
+                        Log::debug("Game resumed");
                     }
                 }
             }
@@ -117,6 +121,50 @@ void pause(sf::RenderWindow& window)
             sf::sleep(sf::seconds(0.02f - clock.getElapsedTime().asSeconds()));
         }
     }
+}
+
+
+/////////////////////////////////////////////////
+///
+/// \brief Loads next level
+///
+/////////////////////////////////////////////////
+void nextLevel(Spaceship enemies[ENEMIES_LINES_COUNT][ENEMIES_COLS_COUNT], std::list<Shot*>* shots, CpuSpaceshipController* cpuController)
+{
+    for(std::list<Shot*>::iterator it = shots->begin() ; it != shots->end() ; ++it)
+    {
+        delete (*it);
+    }
+    shots->clear();
+
+    for(int i = 0 ; i < ENEMIES_LINES_COUNT ; i++)
+    {
+        for(int j = 0 ; j < ENEMIES_COLS_COUNT ; j++)
+        {
+            enemies[i][j].setActive(true);
+            if(i == 0)
+            {
+                sf::Vector2f startingPos(50 * j, Config::TOP_MARGIN + 10);
+                enemies[0][j].setPosition(startingPos);
+            }
+            else if(i == 1)
+            {
+                sf::Vector2f startingPos(50 * j, Config::TOP_MARGIN + 70);
+                enemies[1][j].setPosition(startingPos);
+            }
+            else
+            {
+                sf::Vector2f startingPos(65 * (j - 1), Config::TOP_MARGIN + 130);
+                enemies[i][j].setPosition(startingPos);
+                if(j < 2 || j > ENEMIES_COLS_COUNT - 3)
+                {
+                    enemies[i][j].setActive(false);
+                }
+            }
+        }
+    }
+
+    cpuController->increaseFireSpeed();
 }
 
 
@@ -222,37 +270,24 @@ int main(int argc, char*  argv[])
     keyboardController.addSpaceship(&playerSpaceship);
     Log::info("Using keyboard controller for player's spaceship");
 
-    Spaceship enemies[Config::ENEMIES_LINES_COUNT][Config::ENEMIES_COLS_COUNT];
+    Spaceship enemies[ENEMIES_LINES_COUNT][ENEMIES_COLS_COUNT];
     CpuSpaceshipController cpuController(shotT);
 
-    for(int i = 0 ; i < Config::ENEMIES_LINES_COUNT ; i++)
+    for(int i = 0 ; i < ENEMIES_COLS_COUNT ; i++)
     {
-        for(int j = 0 ; j < Config::ENEMIES_COLS_COUNT ; j++)
-        {
-            if(i == 0)
-            {
-                sf::Vector2f startingPos(50 * j, Config::TOP_MARGIN + 10);
-                enemies[0][j] = Spaceship(enemy0SpaceshipT, startingPos, &playerSpaceships);
-            }
-            else if(i == 1)
-            {
-                sf::Vector2f startingPos(50 * j, Config::TOP_MARGIN + 70);
-                enemies[1][j] = Spaceship(enemy1SpaceshipT, startingPos, &playerSpaceships);
-            }
-            else
-            {
-                sf::Vector2f startingPos(65 * (j - 1), Config::TOP_MARGIN + 130);
-                enemies[i][j] = Spaceship(enemy2SpaceshipT, startingPos, &playerSpaceships);
-                if(j < 2 || j > Config::ENEMIES_COLS_COUNT - 3)
-                {
-                    enemies[i][j].setActive(false);
-                }
-            }
 
-            enemiesSpaceships.push_back(&enemies[i][j]);
-            cpuController.addSpaceship(&enemies[i][j]);
+        enemies[0][i] = Spaceship(enemy0SpaceshipT, sf::Vector2f(0.0f, 0.0f), &playerSpaceships);
+        enemies[1][i] = Spaceship(enemy1SpaceshipT, sf::Vector2f(0.0f, 0.0f), &playerSpaceships);
+        enemies[2][i] = Spaceship(enemy2SpaceshipT, sf::Vector2f(0.0f, 0.0f), &playerSpaceships);
+
+        for(int j = 0 ; j < ENEMIES_LINES_COUNT ; j++)
+        {
+            enemiesSpaceships.push_back(&enemies[j][i]);
+            cpuController.addSpaceship(&enemies[j][i]);
         }
     }
+
+    nextLevel(enemies, &allShots, &cpuController);
 
     unsigned int score = 0;
 
@@ -342,9 +377,15 @@ int main(int argc, char*  argv[])
             {
                 (*it)->refresh();
             }
+            bool enemiesAlive = false;
             for(std::list<Spaceship*>::iterator it = enemiesSpaceships.begin() ; it != enemiesSpaceships.end() ; ++it)
             {
                 (*it)->refresh();
+
+                if((*it)->isActive())
+                {
+                    enemiesAlive = true;
+                }
 
                 for(std::list<Spaceship*>::iterator it2 = destroyedSpaceships.begin() ;
                     it2 != destroyedSpaceships.end() ; )
@@ -361,6 +402,13 @@ int main(int argc, char*  argv[])
                     }
                 }
             }
+
+            if(!enemiesAlive)
+            {
+                nextLevel(enemies, &allShots, &cpuController);
+                Log::debug("Going to next level");
+            }
+
             scoreValueText.setString(std::to_string(score));
 
             // Display

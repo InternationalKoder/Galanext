@@ -86,6 +86,16 @@ class Spaceship
 
         /////////////////////////////////////////////////
         ///
+        /// \brief Changes the spaceship's position
+        ///
+        /// \param position The new spaceship's position
+        ///
+        /////////////////////////////////////////////////
+        void setPosition(const sf::Vector2f& pos);
+
+
+        /////////////////////////////////////////////////
+        ///
         /// \brief Allows to kill or awake the spaceship
         ///
         /// \param active The spaceship's new state

@@ -98,6 +98,13 @@ sf::FloatRect Spaceship::getGlobalBounds()
 
 /////////////////////////////////////////////////
 
+void Spaceship::setPosition(const sf::Vector2f& position)
+{
+    m_sprite.setPosition(position);
+}
+
+/////////////////////////////////////////////////
+
 void Spaceship::setActive(bool active)
 {
     m_active = active;

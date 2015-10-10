@@ -46,11 +46,21 @@ class CpuSpaceshipController : public SpaceshipController
         virtual void handleEvents(std::list<Shot*>* allShots);
 
 
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Increases the fire speed by 1.5x
+        ///
+        /////////////////////////////////////////////////
+        void increaseFireSpeed();
+
+
     private:
 
         sf::Texture m_shotTexture; ///< The texture to use for the shots
 
         bool m_goesRight; ///< Equals true if the group goes to the right ; false if it goes to the left
+
+        float m_fireSpeed; ///< The speed of fire
 };
 
 #endif // CPUSPACESHIPCONTROLLER_HPP

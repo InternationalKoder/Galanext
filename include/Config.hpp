@@ -37,9 +37,6 @@ class Config
         static const unsigned int TOP_MARGIN;
         static const unsigned int BOTTOM_MARGIN;
 
-        static const unsigned int ENEMIES_LINES_COUNT;
-        static const unsigned int ENEMIES_COLS_COUNT;
-
         static const unsigned int SCORE_TEXT_POS_X;
         static const unsigned int SCORE_MARGIN;
 };

@@ -26,6 +26,7 @@ CpuSpaceshipController::CpuSpaceshipController(const sf::Texture& shotTexture) :
 {
     m_shotsTicksCounter = SpaceshipController::TICKS_SHOTS;
     m_goesRight = true;
+    m_fireSpeed = (4/3);
 }
 
 /////////////////////////////////////////////////
@@ -96,7 +97,7 @@ void CpuSpaceshipController::handleEvents(std::list<Shot*>* allShots)
     {
         if((*it)->isActive())
         {
-            if(m_shotsTicksCounter >= (SpaceshipController::TICKS_SHOTS) / 2)
+            if(m_shotsTicksCounter >= (SpaceshipController::TICKS_SHOTS) / m_fireSpeed)
             {
                 int random = rand() % (m_spaceships.size() * 2);
 
@@ -113,4 +114,11 @@ void CpuSpaceshipController::handleEvents(std::list<Shot*>* allShots)
     }
 
     m_shotsTicksCounter++;
+}
+
+/////////////////////////////////////////////////
+
+void CpuSpaceshipController::increaseFireSpeed()
+{
+    m_fireSpeed *= 1.5f;
 }
