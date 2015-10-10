@@ -26,6 +26,12 @@
 #include <iostream>
 #include <vector>
 
+
+/////////////////////////////////////////////////
+///
+/// \brief Reads the arguments given to the program
+///
+/////////////////////////////////////////////////
 void readOptions(int argc, char* argv[])
 {
     // Getting the option for the log
@@ -71,6 +77,48 @@ void readOptions(int argc, char* argv[])
         std::cout << "Incorrect option number. The game will be started without any option." << std::endl;
     }
 }
+
+
+/////////////////////////////////////////////////
+///
+/// \brief Pauses the game
+///
+/////////////////////////////////////////////////
+void pause(sf::RenderWindow& window)
+{
+    bool end = false;
+    sf::Clock clock;
+
+    while(!end)
+    {
+        if(clock.getElapsedTime().asMilliseconds() > 20)
+        {
+            clock.restart();
+            sf::Event event;
+
+            while(window.pollEvent(event))
+            {
+                if(event.type == sf::Event::Closed)
+                {
+                    end = true;
+                    window.close();
+                }
+                else if(event.type == sf::Event::KeyReleased)
+                {
+                    if(event.key.code == sf::Keyboard::Escape)
+                    {
+                        end = true;
+                    }
+                }
+            }
+        }
+        else
+        {
+            sf::sleep(sf::seconds(0.02f - clock.getElapsedTime().asSeconds()));
+        }
+    }
+}
+
 
 /////////////////////////////////////////////////
 ///
@@ -203,6 +251,12 @@ int main(int argc, char*  argv[])
     unsigned int scoreValuePosX = Config::SCORE_TEXT_POS_X + scoreText.getGlobalBounds().width + Config::SCORE_MARGIN;
     scoreValueText.setPosition(scoreValuePosX, textPosY);
 
+    sf::Text pauseText("Game paused", font);
+    pauseText.setColor(sf::Color::White);
+    pauseText.setCharacterSize(24);
+    pauseText.setPosition(Config::WINDOW_WIDTH / 2 - pauseText.getGlobalBounds().width / 2,
+                          Config::WINDOW_HEIGHT / 2 - pauseText.getGlobalBounds().height / 2);
+
 
     // Opening the window
 
@@ -236,7 +290,18 @@ int main(int argc, char*  argv[])
             while(window.pollEvent(event))
             {
                 if(event.type == sf::Event::Closed)
+                {
                     window.close();
+                }
+                else if(event.type == sf::Event::KeyReleased || event.type == sf::Event::LostFocus)
+                {
+                    if(event.key.code == sf::Keyboard::Escape || event.type == sf::Event::LostFocus)
+                    {
+                        window.draw(pauseText);
+                        window.display();
+                        pause(window);
+                    }
+                }
             }
 
             // Refresh
@@ -299,7 +364,9 @@ int main(int argc, char*  argv[])
             window.display();
         }
         else
+        {
             sf::sleep(sf::seconds(0.02f - clock.getElapsedTime().asSeconds()));
+        }
     }
 
     for(std::list<Shot*>::iterator it = allShots.begin() ; it != allShots.end() ; ++it)
