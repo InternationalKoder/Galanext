@@ -181,6 +181,16 @@ int main(int argc, char*  argv[])
         Log::error("Can not load texture '" + Config::RESOURCES_PATH + "enemy1.png'");
     }
 
+    sf::Texture enemy2SpaceshipT;
+    if(enemy2SpaceshipT.loadFromFile(Config::RESOURCES_PATH + "enemy2.png"))
+    {
+        Log::debug("Texture '" + Config::RESOURCES_PATH + "enemy2.png' successfully loaded");
+    }
+    else
+    {
+        Log::error("Can not load texture '" + Config::RESOURCES_PATH + "enemy2.png'");
+    }
+
     sf::Texture shotT;
     if(shotT.loadFromFile(Config::RESOURCES_PATH + "shot.png"))
     {
@@ -221,13 +231,22 @@ int main(int argc, char*  argv[])
         {
             if(i == 0)
             {
-                sf::Vector2f startingPos(50 * j, Config::TOP_MARGIN);
+                sf::Vector2f startingPos(50 * j, Config::TOP_MARGIN + 10);
                 enemies[0][j] = Spaceship(enemy0SpaceshipT, startingPos, &playerSpaceships);
+            }
+            else if(i == 1)
+            {
+                sf::Vector2f startingPos(50 * j, Config::TOP_MARGIN + 70);
+                enemies[1][j] = Spaceship(enemy1SpaceshipT, startingPos, &playerSpaceships);
             }
             else
             {
-                sf::Vector2f startingPos(50 * j, Config::TOP_MARGIN + 50 * i);
-                enemies[i][j] = Spaceship(enemy1SpaceshipT, startingPos, &playerSpaceships);
+                sf::Vector2f startingPos(65 * (j - 1), Config::TOP_MARGIN + 130);
+                enemies[i][j] = Spaceship(enemy2SpaceshipT, startingPos, &playerSpaceships);
+                if(j < 2 || j > Config::ENEMIES_COLS_COUNT - 3)
+                {
+                    enemies[i][j].setActive(false);
+                }
             }
 
             enemiesSpaceships.push_back(&enemies[i][j]);
