@@ -129,7 +129,8 @@ void pause(sf::RenderWindow& window)
 /// \brief Loads next level
 ///
 /////////////////////////////////////////////////
-void nextLevel(Spaceship enemies[ENEMIES_LINES_COUNT][ENEMIES_COLS_COUNT], std::list<Shot*>* shots, CpuSpaceshipController* cpuController)
+void nextLevel(Spaceship enemies[ENEMIES_LINES_COUNT][ENEMIES_COLS_COUNT], std::list<Shot*>* shots,
+               CpuSpaceshipController* cpuController)
 {
     for(std::list<Shot*>::iterator it = shots->begin() ; it != shots->end() ; ++it)
     {
@@ -144,17 +145,17 @@ void nextLevel(Spaceship enemies[ENEMIES_LINES_COUNT][ENEMIES_COLS_COUNT], std::
             enemies[i][j].setActive(true);
             if(i == 0)
             {
-                sf::Vector2f startingPos(50 * j, Config::TOP_MARGIN + 10);
+                sf::Vector2f startingPos(50 * j + Config::ENEMIES_LEFT_MARGIN, Config::TOP_MARGIN + 10);
                 enemies[0][j].setPosition(startingPos);
             }
             else if(i == 1)
             {
-                sf::Vector2f startingPos(50 * j, Config::TOP_MARGIN + 70);
+                sf::Vector2f startingPos(50 * j + Config::ENEMIES_LEFT_MARGIN, Config::TOP_MARGIN + 70);
                 enemies[1][j].setPosition(startingPos);
             }
             else
             {
-                sf::Vector2f startingPos(65 * (j - 1), Config::TOP_MARGIN + 130);
+                sf::Vector2f startingPos(65 * (j - 1) + Config::ENEMIES_LEFT_MARGIN, Config::TOP_MARGIN + 130);
                 enemies[i][j].setPosition(startingPos);
                 if(j < 2 || j > ENEMIES_COLS_COUNT - 3)
                 {
@@ -165,6 +166,58 @@ void nextLevel(Spaceship enemies[ENEMIES_LINES_COUNT][ENEMIES_COLS_COUNT], std::
     }
 
     cpuController->increaseFireSpeed();
+}
+
+
+/////////////////////////////////////////////////
+///
+/// \brief Displays "get ready" message
+///
+/////////////////////////////////////////////////
+void getReady(sf::RenderWindow& window, const sf::Font& font)
+{
+    sf::Text text("GET READY", font);
+    text.setCharacterSize(18);
+
+    unsigned int posX = Config::WINDOW_WIDTH / 2 - text.getGlobalBounds().width / 2;
+    unsigned int posY = Config::WINDOW_HEIGHT / 2 - text.getGlobalBounds().height / 2;
+
+    text.setPosition(posX, posY);
+
+    window.draw(text);
+    window.display();
+    sf::sleep(sf::seconds(2));
+}
+
+
+/////////////////////////////////////////////////
+///
+/// \brief Displays the game
+///
+/////////////////////////////////////////////////
+void display(sf::RenderWindow& window, Space& space, std::list<Spaceship*>& playerSpaceships,
+             std::list<Spaceship*>& enemiesSpaceships, std::list<Shot*>& shots, const sf::Text& scoreText,
+             const sf::Text& scoreValueText, const sf::Text& levelText, const sf::Text& levelValueText)
+{
+    window.clear();
+    space.display(window);
+    for(std::list<Spaceship*>::iterator it = playerSpaceships.begin() ; it != playerSpaceships.end() ; ++it)
+    {
+        (*it)->display(window);
+    }
+    for(std::list<Spaceship*>::iterator it = enemiesSpaceships.begin() ; it != enemiesSpaceships.end() ; ++it)
+    {
+        (*it)->display(window);
+    }
+    for(std::list<Shot*>::iterator it = shots.begin() ; it != shots.end() ; ++it)
+    {
+        (*it)->display(window);
+    }
+    window.draw(scoreText);
+    window.draw(scoreValueText);
+    window.draw(levelText);
+    window.draw(levelValueText);
+    window.display();
 }
 
 
@@ -276,7 +329,6 @@ int main(int argc, char*  argv[])
 
     for(int i = 0 ; i < ENEMIES_COLS_COUNT ; i++)
     {
-
         enemies[0][i] = Spaceship(enemy0SpaceshipT, sf::Vector2f(0.0f, 0.0f), &playerSpaceships);
         enemies[1][i] = Spaceship(enemy1SpaceshipT, sf::Vector2f(0.0f, 0.0f), &playerSpaceships);
         enemies[2][i] = Spaceship(enemy2SpaceshipT, sf::Vector2f(0.0f, 0.0f), &playerSpaceships);
@@ -333,6 +385,9 @@ int main(int argc, char*  argv[])
     Log::debug("Done opening window");
 
 
+    display(window, space, playerSpaceships, enemiesSpaceships, allShots, scoreText, scoreValueText, levelText,
+            levelValueText);
+    getReady(window, font);
 
     // Game loop
 
@@ -420,31 +475,17 @@ int main(int argc, char*  argv[])
                 nextLevel(enemies, &allShots, &cpuController);
                 level++;
                 levelValueText.setString(std::to_string(level));
+                display(window, space, playerSpaceships, enemiesSpaceships, allShots, scoreText, scoreValueText,
+                        levelText, levelValueText);
+                getReady(window, font);
                 Log::debug("Going to next level");
             }
 
             scoreValueText.setString(std::to_string(score));
 
             // Display
-            window.clear();
-            space.display(window);
-            for(std::list<Spaceship*>::iterator it = playerSpaceships.begin() ; it != playerSpaceships.end() ; ++it)
-            {
-                (*it)->display(window);
-            }
-            for(std::list<Spaceship*>::iterator it = enemiesSpaceships.begin() ; it != enemiesSpaceships.end() ; ++it)
-            {
-                (*it)->display(window);
-            }
-            for(std::list<Shot*>::iterator it = allShots.begin() ; it != allShots.end() ; ++it)
-            {
-                (*it)->display(window);
-            }
-            window.draw(scoreText);
-            window.draw(scoreValueText);
-            window.draw(levelText);
-            window.draw(levelValueText);
-            window.display();
+            display(window, space, playerSpaceships, enemiesSpaceships, allShots, scoreText, scoreValueText, levelText,
+                    levelValueText);
         }
         else
         {
