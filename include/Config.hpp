@@ -39,6 +39,9 @@ class Config
 
         static const unsigned int SCORE_TEXT_POS_X;
         static const unsigned int SCORE_MARGIN;
+
+        static const unsigned int LEVEL_TEXT_POS_X;
+        static const unsigned int LEVEL_MARGIN;
 };
 
 #endif // CONFIG_HPP_INCLUDED

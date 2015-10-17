@@ -180,6 +180,7 @@ int main(int argc, char*  argv[])
     srand(time(NULL));
     sf::err().rdbuf(NULL);
     int ticksCounter = 0;
+    int level = 1;
 
     readOptions(argc, argv);
 
@@ -305,6 +306,17 @@ int main(int argc, char*  argv[])
     unsigned int scoreValuePosX = Config::SCORE_TEXT_POS_X + scoreText.getGlobalBounds().width + Config::SCORE_MARGIN;
     scoreValueText.setPosition(scoreValuePosX, textPosY);
 
+    sf::Text levelText("LEVEL", font);
+    levelText.setColor(sf::Color::White);
+    levelText.setCharacterSize(18);
+    levelText.setPosition(Config::LEVEL_TEXT_POS_X, textPosY);
+
+    sf::Text levelValueText(std::to_string(level), font);
+    levelValueText.setColor(sf::Color::White);
+    levelValueText.setCharacterSize(18);
+    unsigned int levelValuePosX = Config::LEVEL_TEXT_POS_X + levelText.getGlobalBounds().width + Config::LEVEL_MARGIN;
+    levelValueText.setPosition(levelValuePosX, textPosY);
+
     sf::Text pauseText("Game paused", font);
     pauseText.setColor(sf::Color::White);
     pauseText.setCharacterSize(24);
@@ -406,6 +418,8 @@ int main(int argc, char*  argv[])
             if(!enemiesAlive)
             {
                 nextLevel(enemies, &allShots, &cpuController);
+                level++;
+                levelValueText.setString(std::to_string(level));
                 Log::debug("Going to next level");
             }
 
@@ -428,6 +442,8 @@ int main(int argc, char*  argv[])
             }
             window.draw(scoreText);
             window.draw(scoreValueText);
+            window.draw(levelText);
+            window.draw(levelValueText);
             window.display();
         }
         else

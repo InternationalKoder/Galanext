@@ -25,5 +25,8 @@ const std::string Config::RESOURCES_PATH = "resources/";
 const unsigned int Config::TOP_MARGIN = 32;
 const unsigned int Config::BOTTOM_MARGIN = 32;
 
-const unsigned int Config::SCORE_TEXT_POS_X = 450;
+const unsigned int Config::SCORE_TEXT_POS_X = 500;
 const unsigned int Config::SCORE_MARGIN = 32;
+
+const unsigned int Config::LEVEL_TEXT_POS_X = 50;
+const unsigned int Config::LEVEL_MARGIN = Config::SCORE_MARGIN;
