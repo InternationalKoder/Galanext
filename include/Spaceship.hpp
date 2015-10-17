@@ -99,9 +99,10 @@ class Spaceship
         /// \brief Allows to kill or awake the spaceship
         ///
         /// \param active The spaceship's new state
+        /// \param exploding Set to true to make the spaceship explode (animation)
         ///
         /////////////////////////////////////////////////
-        void setActive(bool active);
+        void setActive(bool active, bool exploding = false);
 
 
         /////////////////////////////////////////////////
@@ -141,6 +142,8 @@ class Spaceship
         sf::Sprite m_sprite; ///< The sprite that represents the spaceship
 
         bool m_active; ///< Whether the spaceship is still alive or not
+
+        bool m_exploding; ///< Equals true if the spaceship is exploding (animation)
 
         std::list<Spaceship*>* m_targets; ///< This spaceship's enemies
 };

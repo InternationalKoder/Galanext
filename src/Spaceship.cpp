@@ -19,7 +19,7 @@
 
 /////////////////////////////////////////////////
 
-const unsigned char Spaceship::NUMBER_ANIMATION = 3;
+const unsigned char Spaceship::NUMBER_ANIMATION = 4;
 
 const float Spaceship::SPEED = 8.0f;
 
@@ -29,6 +29,7 @@ Spaceship::Spaceship()
 {
     m_ticksCounter = 0;
     m_active = true;
+    m_exploding = false;
 }
 
 /////////////////////////////////////////////////
@@ -44,6 +45,7 @@ Spaceship::Spaceship(const sf::Texture& texture, const sf::Vector2f& startingPos
     m_ticksCounter = 0;
     m_active = true;
     m_targets = targets;
+    m_exploding = false;
 }
 
 /////////////////////////////////////////////////
@@ -105,9 +107,15 @@ void Spaceship::setPosition(const sf::Vector2f& position)
 
 /////////////////////////////////////////////////
 
-void Spaceship::setActive(bool active)
+void Spaceship::setActive(bool active, bool exploding)
 {
     m_active = active;
+    m_exploding = exploding;
+
+    if(exploding)
+    {
+        m_ticksCounter = 0;
+    }
 }
 
 /////////////////////////////////////////////////
@@ -133,8 +141,9 @@ void Spaceship::refresh()
         const sf::Texture* texture = m_sprite.getTexture();
 
         unsigned int rectPos = textureRect.left + textureRect.width;
+        unsigned int spriteWidth = texture->getSize().x / NUMBER_ANIMATION;
 
-        if(rectPos == texture->getSize().x)
+        if(rectPos >= texture->getSize().x - spriteWidth)
         {
             rectPos = 0;
         }
@@ -150,5 +159,19 @@ void Spaceship::display(sf::RenderWindow& window)
     if(m_active)
     {
         window.draw(m_sprite);
+    }
+    else if(m_exploding)
+    {
+        const sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
+        unsigned int spriteWidth = textureSize.x / NUMBER_ANIMATION;
+
+        m_sprite.setTextureRect(sf::IntRect(textureSize.x - spriteWidth, 0, spriteWidth, textureSize.y));
+
+        window.draw(m_sprite);
+
+        if(m_ticksCounter >= 5)
+        {
+            m_exploding = false;
+        }
     }
 }

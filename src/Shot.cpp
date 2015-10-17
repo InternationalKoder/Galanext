@@ -77,7 +77,7 @@ Spaceship* Shot::refresh()
                 if((*it)->isActive() && m_sprite.getGlobalBounds().intersects((*it)->getGlobalBounds()))
                 {
                     m_active = false;
-                    (*it)->setActive(false);
+                    (*it)->setActive(false, true);
                     spaceship = (*it);
                     it = m_targetSpaceships->end();
                 }
