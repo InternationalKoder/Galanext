@@ -187,7 +187,21 @@ void getReady(sf::RenderWindow& window, const sf::Font& font)
 
     window.draw(text);
     window.display();
-    sf::sleep(sf::seconds(2));
+
+    sf::Event event;
+
+    for(unsigned char i = 0 ; i < 8 && window.isOpen() ; i++)
+    {
+        sf::sleep(sf::seconds(0.25f));
+
+        while(window.pollEvent(event))
+        {
+            if(event.type == sf::Event::Closed)
+            {
+                window.close();
+            }
+        }
+    }
 }
 
 

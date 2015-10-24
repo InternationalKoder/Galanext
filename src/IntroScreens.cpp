@@ -67,10 +67,11 @@ void IntroScreens::displayAuthor()
     }
     sf::FloatRect bSize = balls[0].getGlobalBounds();
     sf::Vector2f ballSize(bSize.width, bSize.height);
+    sf::Event event;
 
 
     // appearing
-    for(unsigned int i = 0 ; i < 51 ; i++)
+    for(unsigned int i = 0 ; i < 51 && m_window->isOpen() ; i++)
     {
         sf::Color newColor = authorScreenS.getColor();
         newColor.a += 5;
@@ -91,11 +92,20 @@ void IntroScreens::displayAuthor()
         }
 
         m_window->display();
+
+        while(m_window->pollEvent(event))
+        {
+            if(event.type == sf::Event::Closed)
+            {
+                m_window->close();
+            }
+        }
+
         sf::sleep(sf::seconds(0.04));
     }
 
     // "pause"
-    for(unsigned int i = 0 ; i < 100 ; i++)
+    for(unsigned int i = 0 ; i < 100 && m_window->isOpen() ; i++)
     {
         m_window->clear();
         m_window->draw(authorScreenS);
@@ -107,12 +117,21 @@ void IntroScreens::displayAuthor()
         }
 
         m_window->display();
+
+        while(m_window->pollEvent(event))
+        {
+            if(event.type == sf::Event::Closed)
+            {
+                m_window->close();
+            }
+        }
+
         sf::sleep(sf::seconds(0.04));
     }
 
 
     // disappearing
-    for(int i = 50 ; i >= 0 ; i--)
+    for(int i = 50 ; i >= 0 && m_window->isOpen() ; i--)
     {
         sf::Color newColor = authorScreenS.getColor();
         newColor.a -= 5;
@@ -133,6 +152,15 @@ void IntroScreens::displayAuthor()
         }
 
         m_window->display();
+
+        while(m_window->pollEvent(event))
+        {
+            if(event.type == sf::Event::Closed)
+            {
+                m_window->close();
+            }
+        }
+
         sf::sleep(sf::seconds(0.04));
     }
 }
