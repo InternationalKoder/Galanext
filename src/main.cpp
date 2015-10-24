@@ -22,6 +22,7 @@
 #include "../include/Spaceship.hpp"
 #include "../include/KeyboardSpaceshipController.hpp"
 #include "../include/CpuSpaceshipController.hpp"
+#include "../include/IntroScreens.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -384,6 +385,9 @@ int main(int argc, char*  argv[])
     window.setVerticalSyncEnabled(true);
     Log::debug("Done opening window");
 
+
+    IntroScreens introScreens(&window);
+    introScreens.displayAuthor();
 
     display(window, space, playerSpaceships, enemiesSpaceships, allShots, scoreText, scoreValueText, levelText,
             levelValueText);
