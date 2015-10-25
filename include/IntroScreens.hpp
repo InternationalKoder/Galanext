@@ -44,6 +44,17 @@ class IntroScreens
         void displayAuthor();
 
 
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Displays the title of the game
+        ///
+        /// \param font The font to use to display text
+        /// \param spaceshipTexture The texture of the spaceship to display
+        ///
+        /////////////////////////////////////////////////
+        void displayTitle(const sf::Font& font, const sf::Texture& spaceshipTexture);
+
+
     private:
 
         /////////////////////////////////////////////////

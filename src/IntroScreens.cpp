@@ -16,6 +16,7 @@
 
 #include "../include/Config.hpp"
 #include "../include/Log.hpp"
+#include "../include/Spaceship.hpp"
 #include "../include/IntroScreens.hpp"
 
 /////////////////////////////////////////////////
@@ -162,6 +163,194 @@ void IntroScreens::displayAuthor()
         }
 
         sf::sleep(sf::seconds(0.04));
+    }
+}
+
+/////////////////////////////////////////////////
+
+void IntroScreens::displayTitle(const sf::Font& font, const sf::Texture& spaceshipTexture)
+{
+    // Loading textures
+
+    sf::Texture titleT;
+    if(titleT.loadFromFile(Config::RESOURCES_PATH + "galanext.png"))
+    {
+        Log::debug("Texture '" + Config::RESOURCES_PATH + "galanext.png' successfully loaded");
+    }
+    else
+    {
+        Log::error("Can not load texture '" + Config::RESOURCES_PATH + "galanext.png'");
+    }
+
+    sf::Texture titleBGT;
+    if(titleBGT.loadFromFile(Config::RESOURCES_PATH + "title-background.png"))
+    {
+        Log::debug("Texture '" + Config::RESOURCES_PATH + "title-background.png' successfully loaded");
+    }
+    else
+    {
+        Log::error("Can not load texture '" + Config::RESOURCES_PATH + "title-background.png'");
+    }
+
+
+    // Sprites initialization
+
+    sf::Sprite titleBG(titleBGT);
+    sf::Sprite title(titleT);
+    title.setPosition(Config::WINDOW_WIDTH / 2 - title.getGlobalBounds().width / 2, Config::WINDOW_HEIGHT / 5);
+
+    sf::Sprite spaceship(spaceshipTexture);
+
+    int spriteWidth = spaceshipTexture.getSize().x / Spaceship::NUMBER_ANIMATION;
+    unsigned int spriteHeight = spaceshipTexture.getSize().y;
+    unsigned int spaceshipPosY = (rand() % (Config::WINDOW_HEIGHT - Config::BOTTOM_MARGIN - Config::TOP_MARGIN
+                                            - spriteHeight)) + Config::TOP_MARGIN;
+
+    spaceship.setTextureRect(sf::IntRect(0, 0, spriteWidth, spaceshipTexture.getSize().y));
+    spaceship.rotate(90.0f);
+    spaceship.setPosition(0 - spriteWidth, spaceshipPosY);
+
+    sf::Text pressSpace("Press space to start", font);
+    pressSpace.setCharacterSize(20);
+    sf::FloatRect pressSpaceSize = pressSpace.getGlobalBounds();
+    pressSpace.setPosition(Config::WINDOW_WIDTH / 2 - pressSpaceSize.width / 2,
+                           Config::WINDOW_HEIGHT - Config::BOTTOM_MARGIN - pressSpaceSize.height);
+
+
+
+    // Loop
+
+    bool go = false;
+    unsigned int framesBlink = 0;
+    unsigned int framesAnimation = 0;
+    unsigned int stopSpaceshipCounter = 0;
+    bool spaceshipGoesRight = true;
+    const float spaceshipSpeed = 5.0f;
+
+    sf::Event event;
+    sf::Clock clock;
+
+    while(m_window->isOpen() && !go)
+    {
+        if(clock.getElapsedTime().asMilliseconds() > 20)
+        {
+            clock.restart();
+
+
+            // Events
+
+            while(m_window->pollEvent(event))
+            {
+                if(event.type == sf::Event::Closed)
+                {
+                    m_window->close();
+                }
+                else if(event.type == sf::Event::KeyReleased)
+                {
+                    if(event.key.code == sf::Keyboard::Space)
+                    {
+                        go = true;
+                    }
+                }
+            }
+
+
+            // Animations
+
+            if(framesBlink >= 30)
+            {
+                framesBlink = 0;
+                sf::Color color = pressSpace.getColor();
+
+                if(color.a == 0)
+                {
+                    color.a = 255;
+                }
+                else
+                {
+                    color.a = 0;
+                }
+                pressSpace.setColor(color);
+            }
+            else
+            {
+                framesBlink++;
+            }
+
+            if(framesAnimation < 5)
+            {
+                framesAnimation++;
+            }
+            else
+            {
+                framesAnimation = 0;
+
+                const sf::IntRect& textureRect = spaceship.getTextureRect();
+                unsigned int rectPos = textureRect.left + textureRect.width;
+
+                if(rectPos >= spaceshipTexture.getSize().x - spriteWidth)
+                {
+                    rectPos = 0;
+                }
+
+                spaceship.setTextureRect(sf::IntRect(rectPos, 0, textureRect.width, textureRect.height));
+            }
+
+
+            // Moving the spaceship
+
+            if(stopSpaceshipCounter <= 0)
+            {
+                if(spaceship.getPosition().x > Config::WINDOW_WIDTH + 5 + spriteWidth
+                        || spaceship.getPosition().x < -5 - spriteWidth)
+                {
+                    stopSpaceshipCounter = 50;
+                    unsigned int spaceshipPosY = (rand() % (Config::WINDOW_HEIGHT - Config::BOTTOM_MARGIN
+                                                            - Config::TOP_MARGIN - spriteHeight)) + Config::TOP_MARGIN;
+
+                    spaceship.rotate(180);
+                    spaceshipGoesRight = !spaceshipGoesRight;
+
+                    if(spaceship.getPosition().x > Config::WINDOW_WIDTH + 5 + spriteWidth)
+                    {
+                        spaceship.setPosition(Config::WINDOW_WIDTH + 2, spaceshipPosY);
+                    }
+                    else
+                    {
+                        spaceship.setPosition(0 - spriteWidth - 2, spaceshipPosY);
+                    }
+                }
+                else
+                {
+                    if(spaceshipGoesRight)
+                    {
+                        spaceship.move(spaceshipSpeed, 0);
+                    }
+                    else
+                    {
+                        spaceship.move(spaceshipSpeed * -1, 0);
+                    }
+                }
+            }
+            else
+            {
+                stopSpaceshipCounter--;
+            }
+
+
+            // Display
+
+            m_window->clear();
+            m_window->draw(titleBG);
+            m_window->draw(spaceship);
+            m_window->draw(title);
+            m_window->draw(pressSpace);
+            m_window->display();
+        }
+        else
+        {
+            sf::sleep(sf::seconds(0.02f - clock.getElapsedTime().asSeconds()));
+        }
     }
 }
 

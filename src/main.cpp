@@ -402,6 +402,7 @@ int main(int argc, char*  argv[])
 
     IntroScreens introScreens(&window);
     introScreens.displayAuthor();
+    introScreens.displayTitle(font, playerSpaceshipT);
 
     display(window, space, playerSpaceships, enemiesSpaceships, allShots, scoreText, scoreValueText, levelText,
             levelValueText);
@@ -515,6 +516,8 @@ int main(int argc, char*  argv[])
     {
         delete (*it);
     }
+
+    Log::info("Game successfully stopped");
 
     return EXIT_SUCCESS;
 }
