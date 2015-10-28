@@ -26,8 +26,11 @@ const float Shot::SPEED = 10.0f;
 /////////////////////////////////////////////////
 
 Shot::Shot(const sf::Texture& texture, const sf::Vector2f& startingPos, bool goesUp,
-           std::list<Spaceship*>* targetSpaceships) :
-    m_sprite(texture), m_goesUp(goesUp), m_active(true), m_targetSpaceships(targetSpaceships)
+           std::list<Spaceship*>& targetSpaceships) :
+    m_sprite(texture),
+    m_goesUp(goesUp),
+    m_active(true),
+    m_targetSpaceships(targetSpaceships)
 {
     m_sprite.setPosition(startingPos);
 }
@@ -72,14 +75,14 @@ Spaceship* Shot::refresh()
 
             m_sprite.move(movement);
 
-            for(std::list<Spaceship*>::iterator it = m_targetSpaceships->begin() ; it != m_targetSpaceships->end();++it)
+            for(std::list<Spaceship*>::iterator it = m_targetSpaceships.begin() ; it != m_targetSpaceships.end();++it)
             {
                 if((*it)->isActive() && m_sprite.getGlobalBounds().intersects((*it)->getGlobalBounds()))
                 {
                     m_active = false;
                     (*it)->setActive(false, true);
                     spaceship = (*it);
-                    it = m_targetSpaceships->end();
+                    it = m_targetSpaceships.end();
                 }
             }
         }

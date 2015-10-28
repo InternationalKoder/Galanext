@@ -28,7 +28,7 @@ KeyboardSpaceshipController::KeyboardSpaceshipController(const sf::Texture& shot
 
 /////////////////////////////////////////////////
 
-void KeyboardSpaceshipController::handleEvents(std::list<Shot*>* allShots)
+void KeyboardSpaceshipController::handleEvents(std::list<Shot*>& allShots)
 {
     // Reading keayboard inputs and executing the matching action
     sf::Vector2f movement(0.0f, 0.0f);
@@ -51,7 +51,7 @@ void KeyboardSpaceshipController::handleEvents(std::list<Shot*>* allShots)
             if((*it)->isActive())
             {
                 Shot* shot = (*it)->fire(m_shotTexture, true);
-                allShots->push_back(shot);
+                allShots.push_back(shot);
             }
         }
 

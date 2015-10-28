@@ -37,7 +37,7 @@ class SpaceshipController
         /// \param spaceship The new spaceship to control
         ///
         /////////////////////////////////////////////////
-        void addSpaceship(Spaceship* spaceship);
+        void addSpaceship(Spaceship& spaceship);
 
 
         /////////////////////////////////////////////////
@@ -45,7 +45,7 @@ class SpaceshipController
         /// \brief The events' handler
         ///
         /////////////////////////////////////////////////
-        virtual void handleEvents(std::list<Shot*>* allShots) = 0;
+        virtual void handleEvents(std::list<Shot*>& allShots) = 0;
 
 
     protected:

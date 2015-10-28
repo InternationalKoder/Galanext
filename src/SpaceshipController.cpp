@@ -22,7 +22,7 @@ const unsigned int SpaceshipController::TICKS_SHOTS = 50;
 
 /////////////////////////////////////////////////
 
-void SpaceshipController::addSpaceship(Spaceship* spaceship)
+void SpaceshipController::addSpaceship(Spaceship& spaceship)
 {
-    m_spaceships.push_back(spaceship);
+    m_spaceships.push_back(&spaceship);
 }

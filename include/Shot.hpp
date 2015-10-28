@@ -45,7 +45,7 @@ class Shot
         ///
         /////////////////////////////////////////////////
         Shot(const sf::Texture& texture, const sf::Vector2f& startingPos, bool goesUp,
-             std::list<Spaceship*>* targetSpaceships);
+             std::list<Spaceship*>& targetSpaceships);
 
 
         /////////////////////////////////////////////////
@@ -100,7 +100,7 @@ class Shot
 
         sf::Sprite m_sprite; ///< The sprite that represents the shot
 
-        std::list<Spaceship*>* m_targetSpaceships; ///< The spaceships which can be destroyed by the shot
+        std::list<Spaceship*>& m_targetSpaceships; ///< The spaceships which can be destroyed by the shot
 
         bool m_goesUp; ///< Set to true to make the shot go from the bottom to the top of the screen
 

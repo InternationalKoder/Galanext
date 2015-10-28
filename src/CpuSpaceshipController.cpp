@@ -21,17 +21,21 @@
 
 /////////////////////////////////////////////////
 
+const float CpuSpaceshipController::DEFAULT_FIRE_SPEED = (4/3);
+
+/////////////////////////////////////////////////
+
 CpuSpaceshipController::CpuSpaceshipController(const sf::Texture& shotTexture) :
-    m_shotTexture(shotTexture)
+    m_shotTexture(shotTexture),
+    m_goesRight(true),
+    m_fireSpeed(DEFAULT_FIRE_SPEED)
 {
     m_shotsTicksCounter = SpaceshipController::TICKS_SHOTS;
-    m_goesRight = true;
-    m_fireSpeed = (4/3);
 }
 
 /////////////////////////////////////////////////
 
-void CpuSpaceshipController::handleEvents(std::list<Shot*>* allShots)
+void CpuSpaceshipController::handleEvents(std::list<Shot*>& allShots)
 {
     sf::Vector2f movement(0.0f, 0.0f);
 
@@ -104,7 +108,7 @@ void CpuSpaceshipController::handleEvents(std::list<Shot*>* allShots)
                 if(random == 1)
                 {
                     Shot* shot = (*it)->fire(m_shotTexture, false);
-                    allShots->push_back(shot);
+                    allShots.push_back(shot);
                     m_shotsTicksCounter = 0;
                 }
             }
@@ -121,4 +125,11 @@ void CpuSpaceshipController::handleEvents(std::list<Shot*>* allShots)
 void CpuSpaceshipController::increaseFireSpeed()
 {
     m_fireSpeed *= 1.5f;
+}
+
+/////////////////////////////////////////////////
+
+void CpuSpaceshipController::resetFireSpeed()
+{
+    m_fireSpeed = DEFAULT_FIRE_SPEED;
 }

@@ -35,7 +35,7 @@ class CpuSpaceshipController : public SpaceshipController
         /// \param shotTexture The texture to use for the shots
         ///
         /////////////////////////////////////////////////
-        CpuSpaceshipController(const sf::Texture& shotTexture);
+        CpuSpaceshipController(const sf::Texture& shotTexture = sf::Texture());
 
 
         /////////////////////////////////////////////////
@@ -43,7 +43,7 @@ class CpuSpaceshipController : public SpaceshipController
         /// \brief The events' handler
         ///
         /////////////////////////////////////////////////
-        virtual void handleEvents(std::list<Shot*>* allShots);
+        virtual void handleEvents(std::list<Shot*>& allShots);
 
 
         /////////////////////////////////////////////////
@@ -54,7 +54,17 @@ class CpuSpaceshipController : public SpaceshipController
         void increaseFireSpeed();
 
 
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Sets the fire speed to its default value
+        ///
+        /////////////////////////////////////////////////
+        void resetFireSpeed();
+
+
     private:
+
+        static const float DEFAULT_FIRE_SPEED;
 
         sf::Texture m_shotTexture; ///< The texture to use for the shots
 

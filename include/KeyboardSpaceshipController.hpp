@@ -30,12 +30,12 @@ class KeyboardSpaceshipController : public SpaceshipController
 
         /////////////////////////////////////////////////
         ///
-        /// \brief The constructor
+        /// \brief Constructor
         ///
         /// \param shotTexture The texture to use for the shots
         ///
         /////////////////////////////////////////////////
-        KeyboardSpaceshipController(const sf::Texture& shotTexture);
+        KeyboardSpaceshipController(const sf::Texture& shotTexture = sf::Texture());
 
 
         /////////////////////////////////////////////////
@@ -43,7 +43,7 @@ class KeyboardSpaceshipController : public SpaceshipController
         /// \brief The events' handler
         ///
         /////////////////////////////////////////////////
-        virtual void handleEvents(std::list<Shot*>* allShots);
+        virtual void handleEvents(std::list<Shot*>& allShots);
 
 
     private:

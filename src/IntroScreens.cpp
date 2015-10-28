@@ -21,10 +21,8 @@
 
 /////////////////////////////////////////////////
 
-IntroScreens::IntroScreens(sf::RenderWindow* window)
-{
-    m_window = window;
-}
+IntroScreens::IntroScreens(sf::RenderWindow& window) : m_window(window)
+{}
 
 /////////////////////////////////////////////////
 
@@ -72,14 +70,14 @@ void IntroScreens::displayAuthor()
 
 
     // appearing
-    for(unsigned int i = 0 ; i < 51 && m_window->isOpen() ; i++)
+    for(unsigned int i = 0 ; i < 51 && m_window.isOpen() ; i++)
     {
         sf::Color newColor = authorScreenS.getColor();
         newColor.a += 5;
         authorScreenS.setColor(newColor);
 
-        m_window->clear();
-        m_window->draw(authorScreenS);
+        m_window.clear();
+        m_window.draw(authorScreenS);
 
         for(unsigned int j = 0 ; j < BALLS_NUMBER ; j++)
         {
@@ -89,16 +87,16 @@ void IntroScreens::displayAuthor()
             newColor.a += 5;
             balls[j].setFillColor(newColor);
 
-            m_window->draw(balls[j]);
+            m_window.draw(balls[j]);
         }
 
-        m_window->display();
+        m_window.display();
 
-        while(m_window->pollEvent(event))
+        while(m_window.pollEvent(event))
         {
             if(event.type == sf::Event::Closed)
             {
-                m_window->close();
+                m_window.close();
             }
         }
 
@@ -106,24 +104,24 @@ void IntroScreens::displayAuthor()
     }
 
     // "pause"
-    for(unsigned int i = 0 ; i < 100 && m_window->isOpen() ; i++)
+    for(unsigned int i = 0 ; i < 100 && m_window.isOpen() ; i++)
     {
-        m_window->clear();
-        m_window->draw(authorScreenS);
+        m_window.clear();
+        m_window.draw(authorScreenS);
 
         for(unsigned int j = 0 ; j < BALLS_NUMBER ; j++)
         {
             refreshBall(balls, j, ballSpeedRight, ballSpeedDown, ballSize);
-            m_window->draw(balls[j]);
+            m_window.draw(balls[j]);
         }
 
-        m_window->display();
+        m_window.display();
 
-        while(m_window->pollEvent(event))
+        while(m_window.pollEvent(event))
         {
             if(event.type == sf::Event::Closed)
             {
-                m_window->close();
+                m_window.close();
             }
         }
 
@@ -132,14 +130,14 @@ void IntroScreens::displayAuthor()
 
 
     // disappearing
-    for(int i = 50 ; i >= 0 && m_window->isOpen() ; i--)
+    for(int i = 50 ; i >= 0 && m_window.isOpen() ; i--)
     {
         sf::Color newColor = authorScreenS.getColor();
         newColor.a -= 5;
         authorScreenS.setColor(newColor);
 
-        m_window->clear();
-        m_window->draw(authorScreenS);
+        m_window.clear();
+        m_window.draw(authorScreenS);
 
         for(unsigned int j = 0 ; j < BALLS_NUMBER ; j++)
         {
@@ -149,16 +147,16 @@ void IntroScreens::displayAuthor()
             newColor.a -= 5;
             balls[j].setFillColor(newColor);
 
-            m_window->draw(balls[j]);
+            m_window.draw(balls[j]);
         }
 
-        m_window->display();
+        m_window.display();
 
-        while(m_window->pollEvent(event))
+        while(m_window.pollEvent(event))
         {
             if(event.type == sf::Event::Closed)
             {
-                m_window->close();
+                m_window.close();
             }
         }
 
@@ -210,7 +208,7 @@ void IntroScreens::displayTitle(const sf::Font& font, const sf::Texture& spacesh
     spaceship.rotate(90.0f);
     spaceship.setPosition(0 - spriteWidth, spaceshipPosY);
 
-    sf::Text pressSpace("Press space to start", font);
+    sf::Text pressSpace("PRESS SPACE TO START", font);
     pressSpace.setCharacterSize(20);
     sf::FloatRect pressSpaceSize = pressSpace.getGlobalBounds();
     pressSpace.setPosition(Config::WINDOW_WIDTH / 2 - pressSpaceSize.width / 2,
@@ -230,7 +228,7 @@ void IntroScreens::displayTitle(const sf::Font& font, const sf::Texture& spacesh
     sf::Event event;
     sf::Clock clock;
 
-    while(m_window->isOpen() && !go)
+    while(m_window.isOpen() && !go)
     {
         if(clock.getElapsedTime().asMilliseconds() > 20)
         {
@@ -239,11 +237,11 @@ void IntroScreens::displayTitle(const sf::Font& font, const sf::Texture& spacesh
 
             // Events
 
-            while(m_window->pollEvent(event))
+            while(m_window.pollEvent(event))
             {
                 if(event.type == sf::Event::Closed)
                 {
-                    m_window->close();
+                    m_window.close();
                 }
                 else if(event.type == sf::Event::KeyReleased)
                 {
@@ -340,12 +338,12 @@ void IntroScreens::displayTitle(const sf::Font& font, const sf::Texture& spacesh
 
             // Display
 
-            m_window->clear();
-            m_window->draw(titleBG);
-            m_window->draw(spaceship);
-            m_window->draw(title);
-            m_window->draw(pressSpace);
-            m_window->display();
+            m_window.clear();
+            m_window.draw(titleBG);
+            m_window.draw(spaceship);
+            m_window.draw(title);
+            m_window.draw(pressSpace);
+            m_window.display();
         }
         else
         {

@@ -25,27 +25,25 @@ const float Spaceship::SPEED = 8.0f;
 
 /////////////////////////////////////////////////
 
-Spaceship::Spaceship()
-{
-    m_ticksCounter = 0;
-    m_active = true;
-    m_exploding = false;
-}
+Spaceship::Spaceship() :
+    m_ticksCounter(0),
+    m_active(true),
+    m_exploding(false)
+{}
 
 /////////////////////////////////////////////////
 
 Spaceship::Spaceship(const sf::Texture& texture, const sf::Vector2f& startingPos, std::list<Spaceship*>* targets) :
-    m_sprite(texture)
+    m_sprite(texture),
+    m_ticksCounter(0),
+    m_active(true),
+    m_targets(targets),
+    m_exploding(false)
 {
     unsigned int spriteWidth = texture.getSize().x / NUMBER_ANIMATION;
 
     m_sprite.setTextureRect(sf::IntRect(0, 0, spriteWidth, texture.getSize().y));
     m_sprite.setPosition(startingPos);
-
-    m_ticksCounter = 0;
-    m_active = true;
-    m_targets = targets;
-    m_exploding = false;
 }
 
 /////////////////////////////////////////////////
@@ -85,7 +83,7 @@ Shot* Spaceship::fire(const sf::Texture& texture, bool goesUp)
 
         sf::Vector2f startingPos(xStart, yStart);
 
-        newShot = new Shot(texture, startingPos, goesUp, m_targets);
+        newShot = new Shot(texture, startingPos, goesUp, *m_targets);
     }
 
     return newShot;

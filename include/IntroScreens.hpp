@@ -33,7 +33,7 @@ class IntroScreens
         /// \brief Constructor
         ///
         /////////////////////////////////////////////////
-        IntroScreens(sf::RenderWindow* window);
+        IntroScreens(sf::RenderWindow& window);
 
 
         /////////////////////////////////////////////////
@@ -71,7 +71,7 @@ class IntroScreens
         void refreshBall(sf::CircleShape* balls, unsigned int index, char* ballSpeedRight, char* ballSpeedDown,
                          const sf::Vector2f& ballSize);
 
-        sf::RenderWindow* m_window; ///< The window which will display the screens
+        sf::RenderWindow& m_window; ///< The window which will display the screens
 
         const unsigned int UPPER_LIMIT = 138; ///< The upper limit for the balls in the InternationalKoder animation
 
