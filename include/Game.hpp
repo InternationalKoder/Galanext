@@ -24,6 +24,7 @@
 #include "../include/IntroScreens.hpp"
 #include "../include/KeyboardSpaceshipController.hpp"
 #include "../include/CpuSpaceshipController.hpp"
+#include "../include/Highscore.hpp"
 
 #define ENEMIES_LINES_COUNT 3 ///< Number of enemies in each column
 #define ENEMIES_COLS_COUNT 10 ///< Number of enemies in each line
@@ -59,6 +60,14 @@ class Game
         ///
         /////////////////////////////////////////////////
         void refresh();
+
+
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Reads the file containing the highscores
+        ///
+        /////////////////////////////////////////////////
+        void readHighscoresFile();
 
 
         /////////////////////////////////////////////////
@@ -119,7 +128,19 @@ class Game
 
     private:
 
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Makes the usual operation for changing the level
+        ///
+        /////////////////////////////////////////////////
         void changeLevel();
+
+        /////////////////////////////////////////////////
+        ///
+        /// \brief Creates a new highscores file with default values
+        ///
+        /////////////////////////////////////////////////
+        void createHighscoresFile();
 
 
         sf::RenderWindow m_window; ///< The window which will display the game
@@ -131,6 +152,8 @@ class Game
         unsigned int m_score; ///< The current player's score
 
         bool m_gameLost; ///< Equals true if the player has lost
+
+        Highscore m_highscores[3]; ///< The 3 highest recorded scores
 
 
         // resources

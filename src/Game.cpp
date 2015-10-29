@@ -17,6 +17,7 @@
 #include "../include/Game.hpp"
 #include "../include/Config.hpp"
 #include "../include/Log.hpp"
+#include <fstream>
 
 /////////////////////////////////////////////////
 
@@ -108,6 +109,8 @@ Game::Game() :
 
     m_topBar.setFillColor(sf::Color::Black);
 
+
+    readHighscoresFile();
 
     m_introScreens.displayAuthor();
 }
@@ -255,6 +258,76 @@ void Game::refresh()
 
 ////////////////////////////////////////////////////
 
+void Game::readHighscoresFile()
+{
+    bool error = false;
+    std::ifstream file(Config::HIGHSCORES_FILE.c_str());
+
+    if(!file)
+    {
+        error = true;
+        Log::warn("File '" + Config::HIGHSCORES_FILE + "' not found for highscores, one will be created");
+    }
+
+    std::string line;
+    int i;
+
+    do
+    {
+        if(error)
+        {
+            file.close();
+            createHighscoresFile();
+            file.open(Config::HIGHSCORES_FILE.c_str());
+            error = false;
+        }
+
+        i = 2;
+
+        while(getline(file, line) && !error && i >= 0)
+        {
+            unsigned int separatorPos = line.find_first_of(' ');
+
+            if(line.find_last_of(' ') != separatorPos)
+            {
+                error = true;
+                Log::warn("Error while reading highscores file '" + Config::HIGHSCORES_FILE + "', a new one will be" +
+                          " created");
+            }
+            else
+            {
+                std::string name = line.substr(0, separatorPos);
+                std::string score = line.substr(separatorPos + 1);
+
+                if(name.length() > 6)
+                {
+                    error = true;
+                    Log::warn("Error while reading highscores file '" + Config::HIGHSCORES_FILE + "', a new one will" +
+                              " be created");
+                }
+                else
+                {
+                    m_highscores[i] = Highscore(atoi(score.c_str()), name);
+                    Log::debug("Read highscore " + std::to_string(i+1) + ": " + score + " by " + name);
+                }
+            }
+
+            i--;
+        }
+
+        if(i >= 0)
+        {
+            error = true;
+            Log::warn("Error while reading highscores file '" + Config::HIGHSCORES_FILE + "', a new one will" +
+                      " be created");
+        }
+    } while(error);
+
+    file.close();
+}
+
+////////////////////////////////////////////////////
+
 void Game::loadResources()
 {
     // font
@@ -346,50 +419,6 @@ void Game::nextLevel()
     m_cpuController.increaseFireSpeed();
 
     changeLevel();
-}
-
-/////////////////////////////////////////////////
-
-void Game::changeLevel()
-{
-    for(std::list<Shot*>::iterator it = m_allShots.begin() ; it != m_allShots.end() ; ++it)
-    {
-        delete (*it);
-    }
-    m_allShots.clear();
-
-    for(int i = 0 ; i < ENEMIES_LINES_COUNT ; i++)
-    {
-        for(int j = 0 ; j < ENEMIES_COLS_COUNT ; j++)
-        {
-            m_enemies[i][j].setActive(true);
-            if(i == 0)
-            {
-                sf::Vector2f startingPos(50 * j + Config::ENEMIES_LEFT_MARGIN, Config::TOP_MARGIN + 10);
-                m_enemies[0][j].setPosition(startingPos);
-            }
-            else if(i == 1)
-            {
-                sf::Vector2f startingPos(50 * j + Config::ENEMIES_LEFT_MARGIN, Config::TOP_MARGIN + 70);
-                m_enemies[1][j].setPosition(startingPos);
-            }
-            else
-            {
-                sf::Vector2f startingPos(65 * (j - 1) + Config::ENEMIES_LEFT_MARGIN, Config::TOP_MARGIN + 130);
-                m_enemies[i][j].setPosition(startingPos);
-                if(j < 2 || j > ENEMIES_COLS_COUNT - 3)
-                {
-                    m_enemies[i][j].setActive(false);
-                }
-            }
-        }
-    }
-
-    m_levelValueText.setString(std::to_string(m_level));
-    m_scoreValueText.setString(std::to_string(m_score));
-
-    display();
-    getReady();
 }
 
 /////////////////////////////////////////////////
@@ -499,4 +528,72 @@ Game::~Game()
     {
         delete (*it);
     }
+}
+
+/////////////////////////////////////////////////
+
+void Game::changeLevel()
+{
+    for(std::list<Shot*>::iterator it = m_allShots.begin() ; it != m_allShots.end() ; ++it)
+    {
+        delete (*it);
+    }
+    m_allShots.clear();
+
+    for(int i = 0 ; i < ENEMIES_LINES_COUNT ; i++)
+    {
+        for(int j = 0 ; j < ENEMIES_COLS_COUNT ; j++)
+        {
+            m_enemies[i][j].setActive(true);
+            if(i == 0)
+            {
+                sf::Vector2f startingPos(50 * j + Config::ENEMIES_LEFT_MARGIN, Config::TOP_MARGIN + 10);
+                m_enemies[0][j].setPosition(startingPos);
+            }
+            else if(i == 1)
+            {
+                sf::Vector2f startingPos(50 * j + Config::ENEMIES_LEFT_MARGIN, Config::TOP_MARGIN + 70);
+                m_enemies[1][j].setPosition(startingPos);
+            }
+            else
+            {
+                sf::Vector2f startingPos(65 * (j - 1) + Config::ENEMIES_LEFT_MARGIN, Config::TOP_MARGIN + 130);
+                m_enemies[i][j].setPosition(startingPos);
+                if(j < 2 || j > ENEMIES_COLS_COUNT - 3)
+                {
+                    m_enemies[i][j].setActive(false);
+                }
+            }
+        }
+    }
+
+    m_levelValueText.setString(std::to_string(m_level));
+    m_scoreValueText.setString(std::to_string(m_score));
+
+    display();
+    getReady();
+}
+
+/////////////////////////////////////////////////
+
+void Game::createHighscoresFile()
+{
+    std::ofstream file(Config::HIGHSCORES_FILE.c_str(), std::ios::trunc);
+
+    if(file)
+    {
+        file << "INTKOD 15000" << std::endl << "EDISON 10000" << std::endl << "KAYTON 5000" << std::endl;
+    }
+    else
+    {
+        Log::error("Could not write new highscores file '" + Config::HIGHSCORES_FILE + "'");
+        m_highscores[0].setScore(15000);
+        m_highscores[0].setAuthor("INTKOD");
+        m_highscores[1].setScore(10000);
+        m_highscores[1].setAuthor("EDISON");
+        m_highscores[2].setScore(5000);
+        m_highscores[2].setAuthor("KAYTON");
+    }
+
+    file.close();
 }

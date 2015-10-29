@@ -14,37 +14,39 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#ifndef CONFIG_HPP_INCLUDED
-#define CONFIG_HPP_INCLUDED
-
-#include <string>
+#include "../include/Highscore.hpp"
 
 /////////////////////////////////////////////////
-///
-/// \brief The values relative to the configuration
-///
+
+Highscore::Highscore(unsigned int score, const std::string& author) :
+    m_score(score),
+    m_author(author)
+{}
+
 /////////////////////////////////////////////////
-class Config
+
+unsigned int Highscore::getScore()
 {
-    public:
+    return m_score;
+}
 
-        static const unsigned int WINDOW_WIDTH;
-        static const unsigned int WINDOW_HEIGHT;
-        static const std::string WINDOW_TITLE;
+/////////////////////////////////////////////////
 
-        static const std::string RESOURCES_PATH;
-        static const std::string HIGHSCORES_FILE;
+std::string& Highscore::getAuthor()
+{
+    return m_author;
+}
 
-        static const unsigned int TOP_MARGIN;
-        static const unsigned int BOTTOM_MARGIN;
+//////////////////////////////////////////////
 
-        static const unsigned int ENEMIES_LEFT_MARGIN;
+void Highscore::setScore(unsigned int score)
+{
+    m_score = score;
+}
 
-        static const unsigned int SCORE_TEXT_POS_X;
-        static const unsigned int SCORE_MARGIN;
+///////////////////////////////////////////////
 
-        static const unsigned int LEVEL_TEXT_POS_X;
-        static const unsigned int LEVEL_MARGIN;
-};
-
-#endif // CONFIG_HPP_INCLUDED
+void Highscore::setAuthor(const std::string& author)
+{
+    m_author = author;
+}

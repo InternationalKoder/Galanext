@@ -21,6 +21,7 @@ const unsigned int Config::WINDOW_HEIGHT = 550;
 const std::string Config::WINDOW_TITLE = "Galanext";
 
 const std::string Config::RESOURCES_PATH = "resources/";
+const std::string Config::HIGHSCORES_FILE = "highscores.txt";
 
 const unsigned int Config::TOP_MARGIN = 32;
 const unsigned int Config::BOTTOM_MARGIN = 32;
