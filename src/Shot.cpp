@@ -64,7 +64,8 @@ Spaceship* Shot::refresh()
 
     if(m_active)
     {
-        if(m_sprite.getPosition().y >= 0 && m_sprite.getPosition().y <= Config::WINDOW_HEIGHT)
+        if(m_sprite.getPosition().y + m_sprite.getGlobalBounds().height >= Config::TOP_MARGIN
+                && m_sprite.getPosition().y <= Config::WINDOW_HEIGHT)
         {
             sf::Vector2f movement(0.0f, Shot::SPEED);
 

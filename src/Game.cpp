@@ -28,6 +28,7 @@ Game::Game() :
     m_pauseText("GAME PAUSED", m_font),
     m_gameOverText("GAME OVER", m_font),
     m_introScreens(m_window),
+    m_topBar(sf::Vector2f(Config::WINDOW_WIDTH, Config::TOP_MARGIN)),
     m_window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), Config::WINDOW_TITLE)
 
 {
@@ -100,9 +101,12 @@ Game::Game() :
                           Config::WINDOW_HEIGHT / 2 - m_pauseText.getGlobalBounds().height / 2);
 
     m_gameOverText.setColor(sf::Color::White);
-    m_gameOverText.setCharacterSize(24);
+    m_gameOverText.setCharacterSize(26);
     m_gameOverText.setPosition(Config::WINDOW_WIDTH / 2 - m_gameOverText.getGlobalBounds().width / 2,
                                Config::WINDOW_HEIGHT / 2 - m_gameOverText.getGlobalBounds().height / 2);
+
+
+    m_topBar.setFillColor(sf::Color::Black);
 
 
     m_introScreens.displayAuthor();
@@ -406,6 +410,7 @@ void Game::display()
     {
         (*it)->display(m_window);
     }
+    m_window.draw(m_topBar);
     m_window.draw(m_scoreText);
     m_window.draw(m_scoreValueText);
     m_window.draw(m_levelText);

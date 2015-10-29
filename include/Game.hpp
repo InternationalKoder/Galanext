@@ -164,6 +164,8 @@ class Game
 
         IntroScreens m_introScreens; ///< Introduction screens and animations
 
+        sf::RectangleShape m_topBar; ///< The top bar for the texts
+
 
         // controllers
 
