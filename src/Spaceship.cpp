@@ -110,9 +110,14 @@ void Spaceship::setActive(bool active, bool exploding)
     m_active = active;
     m_exploding = exploding;
 
-    if(exploding)
+    m_ticksCounter = 0;
+
+    if(!exploding)
     {
-        m_ticksCounter = 0;
+        const sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
+        unsigned int spriteWidth = textureSize.x / NUMBER_ANIMATION;
+
+        m_sprite.setTextureRect(sf::IntRect(0, 0, spriteWidth, textureSize.y));
     }
 }
 

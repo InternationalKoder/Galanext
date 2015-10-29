@@ -130,6 +130,8 @@ class Game
 
         unsigned int m_score; ///< The current player's score
 
+        bool m_gameLost; ///< Equals true if the player has lost
+
 
         // resources
 
@@ -181,6 +183,8 @@ class Game
         sf::Text m_levelValueText; ///< Text displaying the current level
 
         sf::Text m_pauseText; ///< Text displaying "pause"
+
+        sf::Text m_gameOverText; ///< Text displaying "game over"
 };
 
 #endif // GAME_HPP_INCLUDED

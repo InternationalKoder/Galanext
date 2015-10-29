@@ -26,6 +26,7 @@ Game::Game() :
     m_levelText("LEVEL", m_font),
     m_levelValueText("1", m_font),
     m_pauseText("GAME PAUSED", m_font),
+    m_gameOverText("GAME OVER", m_font),
     m_introScreens(m_window),
     m_window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), Config::WINDOW_TITLE)
 
@@ -48,7 +49,7 @@ Game::Game() :
 
     sf::Vector2f playerSpaceshipStartingPos(Config::WINDOW_WIDTH / 2 - playerSpaceshipSW / 2,
                                             Config::WINDOW_HEIGHT - playerSpaceshipSH - Config::BOTTOM_MARGIN);
-    m_playerSpaceship = Spaceship(m_playerSpaceshipT, playerSpaceshipStartingPos, &m_enemiesSpaceships),
+    m_playerSpaceship = Spaceship(m_playerSpaceshipT, playerSpaceshipStartingPos, &m_enemiesSpaceships);
     m_playerSpaceships.push_back(&m_playerSpaceship);
 
     m_keyboardController = KeyboardSpaceshipController(m_shotT);
@@ -98,6 +99,11 @@ Game::Game() :
     m_pauseText.setPosition(Config::WINDOW_WIDTH / 2 - m_pauseText.getGlobalBounds().width / 2,
                           Config::WINDOW_HEIGHT / 2 - m_pauseText.getGlobalBounds().height / 2);
 
+    m_gameOverText.setColor(sf::Color::White);
+    m_gameOverText.setCharacterSize(24);
+    m_gameOverText.setPosition(Config::WINDOW_WIDTH / 2 - m_gameOverText.getGlobalBounds().width / 2,
+                               Config::WINDOW_HEIGHT / 2 - m_gameOverText.getGlobalBounds().height / 2);
+
 
     m_introScreens.displayAuthor();
 }
@@ -106,7 +112,7 @@ Game::Game() :
 
 void Game::gameLoop()
 {
-    bool gameLost = true;
+    m_gameLost = true;
     sf::Clock clock;
 
     while(m_window.isOpen())
@@ -114,11 +120,11 @@ void Game::gameLoop()
         if(clock.getElapsedTime().asMilliseconds() > 20)
         {
             m_ticksCounter++;
-            if(gameLost)
+            if(m_gameLost)
             {
                 firstLevel();
                 m_ticksCounter = 0;
-                gameLost = false;
+                m_gameLost = false;
             }
 
             if(m_ticksCounter >= 100)
@@ -169,47 +175,78 @@ void Game::refresh()
     for(std::list<Shot*>::iterator it = m_allShots.begin() ; it != m_allShots.end() ; ++it)
     {
         Spaceship* destroyed = (*it)->refresh();
-        if(destroyed != 0)
+        if(destroyed == &m_playerSpaceship)
+        {
+            Log::debug("Game over!");
+
+            m_gameLost = true;
+            display();
+            m_window.draw(m_gameOverText);
+            m_window.display();
+
+
+            // Wait for 3 seconds but keep listening to the events
+            sf::Event event;
+            unsigned int i = 0;
+
+            while(m_window.isOpen() && i < 12)
+            {
+                while(m_window.pollEvent(event) && m_window.isOpen())
+                {
+                    if(event.type == sf::Event::Closed)
+                    {
+                        m_window.close();
+                    }
+                }
+
+                i++;
+                sf::sleep(sf::seconds(0.25f));
+            }
+        }
+        else if(destroyed != 0)
         {
             destroyedSpaceships.push_back(destroyed);
         }
     }
-    for(std::list<Spaceship*>::iterator it = m_playerSpaceships.begin() ; it != m_playerSpaceships.end() ; ++it)
+    if(!m_gameLost)
     {
-        (*it)->refresh();
-    }
-    bool enemiesAlive = false;
-    for(std::list<Spaceship*>::iterator it = m_enemiesSpaceships.begin() ; it != m_enemiesSpaceships.end() ; ++it)
-    {
-        (*it)->refresh();
-
-        if((*it)->isActive())
+        for(std::list<Spaceship*>::iterator it = m_playerSpaceships.begin() ; it != m_playerSpaceships.end() ; ++it)
         {
-            enemiesAlive = true;
+            (*it)->refresh();
+        }
+        bool enemiesAlive = false;
+        for(std::list<Spaceship*>::iterator it = m_enemiesSpaceships.begin() ; it != m_enemiesSpaceships.end() ; ++it)
+        {
+            (*it)->refresh();
+
+            if((*it)->isActive())
+            {
+                enemiesAlive = true;
+            }
+
+            for(std::list<Spaceship*>::iterator it2 = destroyedSpaceships.begin() ; it2 != destroyedSpaceships.end() ; )
+            {
+                if(*it == *it2)
+                {
+                    m_score += 100;
+                    Log::debug("Enemy spaceship destroyed: score +100");
+                    it2 = destroyedSpaceships.erase(it2);
+                }
+                else
+                {
+                    ++it2;
+                }
+            }
         }
 
-        for(std::list<Spaceship*>::iterator it2 = destroyedSpaceships.begin() ; it2 != destroyedSpaceships.end() ; )
+        if(!enemiesAlive)
         {
-            if(*it == *it2)
-            {
-                m_score += 100;
-                Log::debug("Enemy spaceship destroyed: score +100");
-                it2 = destroyedSpaceships.erase(it2);
-            }
-            else
-            {
-                ++it2;
-            }
+            nextLevel();
+            Log::debug("Going to next level");
         }
-    }
 
-    if(!enemiesAlive)
-    {
-        nextLevel();
-        Log::debug("Going to next level");
+        m_scoreValueText.setString(std::to_string(m_score));
     }
-
-    m_scoreValueText.setString(std::to_string(m_score));
 }
 
 ////////////////////////////////////////////////////
@@ -280,23 +317,31 @@ void Game::loadResources()
 void Game::firstLevel()
 {
     m_introScreens.displayTitle(m_font, m_playerSpaceshipT);
-    changeLevel();
+
+    unsigned int playerSpaceshipSW = m_playerSpaceshipT.getSize().x / Spaceship::NUMBER_ANIMATION;
+    unsigned int playerSpaceshipSH = m_playerSpaceshipT.getSize().y;
+
+    sf::Vector2f playerSpaceshipStartingPos(Config::WINDOW_WIDTH / 2 - playerSpaceshipSW / 2,
+                                            Config::WINDOW_HEIGHT - playerSpaceshipSH - Config::BOTTOM_MARGIN);
+    m_playerSpaceship.setActive(true);
+    m_playerSpaceship.setPosition(playerSpaceshipStartingPos);
 
     m_score = 0;
     m_level = 1;
 
     m_cpuController.resetFireSpeed();
+
+    changeLevel();
 }
 
 /////////////////////////////////////////////////
 
 void Game::nextLevel()
 {
-    changeLevel();
-
     m_level++;
-    m_levelValueText.setString(std::to_string(m_level));
     m_cpuController.increaseFireSpeed();
+
+    changeLevel();
 }
 
 /////////////////////////////////////////////////
@@ -335,6 +380,9 @@ void Game::changeLevel()
             }
         }
     }
+
+    m_levelValueText.setString(std::to_string(m_level));
+    m_scoreValueText.setString(std::to_string(m_score));
 
     display();
     getReady();
