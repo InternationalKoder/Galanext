@@ -166,7 +166,7 @@ void IntroScreens::displayAuthor()
 
 /////////////////////////////////////////////////
 
-void IntroScreens::displayTitle(const sf::Font& font, const sf::Texture& spaceshipTexture)
+void IntroScreens::displayTitle(const sf::Font& font, const sf::Texture& spaceshipTexture, Highscore* highscores)
 {
     // Loading textures
 
@@ -216,10 +216,43 @@ void IntroScreens::displayTitle(const sf::Font& font, const sf::Texture& spacesh
 
 
 
+    // Highscores
+
+    sf::Text highscoresText("HIGHSCORES", font);
+    highscoresText.setCharacterSize(26);
+    highscoresText.setPosition(Config::WINDOW_WIDTH / 2 - highscoresText.getGlobalBounds().width / 2,
+                               Config::HIGHSCORES_POS_Y);
+    highscoresText.setColor(sf::Color::White);
+
+    sf::Text highscoresTexts[3];
+    for(unsigned int i = 0 ; i < 3 ; i++)
+    {
+        std::string name = highscores[i].getAuthor(), score = std::to_string(highscores[i].getScore());
+
+        highscoresTexts[i] = sf::Text(name + score, font);
+        highscoresTexts[i].setCharacterSize(24);
+        highscoresTexts[i].setColor(sf::Color::White);
+
+        while(highscoresTexts[i].getGlobalBounds().width < Config::HIGHSCORES_WIDTH)
+        {
+            name.append(".");
+            highscoresTexts[i].setString(name + score);
+        }
+
+        float width = highscoresTexts[i].getGlobalBounds().width;
+        float posY = Config::HIGHSCORES_POS_Y + (i + 1) * Config::HIGHSCORES_MARGIN;
+        highscoresTexts[i].setPosition(Config::WINDOW_WIDTH / 2 - width / 2, posY);
+
+    }
+
+
+
     // Loop
 
     bool go = false;
     unsigned int framesBlink = 0;
+    unsigned int framesHighscores = 0;
+    unsigned int highscoresStep = 0;
     unsigned int framesAnimation = 0;
     unsigned int stopSpaceshipCounter = 0;
     bool spaceshipGoesRight = true;
@@ -254,6 +287,19 @@ void IntroScreens::displayTitle(const sf::Font& font, const sf::Texture& spacesh
 
 
             // Animations
+
+            if(highscoresStep < 5)
+            {
+                if((highscoresStep > 0 && framesHighscores == 20) || (highscoresStep == 0 && framesHighscores == 100))
+                {
+                    framesHighscores = 0;
+                    highscoresStep++;
+                }
+                else
+                {
+                    framesHighscores++;
+                }
+            }
 
             if(framesBlink >= 30)
             {
@@ -343,6 +389,17 @@ void IntroScreens::displayTitle(const sf::Font& font, const sf::Texture& spacesh
             m_window.draw(spaceship);
             m_window.draw(title);
             m_window.draw(pressSpace);
+            if(highscoresStep > 0)
+            {
+                m_window.draw(highscoresText);
+            }
+            for(unsigned int i = 0 ; i < 3 ; i++)
+            {
+                if(i + 1 < highscoresStep)
+                {
+                    m_window.draw(highscoresTexts[i]);
+                }
+            }
             m_window.display();
         }
         else

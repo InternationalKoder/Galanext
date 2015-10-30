@@ -210,6 +210,10 @@ class Game
         sf::Text m_pauseText; ///< Text displaying "pause"
 
         sf::Text m_gameOverText; ///< Text displaying "game over"
+
+        sf::Text m_highscoreText; ///< Text displaying "highscore"
+
+        sf::Text m_highscoreValueText; ///< Text displaying the current highscore value
 };
 
 #endif // GAME_HPP_INCLUDED

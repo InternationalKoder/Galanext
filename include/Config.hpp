@@ -45,6 +45,13 @@ class Config
 
         static const unsigned int LEVEL_TEXT_POS_X;
         static const unsigned int LEVEL_MARGIN;
+
+        static const unsigned int HIGHSCORE_TEXT_POS_X;
+        static const unsigned int HIGHSCORE_MARGIN;
+
+        static const unsigned int HIGHSCORES_WIDTH;
+        static const unsigned int HIGHSCORES_POS_Y;
+        static const unsigned int HIGHSCORES_MARGIN;
 };
 
 #endif // CONFIG_HPP_INCLUDED

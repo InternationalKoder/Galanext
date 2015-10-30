@@ -18,6 +18,7 @@
 #define INTROSCREENS_HPP_INCLUDED
 
 #include <SFML/Graphics.hpp>
+#include "Highscore.hpp"
 
 /////////////////////////////////////////////////
 ///
@@ -50,9 +51,10 @@ class IntroScreens
         ///
         /// \param font The font to use to display text
         /// \param spaceshipTexture The texture of the spaceship to display
+        /// \param highscores The highscores to display
         ///
         /////////////////////////////////////////////////
-        void displayTitle(const sf::Font& font, const sf::Texture& spaceshipTexture);
+        void displayTitle(const sf::Font& font, const sf::Texture& spaceshipTexture, Highscore* highscores);
 
 
     private:

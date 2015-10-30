@@ -28,6 +28,8 @@ Game::Game() :
     m_levelValueText("1", m_font),
     m_pauseText("GAME PAUSED", m_font),
     m_gameOverText("GAME OVER", m_font),
+    m_highscoreText("HIGHSCORE", m_font),
+    m_highscoreValueText("0", m_font),
     m_introScreens(m_window),
     m_topBar(sf::Vector2f(Config::WINDOW_WIDTH, Config::TOP_MARGIN)),
     m_window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), Config::WINDOW_TITLE)
@@ -96,6 +98,16 @@ Game::Game() :
     unsigned int levelValuePosX = Config::LEVEL_TEXT_POS_X + m_levelText.getGlobalBounds().width + Config::LEVEL_MARGIN;
     m_levelValueText.setPosition(levelValuePosX, textPosY);
 
+    m_highscoreText.setColor(sf::Color::White);
+    m_highscoreText.setCharacterSize(18);
+    m_highscoreText.setPosition(Config::HIGHSCORE_TEXT_POS_X, textPosY);
+
+    m_highscoreValueText.setColor(sf::Color::White);
+    m_highscoreValueText.setCharacterSize(18);
+    unsigned int highscoreValuePosX = Config::HIGHSCORE_TEXT_POS_X + m_highscoreText.getGlobalBounds().width +
+            Config::HIGHSCORE_MARGIN;
+    m_highscoreValueText.setPosition(highscoreValuePosX, textPosY);
+
     m_pauseText.setColor(sf::Color::White);
     m_pauseText.setCharacterSize(24);
     m_pauseText.setPosition(Config::WINDOW_WIDTH / 2 - m_pauseText.getGlobalBounds().width / 2,
@@ -111,6 +123,8 @@ Game::Game() :
 
 
     readHighscoresFile();
+
+    m_highscoreValueText.setString(std::to_string(m_highscores[0].getScore()));
 
     m_introScreens.displayAuthor();
 }
@@ -238,6 +252,11 @@ void Game::refresh()
                     m_score += 100;
                     Log::debug("Enemy spaceship destroyed: score +100");
                     it2 = destroyedSpaceships.erase(it2);
+
+                    if(m_score > m_highscores[0].getScore())
+                    {
+                        m_highscoreValueText.setString(std::to_string(m_score));
+                    }
                 }
                 else
                 {
@@ -270,7 +289,7 @@ void Game::readHighscoresFile()
     }
 
     std::string line;
-    int i;
+    unsigned int i;
 
     do
     {
@@ -282,9 +301,9 @@ void Game::readHighscoresFile()
             error = false;
         }
 
-        i = 2;
+        i = 0;
 
-        while(getline(file, line) && !error && i >= 0)
+        while(getline(file, line) && !error && i < 3)
         {
             unsigned int separatorPos = line.find_first_of(' ');
 
@@ -309,13 +328,23 @@ void Game::readHighscoresFile()
                 {
                     m_highscores[i] = Highscore(atoi(score.c_str()), name);
                     Log::debug("Read highscore " + std::to_string(i+1) + ": " + score + " by " + name);
+
+                    if(i > 0)
+                    {
+                        if(m_highscores[i].getScore() > m_highscores[i-1].getScore())
+                        {
+                            error = true;
+                            Log::warn("Error while reading highscores file '" + Config::HIGHSCORES_FILE + "', a new" +
+                                      " one will be created");
+                        }
+                    }
                 }
             }
 
-            i--;
+            i++;
         }
 
-        if(i >= 0)
+        if(i < 3)
         {
             error = true;
             Log::warn("Error while reading highscores file '" + Config::HIGHSCORES_FILE + "', a new one will" +
@@ -393,7 +422,7 @@ void Game::loadResources()
 
 void Game::firstLevel()
 {
-    m_introScreens.displayTitle(m_font, m_playerSpaceshipT);
+    m_introScreens.displayTitle(m_font, m_playerSpaceshipT, m_highscores);
 
     unsigned int playerSpaceshipSW = m_playerSpaceshipT.getSize().x / Spaceship::NUMBER_ANIMATION;
     unsigned int playerSpaceshipSH = m_playerSpaceshipT.getSize().y;
@@ -444,6 +473,8 @@ void Game::display()
     m_window.draw(m_scoreValueText);
     m_window.draw(m_levelText);
     m_window.draw(m_levelValueText);
+    m_window.draw(m_highscoreText);
+    m_window.draw(m_highscoreValueText);
     m_window.display();
 }
 
