@@ -223,6 +223,11 @@ void Game::refresh()
                 i++;
                 sf::sleep(sf::seconds(0.25f));
             }
+
+            if(m_score > m_highscores[2].getScore())
+            {
+                newHighscore();
+            }
         }
         else if(destroyed != 0)
         {
@@ -553,6 +558,114 @@ void Game::pause()
 
 /////////////////////////////////////////////////
 
+void Game::newHighscore()
+{
+    Log::debug("New highscore: " + std::to_string(m_score));
+
+    display();
+
+    sf::Text newHighscoreText("NEW HIGHSCORE", m_font);
+    newHighscoreText.setCharacterSize(24);
+    newHighscoreText.setColor(sf::Color::White);
+    newHighscoreText.setPosition(Config::WINDOW_WIDTH / 2 - newHighscoreText.getGlobalBounds().width / 2,
+                                 Config::NEW_HIGHSCORE_POS_Y);
+
+    sf::Text enterNameText("ENTER YOUR NAME AND PRESS ENTER", m_font);
+    enterNameText.setCharacterSize(24);
+    enterNameText.setColor(sf::Color::White);
+    enterNameText.setPosition(Config::WINDOW_WIDTH / 2 - enterNameText.getGlobalBounds().width / 2,
+                              Config::NEW_HIGHSCORE_POS_Y + Config::NEW_HIGHSCORE_MARGIN);
+
+    sf::Text nameValueText("", m_font);
+    nameValueText.setCharacterSize(24);
+    nameValueText.setColor(sf::Color::White);
+
+    bool finished = false, refreshDisplay = true;
+    sf::Event event;
+    std::string typedName = "";
+
+    while(!finished)
+    {
+        while(m_window.pollEvent(event))
+        {
+            if(event.type == sf::Event::Closed)
+            {
+                finished = true;
+                m_window.close();
+            }
+            else if(event.type == sf::Event::TextEntered && typedName.size() < 6)
+            {
+                sf::Uint32 code = event.text.unicode;
+
+                if((code >= 65 && code <= 90) || (code >= 97 && code <= 122))
+                {
+                    if(code >= 97)
+                    {
+                        code -= 32;
+                    }
+
+                    typedName.push_back(static_cast<char>(code));
+                    refreshDisplay = true;
+                }
+            }
+            else if(event.type == sf::Event::KeyReleased && typedName.size() > 0)
+            {
+                if(event.key.code == sf::Keyboard::Return)
+                {
+                    finished = true;
+                }
+                else if(event.key.code == sf::Keyboard::BackSpace)
+                {
+                    typedName.pop_back();
+                    refreshDisplay = true;
+                }
+            }
+        }
+
+        if(refreshDisplay)
+        {
+            refreshDisplay = false;
+
+            nameValueText.setString(typedName);
+            nameValueText.setPosition(Config::WINDOW_WIDTH / 2 - nameValueText.getGlobalBounds().width / 2,
+                                      Config::NEW_HIGHSCORE_POS_Y + 2 * Config::NEW_HIGHSCORE_MARGIN);
+
+            display();
+            m_window.draw(newHighscoreText);
+            m_window.draw(enterNameText);
+            m_window.draw(nameValueText);
+            m_window.display();
+        }
+
+        sf::sleep(sf::seconds(0.1f));
+    }
+
+    if(m_window.isOpen())
+    {
+        if(m_score > m_highscores[1].getScore())
+        {
+            m_highscores[2] = m_highscores[1];
+            if(m_score > m_highscores[0].getScore())
+            {
+                m_highscores[1] = m_highscores[0];
+                m_highscores[0] = Highscore(m_score, typedName);
+            }
+            else
+            {
+                m_highscores[1] = Highscore(m_score, typedName);
+            }
+        }
+        else
+        {
+            m_highscores[2] = Highscore(m_score, typedName);
+        }
+
+        createHighscoresFile(false);
+    }
+}
+
+/////////////////////////////////////////////////
+
 Game::~Game()
 {
     for(std::list<Shot*>::iterator it = m_allShots.begin() ; it != m_allShots.end() ; ++it)
@@ -607,23 +720,36 @@ void Game::changeLevel()
 
 /////////////////////////////////////////////////
 
-void Game::createHighscoresFile()
+void Game::createHighscoresFile(bool useDefaultValues)
 {
     std::ofstream file(Config::HIGHSCORES_FILE.c_str(), std::ios::trunc);
 
     if(file)
     {
-        file << "INTKOD 15000" << std::endl << "EDISON 10000" << std::endl << "KAYTON 5000" << std::endl;
+        if(useDefaultValues)
+        {
+            file << "INTKOD 1500" << std::endl << "EDISON 1000" << std::endl << "KAYTON 500" << std::endl;
+        }
+        else
+        {
+            for(unsigned int i = 0 ; i < 3 ; i++)
+            {
+                file << m_highscores[i].getAuthor() << " " << m_highscores[i].getScore() << std::endl;
+            }
+        }
     }
     else
     {
         Log::error("Could not write new highscores file '" + Config::HIGHSCORES_FILE + "'");
-        m_highscores[0].setScore(15000);
-        m_highscores[0].setAuthor("INTKOD");
-        m_highscores[1].setScore(10000);
-        m_highscores[1].setAuthor("EDISON");
-        m_highscores[2].setScore(5000);
-        m_highscores[2].setAuthor("KAYTON");
+        if(useDefaultValues)
+        {
+            m_highscores[0].setScore(1500);
+            m_highscores[0].setAuthor("INTKOD");
+            m_highscores[1].setScore(1000);
+            m_highscores[1].setAuthor("EDISON");
+            m_highscores[2].setScore(500);
+            m_highscores[2].setAuthor("KAYTON");
+        }
     }
 
     file.close();

@@ -120,6 +120,14 @@ class Game
 
         /////////////////////////////////////////////////
         ///
+        /// \brief Inserts a new highscore
+        ///
+        /////////////////////////////////////////////////
+        void newHighscore();
+
+
+        /////////////////////////////////////////////////
+        ///
         /// \brief Destructor
         ///
         /////////////////////////////////////////////////
@@ -140,7 +148,7 @@ class Game
         /// \brief Creates a new highscores file with default values
         ///
         /////////////////////////////////////////////////
-        void createHighscoresFile();
+        void createHighscoresFile(bool useDefaultValues = true);
 
 
         sf::RenderWindow m_window; ///< The window which will display the game

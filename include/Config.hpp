@@ -49,6 +49,9 @@ class Config
         static const unsigned int HIGHSCORE_TEXT_POS_X;
         static const unsigned int HIGHSCORE_MARGIN;
 
+        static const unsigned int NEW_HIGHSCORE_POS_Y;
+        static const unsigned int NEW_HIGHSCORE_MARGIN;
+
         static const unsigned int HIGHSCORES_WIDTH;
         static const unsigned int HIGHSCORES_POS_Y;
         static const unsigned int HIGHSCORES_MARGIN;

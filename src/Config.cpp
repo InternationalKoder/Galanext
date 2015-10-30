@@ -37,6 +37,9 @@ const unsigned int Config::LEVEL_MARGIN = Config::SCORE_MARGIN;
 const unsigned int Config::HIGHSCORE_TEXT_POS_X = 250;
 const unsigned int Config::HIGHSCORE_MARGIN = 32;
 
+const unsigned int Config::NEW_HIGHSCORE_POS_Y = 150;
+const unsigned int Config::NEW_HIGHSCORE_MARGIN = 100;
+
 const unsigned int Config::HIGHSCORES_WIDTH = 450;
 const unsigned int Config::HIGHSCORES_POS_Y = 225;
 const unsigned int Config::HIGHSCORES_MARGIN = 50;
