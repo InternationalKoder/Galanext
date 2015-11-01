@@ -1,6 +1,6 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = Galanext
-PROJECT_NUMBER         = 0.1-SNAPSHOT
+PROJECT_NUMBER         = 1.0
 PROJECT_BRIEF          = "Galanext is a Galaxian-like game made by InternationalKoder"
 PROJECT_LOGO           = 
 OUTPUT_DIRECTORY       = generated-doc

@@ -14,5 +14,5 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see http://www.gnu.org/licenses/.
 
-#define Galanext_VERSION_MAJOR "0"
-#define Galanext_VERSION_MINOR "1-SNAPSHOT"
+#define Galanext_VERSION_MAJOR "1"
+#define Galanext_VERSION_MINOR "0"

@@ -28,9 +28,9 @@ const float Shot::SPEED = 10.0f;
 Shot::Shot(const sf::Texture& texture, const sf::Vector2f& startingPos, bool goesUp,
            std::list<Spaceship*>& targetSpaceships) :
     m_sprite(texture),
+    m_targetSpaceships(targetSpaceships),
     m_goesUp(goesUp),
-    m_active(true),
-    m_targetSpaceships(targetSpaceships)
+    m_active(true)
 {
     m_sprite.setPosition(startingPos);
 }

@@ -22,6 +22,9 @@
 /////////////////////////////////////////////////
 
 Game::Game() :
+    m_window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), Config::WINDOW_TITLE),
+    m_introScreens(m_window),
+    m_topBar(sf::Vector2f(Config::WINDOW_WIDTH, Config::TOP_MARGIN)),
     m_scoreText("SCORE", m_font),
     m_scoreValueText("0", m_font),
     m_levelText("LEVEL", m_font),
@@ -29,10 +32,7 @@ Game::Game() :
     m_pauseText("GAME PAUSED", m_font),
     m_gameOverText("GAME OVER", m_font),
     m_highscoreText("HIGHSCORE", m_font),
-    m_highscoreValueText("0", m_font),
-    m_introScreens(m_window),
-    m_topBar(sf::Vector2f(Config::WINDOW_WIDTH, Config::TOP_MARGIN)),
-    m_window(sf::VideoMode(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT), Config::WINDOW_TITLE)
+    m_highscoreValueText("0", m_font)
 
 {
     Log::debug("Opened window with resolution " + std::to_string(Config::WINDOW_WIDTH) + "x"

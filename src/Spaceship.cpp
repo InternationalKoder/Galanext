@@ -34,11 +34,11 @@ Spaceship::Spaceship() :
 /////////////////////////////////////////////////
 
 Spaceship::Spaceship(const sf::Texture& texture, const sf::Vector2f& startingPos, std::list<Spaceship*>* targets) :
-    m_sprite(texture),
     m_ticksCounter(0),
+    m_sprite(texture),
     m_active(true),
-    m_targets(targets),
-    m_exploding(false)
+    m_exploding(false),
+    m_targets(targets)
 {
     unsigned int spriteWidth = texture.getSize().x / NUMBER_ANIMATION;
 

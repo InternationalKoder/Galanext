@@ -52,7 +52,7 @@ class SpaceshipController
 
         std::list<Spaceship*> m_spaceships; ///< The spaceships to control
 
-        int m_shotsTicksCounter; ///< A ticks counter for the shots
+        unsigned int m_shotsTicksCounter; ///< A ticks counter for the shots
 
         static const unsigned int TICKS_SHOTS; ///< The minimum number of ticks between 2 shots
 };

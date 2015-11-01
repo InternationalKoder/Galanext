@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 
 project(Galanext)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -Wall -Wextra")
 
 # Enable debug symbols by default
 if(CMAKE_BUILD_TYPE STREQUAL "")
@@ -9,8 +9,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "")
 endif()
 
 # Set version information in a config.h file
-set(Galanext_VERSION_MAJOR "\"0\"")
-set(Galanext_VERSION_MINOR "\"1-SNAPSHOT\"")
+set(Galanext_VERSION_MAJOR "\"1\"")
+set(Galanext_VERSION_MINOR "\"0\"")
 configure_file(
     "include/version.hpp.in"
     "include/version.hpp"
