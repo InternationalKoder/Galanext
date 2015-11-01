@@ -2,7 +2,9 @@ Galanext Readme
 ===============
 
 Galanext is a Galaxian-like game made by InternationalKoder.
+
 It is written in C++ with the SFML API (see https://github.com/LaurentGomila/SFML for details).
+
 For any problem, bug, question or suggestion, feel free to contact me (see *Authors* section)
  
 Authors
